@@ -250,7 +250,55 @@ plot(first_model, "rhat")
 ```
 
 
+# Appendix
+## Emerson College Polling Methodology
+For this deep dive, I'll focus on Emerson College Polling based on the link: Emerson College Polling - October 2024 National Poll.
+Survey Overview:
+The Emerson College Polling conducted a national survey in October 2024 to assess voter preferences for the upcoming U.S. presidential election. This appendix provides an in-depth analysis of their polling methodology, including the population, sample frame, recruitment process, and key strengths and weaknesses of their approach.
 
+Methodology
+1. Population, Frame, and Sample:\
+Target Population: The target population for this poll includes U.S. citizens who are eligible to vote in the 2024 presidential election.
+Sample Frame: The sample consists of likely voters across the United States. Emerson College Polling uses voter registration databases to develop a sampling frame of registered voters, ensuring they capture individuals who are most likely to vote in the upcoming election.
+Sample Size: For this particular poll, 1,000 likely voters were surveyed. This sample size provides a margin of error of approximately ±3 percentage points, allowing for reasonable confidence in the poll's accuracy.
+
+2. Sample Recruitment:\
+Recruitment Method: Emerson College employs a multi-mode recruitment approach, including online, phone (landline and mobile), and SMS text outreach.
+Phone Interviews: Live interviewers call both landlines and mobile phones using random digit dialing (RDD) to ensure they capture respondents without internet access.
+Online Panels: Emerson also recruits respondents through online panels, using email invitations to individuals who match their demographic quotas.
+SMS Text Polling: In recent years, Emerson has increasingly used SMS text polling, allowing respondents to complete the survey via mobile devices.
+
+Trade-offs of Recruitment Method:\
+Strengths: The multi-mode approach ensures better coverage of different demographic groups, including older adults and those less likely to engage with online surveys.
+Weaknesses: The RDD approach can lead to lower response rates, especially with the increasing number of people avoiding unsolicited calls. The online component also introduces self-selection bias, where more politically engaged individuals may be overrepresented.
+
+3. Sampling Approach and Trade-offs:\
+Quota-based Sampling: Emerson uses quota sampling to ensure that the sample is representative of key demographics, including age, gender, race, and region. The quotas are based on U.S. Census data to maintain demographic diversity.
+Weighting: After data collection, Emerson applies post-stratification weighting to adjust for any imbalances in the sample, aligning it with population benchmarks.
+Trade-offs: While quota sampling ensures demographic diversity, it can introduce bias if certain groups are harder to reach or more likely to refuse participation (non-response bias). Weighting helps mitigate this issue but relies on accurate population benchmarks, which may not always reflect the electorate’s behavior accurately.
+
+4. Non-response Handling:\
+Non-response Bias: To minimize non-response bias, Emerson College Polling uses a combination of call-backs and reminder emails for online respondents. Additionally, post-survey weighting accounts for non-response patterns across key demographic groups.
+Adjustments for Non-response: Emerson uses statistical weighting to adjust the final results based on the response rate within each demographic group (e.g., age, gender, and race). This helps to reduce the skew in the data caused by differential response rates.
+
+5. Questionnaire Design:\
+Strengths:
+The survey is concise, focusing on core topics like voter intention, candidate preference, and key issues such as the economy and healthcare. This increases the likelihood that respondents complete the survey accurately and without fatigue.
+Emerson regularly tests its questionnaire to ensure clarity and avoid ambiguous questions, improving the reliability of the responses.
+Weaknesses:
+Binary Choice Bias: Some sections of the questionnaire force a binary choice between two candidates, which may oversimplify the respondents' true preferences, especially in a race with multiple candidates or undecided voters.
+Social Desirability Bias: Like most political polls, respondents may answer questions in a way they believe is socially acceptable, especially in terms of voter turnout or support for controversial candidates. This could lead to over-reporting of voter intention.
+Summary of Strengths and Weaknesses
+Strengths:
+
+Multi-mode Surveying: Emerson’s use of phone, online, and SMS recruitment allows them to reach a broader cross-section of the population, minimizing the biases introduced by any one method.
+Post-stratification Weighting: The weighting process ensures the sample reflects the U.S. population, improving the reliability of the poll results.
+Timely Polling: The frequent release of polling data makes it possible to track shifts in voter sentiment over time.
+Weaknesses:
+
+Potential for Non-response Bias: Despite efforts to mitigate it, non-response remains a concern, particularly among certain voter demographics who may be harder to reach through phone or online surveys.
+Self-selection Bias in Online Surveys: The online component may disproportionately attract respondents who are more politically engaged, which could skew results.
+By employing a multi-mode approach and adjusting for demographic imbalances through weighting, Emerson College Polling provides robust and timely data. However, like all polls, it is subject to limitations, particularly around non-response and self-selection biases​
 \newpage
 
 
