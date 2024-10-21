@@ -25,16 +25,15 @@ library(palmerpenguins)
 
 # Introduction
 
-Overview paragraph
+Forecasting election outcomes has become a critical endeavor in political science and public policy, as it not only informs campaigns and media coverage but also shapes voter perceptions. The ability to accurately predict the winner of a presidential election holds significant implications for political strategy, governance, and public trust in polling methodologies. In this context, leveraging aggregated polling data, or “poll-of-polls,” offers a more comprehensive and reliable prediction model, as it aims to reduce the biases and errors associated with individual polls (Blumenthal 2014; Pasek 2015).
 
-Estimand paragraph
+This paper aims to explore the predictive power of a linear or generalized linear model using a poll-of-polls approach to forecast the winner of the upcoming US presidential election. The motivation behind this research stems from the persistent challenge of balancing sample biases, framing, and non-response rates, which can all impact the reliability of a single poll. By aggregating data from multiple polls, the goal is to create a robust and reproducible model that accounts for these discrepancies and better reflects voter sentiment.
 
-Results paragraph
+To achieve this, the study focuses on a deep-dive analysis of a specific pollster, examining their methodology in detail. This analysis includes understanding the population, sampling frame, and recruitment process, as well as evaluating the strengths and limitations of their questionnaire design. Additionally, the paper proposes an idealized survey and methodology, imagining a scenario with a $100K budget to forecast the election outcome. This hypothetical scenario explores alternative approaches to survey design, data collection, and aggregation techniques.
 
-Why it matters paragraph
+This study is significant because it not only aims to build an effective model for election forecasting but also provides critical insights into the methodologies of polling organizations. The findings of this research can contribute to a more nuanced understanding of how polling data is collected and interpreted, ultimately improving the accuracy of election predictions.
 
-Telegraphing paragraph: The remainder of this paper is structured as follows. @sec-data....
-
+The structure of the paper is as follows: first, the methodology for the forecasting model is presented; second, a detailed analysis of the chosen pollster is included in an appendix, followed by the idealized survey design and methodology. Together, these elements provide a comprehensive understanding of the challenges and opportunities in election forecasting using aggregated polling data.
 
 
 
