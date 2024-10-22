@@ -25,15 +25,12 @@ library(palmerpenguins)
 
 # Introduction
 
-Forecasting election outcomes has become a critical endeavor in political science and public policy, as it not only informs campaigns and media coverage but also shapes voter perceptions. The ability to accurately predict the winner of a presidential election holds significant implications for political strategy, governance, and public trust in polling methodologies. In this context, leveraging aggregated polling data, or “poll-of-polls,” offers a more comprehensive and reliable prediction model, as it aims to reduce the biases and errors associated with individual polls (Blumenthal 2014; Pasek 2015).
+Election forecasting has long played a crucial role in understanding public opinion and predicting the outcome of political contests. The use of data-driven methods, particularly polling data, has become an important pre-election analytical tool for political analysts. The purpose of this paper is to predict the winner of the upcoming 2024 U.S. presidential election by constructing a statistical model based on aggregated polling data. The “polling” approach combines results from different pollsters to provide a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015), and our goal is to predict the outcome of the popular vote and the Electoral College. Our analysis, based on data collected from multiple polling sources, captures voter intentions for the two major candidates, Kamala Harris (Democrat) and Donald Trump (Republican).
 
-This paper aims to explore the predictive power of a linear or generalized linear model using a poll-of-polls approach to forecast the winner of the upcoming US presidential election. The motivation behind this research stems from the persistent challenge of balancing sample biases, framing, and non-response rates, which can all impact the reliability of a single poll. By aggregating data from multiple polls, the goal is to create a robust and reproducible model that accounts for these discrepancies and better reflects voter sentiment.
+In addition to constructing and interpreting predictive models, this paper dive into the methods used by xx pollsters, analyzing the strengths as well as the weaknesses of the methods used against them. At the end of the paper, we also propose an idealized survey methodology for election forecasting with a budget of $100,000 USD.
 
-To achieve this, the study focuses on a deep-dive analysis of a specific pollster, examining their methodology in detail. This analysis includes understanding the population, sampling frame, and recruitment process, as well as evaluating the strengths and limitations of their questionnaire design. Additionally, the paper proposes an idealized survey and methodology, imagining a scenario with a $100K budget to forecast the election outcome. This hypothetical scenario explores alternative approaches to survey design, data collection, and aggregation techniques.
+This paper begins with an introduction to data in Section 2. In this section, we focus on measurement techniques and the visualization and analysis of key variables. Next, in Section 3, we provide an overview of the linear model used to analyze the relationships within the dataset. The results of the analysis are detailed in Section 4 (Results). Finally, in Section 5, we summarize our main conclusions as well as suggest some possible future research directions.
 
-This study is significant because it not only aims to build an effective model for election forecasting but also provides critical insights into the methodologies of polling organizations. The findings of this research can contribute to a more nuanced understanding of how polling data is collected and interpreted, ultimately improving the accuracy of election predictions.
-
-The structure of the paper is as follows: first, the methodology for the forecasting model is presented; second, a detailed analysis of the chosen pollster is included in an appendix, followed by the idealized survey design and methodology. Together, these elements provide a comprehensive understanding of the challenges and opportunities in election forecasting using aggregated polling data.
 
 
 
@@ -43,13 +40,16 @@ The structure of the paper is as follows: first, the methodology for the forecas
 
 ## Overview
 
-We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
-
-Overview text
+The data for this paper was sourced from ABC News (xxxxx). The statistical software R (R Core Team, 2023) was employed to retrieve, clean, and process the dataset. Specifically, the tidyverse package (Wickham et al., 2019) was used for data acquisition, cleaning, and processing. The ggplot2 (Wickham, 2016) package was utilized to generate the visualizations.
 
 ## Measurement
 	
-Some paragraphs about how we go from a phenomena in the world to an entry in the dataset.
+The data used to predict the outcome of the 2024 U.S. presidential election in this study came from a variety of polling sources. The results of these polls represent key measures of electoral support and voter sentiment, and are therefore the main variables in our analysis.
+
+To ensure that polling data accurately reflect real-world voter preferences, we rely on several key measurement constructs. First, voter preferences are measured by the percentage of respondents who indicated support for each candidate. Each poll is conducted using different sample sizes, sampling methods (e.g., online surveys, IVR calls, etc.), which can inject more variability into the data. To mitigate these differences, we aggregate poll results using a “”poll of polls“” methodology that eliminates anomalies and provides a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015).
+
+In this study, we recognize the measurement problems inherent in polling data. Polls rely on sample data to represent the entire voting population, and therefore, there may be potential biases in the data. For example, there may be no-response bias due to the potential under representation of certain populations, or because of the wording of the questions and thus the influence of respondents to report their preferences. Therefore, in this study, we chose to analyze aggregated data from multiple pollsters and adjust for sampling variability and response rates in an effort to be able to provide a more robust measure of electoral support. We believe that our aggregated dataset can serve as a reliable basis for our predictive model to help us translate the data into quantitative metrics that can be used to predict election outcomes.
+
 
 ## Outcome variables
 
