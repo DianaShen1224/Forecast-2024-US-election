@@ -1,13 +1,14 @@
 ---
-title: "My title"
-subtitle: "My subtitle if needed"
+title: "Forecasting 2024 US election using linear regression"
 author: 
-  - First author
-  - Another author
-thanks: "Code and data are available at: [https://github.com/RohanAlexander/starter_folder](https://github.com/RohanAlexander/starter_folder)."
+  - Diana Shen
+  - Jinyan Wei
+  - Jerry Yu
+thanks: "Code and data are available at: [https://github.com/DianaShen1224/Forecast-2024-US-election](https://github.com/DianaShen1224/Forecast-2024-US-election)."
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "
+This paper predicts the outcome of the 2024 U.S. presidential election using a statistical model based on aggregated polling data for Kamala Harris and Donald Trump. We employ multi-level regression with post-stratification (MRP) using demographic predictors to estimate voter support. The analysis addresses polling biases and proposes an idealized survey methodology with a $100,000 budget. Our results offer insights into voter behavior and suggest improvements for future election forecasting models."
 format: pdf
 number-sections: true
 bibliography: references.bib
@@ -25,15 +26,11 @@ library(palmerpenguins)
 
 # Introduction
 
-Overview paragraph
+Election forecasting has long played a crucial role in understanding public opinion and predicting the outcome of political contests. The use of data-driven methods, particularly polling data, has become an important pre-election analytical tool for political analysts. The purpose of this paper is to predict the winner of the upcoming 2024 U.S. presidential election by constructing a statistical model based on aggregated polling data. The “polling” approach combines results from different pollsters to provide a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015), and our goal is to predict the outcome of the popular vote and the Electoral College. Our analysis, based on data collected from multiple polling sources, captures voter intentions for the two major candidates, Kamala Harris (Democrat) and Donald Trump (Republican).
 
-Estimand paragraph
+In addition to constructing and interpreting predictive models, this paper dive into the methods used by xx pollsters, analyzing the strengths as well as the weaknesses of the methods used against them. At the end of the paper, we also propose an idealized survey methodology for election forecasting with a budget of $100,000 USD.
 
-Results paragraph
-
-Why it matters paragraph
-
-Telegraphing paragraph: The remainder of this paper is structured as follows. @sec-data....
+This paper begins with an introduction to data in Section 2. In this section, we focus on measurement techniques and the visualization and analysis of key variables. Next, in Section 3, we provide an overview of the linear model used to analyze the relationships within the dataset. The results of the analysis are detailed in Section 4 (Results). Finally, in Section 5, we summarize our main conclusions as well as suggest some possible future research directions.
 
 
 
@@ -44,99 +41,65 @@ Telegraphing paragraph: The remainder of this paper is structured as follows. @s
 
 ## Overview
 
-We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
-
-Overview text
+The data for this paper was sourced from ABC News (xxxxx). The statistical software R (R Core Team, 2023) was employed to retrieve, clean, and process the dataset. Specifically, the tidyverse package (Wickham et al., 2019) was used for data acquisition, cleaning, and processing. The ggplot2 (Wickham, 2016) package was utilized to generate the visualizations.
 
 ## Measurement
 	
-Some paragraphs about how we go from a phenomena in the world to an entry in the dataset.
+The data used to predict the outcome of the 2024 U.S. presidential election in this study came from a variety of polling sources. The results of these polls represent key measures of electoral support and voter sentiment, and are therefore the main variables in our analysis.
+
+To ensure that polling data accurately reflect real-world voter preferences, we rely on several key measurement constructs. First, voter preferences are measured by the percentage of respondents who indicated support for each candidate. Each poll is conducted using different sample sizes, sampling methods (e.g., online surveys, IVR calls, etc.), which can inject more variability into the data. To mitigate these differences, we aggregate poll results using a “”poll of polls“” methodology that eliminates anomalies and provides a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015).
+
+In this study, we recognize the measurement problems inherent in polling data. Polls rely on sample data to represent the entire voting population, and therefore, there may be potential biases in the data. For example, there may be no-response bias due to the potential under representation of certain populations, or because of the wording of the questions and thus the influence of respondents to report their preferences. Therefore, in this study, we chose to analyze aggregated data from multiple pollsters and adjust for sampling variability and response rates in an effort to be able to provide a more robust measure of electoral support. We believe that our aggregated dataset can serve as a reliable basis for our predictive model to help us translate the data into quantitative metrics that can be used to predict election outcomes.
+
 
 ## Outcome variables
 
-Add graphs, tables and text. Use sub-sub-headings for each outcome variable or update the subheading to be singular.
-
-
-
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
-
-```{r}
-#| label: fig-bills
-#| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
-#| echo: false
-#| warning: false
-#| message: false
-
-analysis_data <- read_csv(here::here("data/02-analysis_data/analysis_data.csv"))
-
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
-  theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
-```
-
-Talk way more about it. 
 
 ## Predictor variables
 
-Add graphs, tables and text.
-
-Use sub-sub-headings for each outcome variable and feel free to combine a few into one if they go together naturally.
-
-
-
-
-
-
-
-
 # Model
 
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+We performed multi-level regression with post-stratification (MRP) to predict support for Kamala Harris in the upcoming election. To perform MRP, we fit a logistic regression model to predict support for Harris using sex, age, race, race_hispanic, highest level of education, state, and urban as predictors on our survey data set [@americaspoliticalpulse], and post-stratified it using ACS census data [@citeIPUMS].
 
 ## Model set-up
 
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
+We built our Bayesian logistic regression model using the `stan_glm()` function of the `rstanarm` package [@rstanarm]. The model that we use is:
 
 \begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
+vote\_harris_i|\pi_i &\sim \text{Bernoulli}(\pi_i) \\
+\text{logit}(\pi_i) &= \beta_0 + \beta_1 \text{sex}_i + \beta_2  \text{age\_bracket}_i + \beta_3 \text{race}_i + \beta_4 \text{race\_hispanic}_i + \beta_5 \text{education\_level}_i + \beta_6 \text{urban}_i \\
+\beta_0 &\sim \text{Normal}(0, 2.5) \\
+\beta_1 &\sim \text{Normal}(0, 2.5) \\
+\beta_2 &\sim \text{Normal}(0, 2.5) \\
+\beta_3 &\sim \text{Normal}(0, 2.5) \\
+\beta_4 &\sim \text{Normal}(0, 2.5) \\
+\beta_5 &\sim \text{Normal}(0, 2.5) \\
+\beta_6 &\sim \text{Normal}(0, 2.5)
 \end{align}
+
+where binary variable $vote\_harris_i$ is equal to 1 if the respondent's preferred 2024 presidential candidate is Kamala Harris, or 0 if the respondent's preferred 2024 presidential candidate is Donald Trump. We run our model in R [@citeR] using `stan_glm`, with the default priors from `rstanarm` [@citerstanarm]. We then apply our model to our post-stratification data [@citeIPUMS] to predict the popular vote and electoral college results of the 2024 U.S. Presidential election.
+
+Our model uses logistic regression, therefore one of its weaknesses is the fact that it predicts a binary outcome and does not consider the possibility that some American adults might vote for a third-party candidate or abstain from voting. Tradeoffs and concerns about our model are discussed in more detail in @sec-weaknesses-limitations.
 
 We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
 
 ### Model justification
 
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
+We expect a positive relationship between certain demographic characteristics and support for Kamala Harris. Specifically:
 
-We can use maths by including latex between dollar signs, for instance $\theta$.
+- **Sex**: We might expect differences in support between male and female respondents, with women potentially being more likely to support Kamala Harris due to certain policy stances that may appeal to this demographic.
+- **Age Bracket**: Age can be a significant factor, as younger voters might lean more progressive, potentially increasing support for Kamala Harris compared to Donald Trump.
+- **Race and Hispanic Ethnicity**: Historical voting patterns suggest that non-white racial groups, including Hispanic voters, may show stronger support for Democratic candidates, such as Harris. This is reflected in the coefficients $\beta_3$ for race and $\beta_4$ for Hispanic ethnicity.
+- **Education Level**: Higher education levels are often correlated with progressive political views, so we might expect a positive relationship between education level and support for Harris.
+- **Urban**: Respondents living in urban areas may be more likely to support Kamala Harris due to the urban-rural political divide observed in recent elections, where urban areas tend to lean more Democratic.
+
+The coefficients, such as $\beta_1$ for sex and $\beta_2$ for age bracket, represent the strength of these relationships. For example, a positive value of $\beta_1$ would suggest that being female increases the probability of supporting Harris, all else being equal.
+
+By using normal priors like $\beta_1 \sim \text{Normal}(0, 2.5)$, we assume that, before seeing the data, the effect of each predictor on the log-odds of supporting Kamala Harris is centered around zero, but with flexibility for the data to inform the posterior estimates.
+
+The Bayesian framework allows us to capture the uncertainty in our estimates and to refine our understanding of how different factors influence political support as new data becomes available. This is especially important in political forecasting, where the relationships between demographic factors and candidate support can be influenced by evolving social and political dynamics.
+
 
 
 # Results
@@ -155,21 +118,6 @@ first_model <-
   readRDS(file = here::here("models/first_model.rds"))
 ```
 
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
 
 
 
@@ -178,17 +126,16 @@ modelsummary::modelsummary(
 
 ## First discussion point {#sec-first-point}
 
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
 
 ## Second discussion point
 
-Please don't use these as sub-heading labels - change them to be what your point actually is.
+
 
 ## Third discussion point
 
 ## Weaknesses and next steps
 
-Weaknesses and next steps should also be included.
+
 
 \newpage
 
