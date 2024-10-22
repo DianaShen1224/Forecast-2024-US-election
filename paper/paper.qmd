@@ -111,31 +111,47 @@ Use sub-sub-headings for each outcome variable and feel free to combine a few in
 
 # Model
 
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
+We performed multi-level regression with post-stratification (MRP) to predict support for Kamala Harris in the upcoming election. To perform MRP, we fit a logistic regression model to predict support for Harris using sex, age, race, race_hispanic, highest level of education, state, and urban as predictors on our survey data set [@americaspoliticalpulse], and post-stratified it using ACS census data [@citeIPUMS].
 
 ## Model set-up
 
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
+We built our Bayesian logistic regression model using the `stan_glm()` function of the `rstanarm` package [@rstanarm]. The model that we use is:
 
 \begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
+vote\_harris_i|\pi_i &\sim \text{Bernoulli}(\pi_i) \\
+\text{logit}(\pi_i) &= \beta_0 + \beta_1 \text{sex}_i + \beta_2  \text{age\_bracket}_i + \beta_3 \text{race}_i + \beta_4 \text{race\_hispanic}_i + \beta_5 \text{education\_level}_i + \beta_6 \text{urban}_i \\
+\beta_0 &\sim \text{Normal}(0, 2.5) \\
+\beta_1 &\sim \text{Normal}(0, 2.5) \\
+\beta_2 &\sim \text{Normal}(0, 2.5) \\
+\beta_3 &\sim \text{Normal}(0, 2.5) \\
+\beta_4 &\sim \text{Normal}(0, 2.5) \\
+\beta_5 &\sim \text{Normal}(0, 2.5) \\
+\beta_6 &\sim \text{Normal}(0, 2.5)
 \end{align}
+
+where binary variable $vote\_harris_i$ is equal to 1 if the respondent's preferred 2024 presidential candidate is Kamala Harris, or 0 if the respondent's preferred 2024 presidential candidate is Donald Trump. We run our model in R [@citeR] using `stan_glm`, with the default priors from `rstanarm` [@citerstanarm]. We then apply our model to our post-stratification data [@citeIPUMS] to predict the popular vote and electoral college results of the 2024 U.S. Presidential election.
+
+Our model uses logistic regression, therefore one of its weaknesses is the fact that it predicts a binary outcome and does not consider the possibility that some American adults might vote for a third-party candidate or abstain from voting. Tradeoffs and concerns about our model are discussed in more detail in @sec-weaknesses-limitations.
 
 We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
 
 ### Model justification
 
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
+We expect a positive relationship between certain demographic characteristics and support for Kamala Harris. Specifically:
 
-We can use maths by including latex between dollar signs, for instance $\theta$.
+- **Sex**: We might expect differences in support between male and female respondents, with women potentially being more likely to support Kamala Harris due to certain policy stances that may appeal to this demographic.
+- **Age Bracket**: Age can be a significant factor, as younger voters might lean more progressive, potentially increasing support for Kamala Harris compared to Donald Trump.
+- **Race and Hispanic Ethnicity**: Historical voting patterns suggest that non-white racial groups, including Hispanic voters, may show stronger support for Democratic candidates, such as Harris. This is reflected in the coefficients $\beta_3$ for race and $\beta_4$ for Hispanic ethnicity.
+- **Education Level**: Higher education levels are often correlated with progressive political views, so we might expect a positive relationship between education level and support for Harris.
+- **Urban**: Respondents living in urban areas may be more likely to support Kamala Harris due to the urban-rural political divide observed in recent elections, where urban areas tend to lean more Democratic.
+
+The coefficients, such as $\beta_1$ for sex and $\beta_2$ for age bracket, represent the strength of these relationships. For example, a positive value of $\beta_1$ would suggest that being female increases the probability of supporting Harris, all else being equal.
+
+By using normal priors like $\beta_1 \sim \text{Normal}(0, 2.5)$, we assume that, before seeing the data, the effect of each predictor on the log-odds of supporting Kamala Harris is centered around zero, but with flexibility for the data to inform the posterior estimates.
+
+The Bayesian framework allows us to capture the uncertainty in our estimates and to refine our understanding of how different factors influence political support as new data becomes available. This is especially important in political forecasting, where the relationships between demographic factors and candidate support can be influenced by evolving social and political dynamics.
+
 
 
 # Results
