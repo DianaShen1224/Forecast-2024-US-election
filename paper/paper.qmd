@@ -282,7 +282,7 @@ Predictive Modeling: I will use a Bayesian predictive model that incorporates cu
 The survey will be structured to capture key insights into voting intention, candidate favorability, and the issues driving voter decisions. It will be short and simple, taking no more than 10 minutes to complete.
 Survey Link
 The survey has been implemented using Google Forms. Here is the link to access the survey:\
-https://docs.google.com/forms/d/e/1FAIpQLSetY5pPLMYHn4YXF2uIxVNnCGUB1PRvyHbSd3HF3E6DdN2EkA/viewform 
+https://forms.gle/BAZhkWDyLxAibwvu5
 
 Budget Breakdown
 Here is a proposed allocation of the $100,000 budget:\
