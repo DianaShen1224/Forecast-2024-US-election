@@ -9,18 +9,23 @@
 
 
 #### Workspace setup ####
-library(opendatatoronto)
 library(tidyverse)
-# [...UPDATE THIS...]
 
 #### Download data ####
-# [...ADD CODE HERE TO DOWNLOAD...]
-
-
+#### Acquire ####
+raw_elections_data <-
+  read_csv(
+    file = 
+      "https://projects.fivethirtyeight.com/polls/data/president_polls.csv",
+    show_col_types = FALSE,
+    skip = 1
+  )
 
 #### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "inputs/data/raw_data.csv") 
+write_csv(
+  x = raw_elections_data,
+  file = "~/2024 US Election Forecast/data/01-raw_data/raw_election_24.csv"
+)
 
-         
+head(toronto_shelters)
+
