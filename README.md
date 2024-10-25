@@ -11,7 +11,7 @@ This repository contains the analysis and methodology used to predict the outcom
 
 The repo is structured as:
 
--   `data/raw_data` contains the raw poll data as obtained from fivethirtyeight.
+-   `data/raw_data` contains the raw poll data as obtained from FiveThirtyEight.
 -   `data/analysis_data` contains the cleaned dataset that was constructed.
 -   `model` contains fitted models. 
 -   `other` contains relevant literature, details about LLM chat interactions, and sketches.
