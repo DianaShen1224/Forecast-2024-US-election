@@ -21,19 +21,13 @@ bibliography: references.bib
 library(tidyverse)
 ```
 
-
 # Introduction
 
 Election forecasting has long played a crucial role in understanding public opinion and predicting the outcome of political contests. The use of data-driven methods, particularly polling data, has become an important pre-election analytical tool for political analysts. The purpose of this paper is to predict the winner of the upcoming 2024 U.S. presidential election by constructing a statistical model based on aggregated polling data. The “polling” approach combines results from different pollsters to provide a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015), and our goal is to predict the outcome of the popular vote and the Electoral College. Our analysis, based on data collected from multiple polling sources, captures voter intentions for the two major candidates, Kamala Harris (Democrat) and Donald Trump (Republican).
 
-In addition to constructing and interpreting predictive models, this paper dive into the methods used by xx pollsters, analyzing the strengths as well as the weaknesses of the methods used against them. At the end of the paper, we also propose an idealized survey methodology for election forecasting with a budget of $100,000 USD.
+In addition to constructing and interpreting predictive models, this paper dive into the methods used by xx pollsters, analyzing the strengths as well as the weaknesses of the methods used against them. At the end of the paper, we also propose an idealized survey methodology for election forecasting with a budget of \$100,000 USD.
 
 This paper begins with an introduction to data in Section 2. In this section, we focus on measurement techniques and the visualization and analysis of key variables. Next, in Section 3, we provide an overview of the linear model used to analyze the relationships within the dataset. The results of the analysis are detailed in Section 4 (Results). Finally, in Section 5, we summarize our main conclusions as well as suggest some possible future research directions.
-
-
-
-
-
 
 # Data {#sec-data}
 
@@ -42,16 +36,14 @@ This paper begins with an introduction to data in Section 2. In this section, we
 The data for this paper was sourced from ABC News (xxxxx). The statistical software R (R Core Team, 2023) was employed to retrieve, clean, and process the dataset. Specifically, the tidyverse package (Wickham et al., 2019) was used for data acquisition, cleaning, and processing. The ggplot2 (Wickham, 2016) package was utilized to generate the visualizations.
 
 ## Measurement
-	
+
 The data used to predict the outcome of the 2024 U.S. presidential election in this study came from a variety of polling sources. The results of these polls represent key measures of electoral support and voter sentiment, and are therefore the main variables in our analysis.
 
 To ensure that polling data accurately reflect real-world voter preferences, we rely on several key measurement constructs. First, voter preferences are measured by the percentage of respondents who indicated support for each candidate. Each poll is conducted using different sample sizes, sampling methods (e.g., online surveys, IVR calls, etc.), which can inject more variability into the data. To mitigate these differences, we aggregate poll results using a “”poll of polls“” methodology that eliminates anomalies and provides a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015).
 
 In this study, we recognize the measurement problems inherent in polling data. Polls rely on sample data to represent the entire voting population, and therefore, there may be potential biases in the data. For example, there may be no-response bias due to the potential under representation of certain populations, or because of the wording of the questions and thus the influence of respondents to report their preferences. Therefore, in this study, we chose to analyze aggregated data from multiple pollsters and adjust for sampling variability and response rates in an effort to be able to provide a more robust measure of electoral support. We believe that our aggregated dataset can serve as a reliable basis for our predictive model to help us translate the data into quantitative metrics that can be used to predict election outcomes.
 
-
 ## Outcome variables
-
 
 ## Predictor variables
 
@@ -63,6 +55,7 @@ We performed multi-level regression with post-stratification (MRP) to predict su
 
 We built our Bayesian logistic regression model using the `stan_glm()` function of the `rstanarm` package [@rstanarm]. The model that we use is:
 
+```{=tex}
 \begin{align} 
 vote\_harris_i|\pi_i &\sim \text{Bernoulli}(\pi_i) \\
 \text{logit}(\pi_i) &= \beta_0 + \beta_1 \text{sex}_i + \beta_2  \text{age\_bracket}_i + \beta_3 \text{race}_i + \beta_4 \text{race\_hispanic}_i + \beta_5 \text{education\_level}_i + \beta_6 \text{urban}_i \\
@@ -74,31 +67,28 @@ vote\_harris_i|\pi_i &\sim \text{Bernoulli}(\pi_i) \\
 \beta_5 &\sim \text{Normal}(0, 2.5) \\
 \beta_6 &\sim \text{Normal}(0, 2.5)
 \end{align}
-
+```
 where binary variable $vote\_harris_i$ is equal to 1 if the respondent's preferred 2024 presidential candidate is Kamala Harris, or 0 if the respondent's preferred 2024 presidential candidate is Donald Trump. We run our model in R [@citeR] using `stan_glm`, with the default priors from `rstanarm` [@citerstanarm]. We then apply our model to our post-stratification data [@citeIPUMS] to predict the popular vote and electoral college results of the 2024 U.S. Presidential election.
 
 Our model uses logistic regression, therefore one of its weaknesses is the fact that it predicts a binary outcome and does not consider the possibility that some American adults might vote for a third-party candidate or abstain from voting. Tradeoffs and concerns about our model are discussed in more detail in @sec-weaknesses-limitations.
 
 We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
 
-
 ### Model justification
 
 We expect a positive relationship between certain demographic characteristics and support for Kamala Harris. Specifically:
 
-- **Sex**: We might expect differences in support between male and female respondents, with women potentially being more likely to support Kamala Harris due to certain policy stances that may appeal to this demographic.
-- **Age Bracket**: Age can be a significant factor, as younger voters might lean more progressive, potentially increasing support for Kamala Harris compared to Donald Trump.
-- **Race and Hispanic Ethnicity**: Historical voting patterns suggest that non-white racial groups, including Hispanic voters, may show stronger support for Democratic candidates, such as Harris. This is reflected in the coefficients $\beta_3$ for race and $\beta_4$ for Hispanic ethnicity.
-- **Education Level**: Higher education levels are often correlated with progressive political views, so we might expect a positive relationship between education level and support for Harris.
-- **Urban**: Respondents living in urban areas may be more likely to support Kamala Harris due to the urban-rural political divide observed in recent elections, where urban areas tend to lean more Democratic.
+-   **Sex**: We might expect differences in support between male and female respondents, with women potentially being more likely to support Kamala Harris due to certain policy stances that may appeal to this demographic.
+-   **Age Bracket**: Age can be a significant factor, as younger voters might lean more progressive, potentially increasing support for Kamala Harris compared to Donald Trump.
+-   **Race and Hispanic Ethnicity**: Historical voting patterns suggest that non-white racial groups, including Hispanic voters, may show stronger support for Democratic candidates, such as Harris. This is reflected in the coefficients $\beta_3$ for race and $\beta_4$ for Hispanic ethnicity.
+-   **Education Level**: Higher education levels are often correlated with progressive political views, so we might expect a positive relationship between education level and support for Harris.
+-   **Urban**: Respondents living in urban areas may be more likely to support Kamala Harris due to the urban-rural political divide observed in recent elections, where urban areas tend to lean more Democratic.
 
 The coefficients, such as $\beta_1$ for sex and $\beta_2$ for age bracket, represent the strength of these relationships. For example, a positive value of $\beta_1$ would suggest that being female increases the probability of supporting Harris, all else being equal.
 
 By using normal priors like $\beta_1 \sim \text{Normal}(0, 2.5)$, we assume that, before seeing the data, the effect of each predictor on the log-odds of supporting Kamala Harris is centered around zero, but with flexibility for the data to inform the posterior estimates.
 
 The Bayesian framework allows us to capture the uncertainty in our estimates and to refine our understanding of how different factors influence political support as new data becomes available. This is especially important in political forecasting, where the relationships between demographic factors and candidate support can be influenced by evolving social and political dynamics.
-
-
 
 # Results
 
@@ -116,31 +106,21 @@ first_model <-
   readRDS(file = here::here("models/first_model.rds"))
 ```
 
-
-
-
-
 # Discussion
 
 ## First discussion point {#sec-first-point}
 
-
 ## Second discussion point
-
-
 
 ## Third discussion point
 
 ## Weaknesses and next steps
 
-
-
 \newpage
 
 \appendix
 
-# Appendix {-}
-
+# Appendix {.unnumbered}
 
 # Additional data details
 
@@ -150,7 +130,7 @@ first_model <-
 
 In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
 
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
+In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows...
 
 ```{r}
 #| eval: true
@@ -194,107 +174,126 @@ plot(first_model, "trace")
 plot(first_model, "rhat")
 ```
 
-
 # Appendix
+
 ## Emerson College Polling Methodology
-For this deep dive, I'll focus on Emerson College Polling based on the link: Emerson College Polling - October 2024 National Poll.
-Survey Overview:
-The Emerson College Polling conducted a national survey in October 2024 to assess voter preferences for the upcoming U.S. presidential election. This appendix provides an in-depth analysis of their polling methodology, including the population, sample frame, recruitment process, and key strengths and weaknesses of their approach.
 
-Methodology
-1. Population, Frame, and Sample:\
-Target Population: The target population for this poll includes U.S. citizens who are eligible to vote in the 2024 presidential election.
-Sample Frame: The sample consists of likely voters across the United States. Emerson College Polling uses voter registration databases to develop a sampling frame of registered voters, ensuring they capture individuals who are most likely to vote in the upcoming election.
-Sample Size: For this particular poll, 1,000 likely voters were surveyed. This sample size provides a margin of error of approximately ±3 percentage points, allowing for reasonable confidence in the poll's accuracy.
+For this deep dive, I'll focus on Emerson College Polling based on the link: Emerson College Polling - October 2024 National Poll. Survey Overview: The Emerson College Polling conducted a national survey in October 2024 to assess voter preferences for the upcoming U.S. presidential election. This appendix provides an in-depth analysis of their polling methodology, including the population, sample frame, recruitment process, and key strengths and weaknesses of their approach.
 
-2. Sample Recruitment:\
-Recruitment Method: Emerson College employs a multi-mode recruitment approach, including online, phone (landline and mobile), and SMS text outreach.
-Phone Interviews: Live interviewers call both landlines and mobile phones using random digit dialing (RDD) to ensure they capture respondents without internet access.
-Online Panels: Emerson also recruits respondents through online panels, using email invitations to individuals who match their demographic quotas.
-SMS Text Polling: In recent years, Emerson has increasingly used SMS text polling, allowing respondents to complete the survey via mobile devices.
+Methodology 1. Population, Frame, and Sample:\
+Target Population: The target population for this poll includes U.S. citizens who are eligible to vote in the 2024 presidential election. Sample Frame: The sample consists of likely voters across the United States. Emerson College Polling uses voter registration databases to develop a sampling frame of registered voters, ensuring they capture individuals who are most likely to vote in the upcoming election. Sample Size: For this particular poll, 1,000 likely voters were surveyed. This sample size provides a margin of error of approximately ±3 percentage points, allowing for reasonable confidence in the poll's accuracy.
+
+2.  Sample Recruitment:\
+    Recruitment Method: Emerson College employs a multi-mode recruitment approach, including online, phone (landline and mobile), and SMS text outreach. Phone Interviews: Live interviewers call both landlines and mobile phones using random digit dialing (RDD) to ensure they capture respondents without internet access. Online Panels: Emerson also recruits respondents through online panels, using email invitations to individuals who match their demographic quotas. SMS Text Polling: In recent years, Emerson has increasingly used SMS text polling, allowing respondents to complete the survey via mobile devices.
 
 Trade-offs of Recruitment Method:\
-Strengths: The multi-mode approach ensures better coverage of different demographic groups, including older adults and those less likely to engage with online surveys.
-Weaknesses: The RDD approach can lead to lower response rates, especially with the increasing number of people avoiding unsolicited calls. The online component also introduces self-selection bias, where more politically engaged individuals may be overrepresented.
+Strengths: The multi-mode approach ensures better coverage of different demographic groups, including older adults and those less likely to engage with online surveys. Weaknesses: The RDD approach can lead to lower response rates, especially with the increasing number of people avoiding unsolicited calls. The online component also introduces self-selection bias, where more politically engaged individuals may be overrepresented.
 
-3. Sampling Approach and Trade-offs:\
-Quota-based Sampling: Emerson uses quota sampling to ensure that the sample is representative of key demographics, including age, gender, race, and region. The quotas are based on U.S. Census data to maintain demographic diversity.
-Weighting: After data collection, Emerson applies post-stratification weighting to adjust for any imbalances in the sample, aligning it with population benchmarks.
-Trade-offs: While quota sampling ensures demographic diversity, it can introduce bias if certain groups are harder to reach or more likely to refuse participation (non-response bias). Weighting helps mitigate this issue but relies on accurate population benchmarks, which may not always reflect the electorate’s behavior accurately.
+3.  Sampling Approach and Trade-offs:\
+    Quota-based Sampling: Emerson uses quota sampling to ensure that the sample is representative of key demographics, including age, gender, race, and region. The quotas are based on U.S. Census data to maintain demographic diversity. Weighting: After data collection, Emerson applies post-stratification weighting to adjust for any imbalances in the sample, aligning it with population benchmarks. Trade-offs: While quota sampling ensures demographic diversity, it can introduce bias if certain groups are harder to reach or more likely to refuse participation (non-response bias). Weighting helps mitigate this issue but relies on accurate population benchmarks, which may not always reflect the electorate’s behavior accurately.
 
-4. Non-response Handling:\
-Non-response Bias: To minimize non-response bias, Emerson College Polling uses a combination of call-backs and reminder emails for online respondents. Additionally, post-survey weighting accounts for non-response patterns across key demographic groups.
-Adjustments for Non-response: Emerson uses statistical weighting to adjust the final results based on the response rate within each demographic group (e.g., age, gender, and race). This helps to reduce the skew in the data caused by differential response rates.
+4.  Non-response Handling:\
+    Non-response Bias: To minimize non-response bias, Emerson College Polling uses a combination of call-backs and reminder emails for online respondents. Additionally, post-survey weighting accounts for non-response patterns across key demographic groups. Adjustments for Non-response: Emerson uses statistical weighting to adjust the final results based on the response rate within each demographic group (e.g., age, gender, and race). This helps to reduce the skew in the data caused by differential response rates.
 
-5. Questionnaire Design:\
-Strengths:
-The survey is concise, focusing on core topics like voter intention, candidate preference, and key issues such as the economy and healthcare. This increases the likelihood that respondents complete the survey accurately and without fatigue.
-Emerson regularly tests its questionnaire to ensure clarity and avoid ambiguous questions, improving the reliability of the responses.
-Weaknesses:
-Binary Choice Bias: Some sections of the questionnaire force a binary choice between two candidates, which may oversimplify the respondents' true preferences, especially in a race with multiple candidates or undecided voters.
-Social Desirability Bias: Like most political polls, respondents may answer questions in a way they believe is socially acceptable, especially in terms of voter turnout or support for controversial candidates. This could lead to over-reporting of voter intention.
-Summary of Strengths and Weaknesses
-Strengths:
+5.  Questionnaire Design:\
+    Strengths: The survey is concise, focusing on core topics like voter intention, candidate preference, and key issues such as the economy and healthcare. This increases the likelihood that respondents complete the survey accurately and without fatigue. Emerson regularly tests its questionnaire to ensure clarity and avoid ambiguous questions, improving the reliability of the responses. Weaknesses: Binary Choice Bias: Some sections of the questionnaire force a binary choice between two candidates, which may oversimplify the respondents' true preferences, especially in a race with multiple candidates or undecided voters. Social Desirability Bias: Like most political polls, respondents may answer questions in a way they believe is socially acceptable, especially in terms of voter turnout or support for controversial candidates. This could lead to over-reporting of voter intention. Summary of Strengths and Weaknesses Strengths:
 
-Multi-mode Surveying: Emerson’s use of phone, online, and SMS recruitment allows them to reach a broader cross-section of the population, minimizing the biases introduced by any one method.
-Post-stratification Weighting: The weighting process ensures the sample reflects the U.S. population, improving the reliability of the poll results.
-Timely Polling: The frequent release of polling data makes it possible to track shifts in voter sentiment over time.
-Weaknesses:
+Multi-mode Surveying: Emerson’s use of phone, online, and SMS recruitment allows them to reach a broader cross-section of the population, minimizing the biases introduced by any one method. Post-stratification Weighting: The weighting process ensures the sample reflects the U.S. population, improving the reliability of the poll results. Timely Polling: The frequent release of polling data makes it possible to track shifts in voter sentiment over time. Weaknesses:
 
-Potential for Non-response Bias: Despite efforts to mitigate it, non-response remains a concern, particularly among certain voter demographics who may be harder to reach through phone or online surveys.
-Self-selection Bias in Online Surveys: The online component may disproportionately attract respondents who are more politically engaged, which could skew results.
-By employing a multi-mode approach and adjusting for demographic imbalances through weighting, Emerson College Polling provides robust and timely data. However, like all polls, it is subject to limitations, particularly around non-response and self-selection biases​
+Potential for Non-response Bias: Despite efforts to mitigate it, non-response remains a concern, particularly among certain voter demographics who may be harder to reach through phone or online surveys. Self-selection Bias in Online Surveys: The online component may disproportionately attract respondents who are more politically engaged, which could skew results. By employing a multi-mode approach and adjusting for demographic imbalances through weighting, Emerson College Polling provides robust and timely data. However, like all polls, it is subject to limitations, particularly around non-response and self-selection biases​
 
 ## Idealized Methodology for US Presidential Election Forecast
-This appendix outlines the methodology and design for conducting a U.S. presidential election forecast survey with a budget of $100,000. The goal is to develop an accurate and reliable prediction of the election outcome, ensuring data quality through careful sampling, recruitment, validation, and aggregation of results.
 
-Methodology Overview
-1. Sampling Approach
-To ensure a representative sample of likely voters, I will use a stratified random sampling method based on demographic and voter turnout data from the U.S. Census and previous elections.
+This appendix outlines the methodology and design for conducting a U.S. presidential election forecast survey with a budget of \$100,000. The goal is to develop an accurate and reliable prediction of the election outcome, ensuring data quality through careful sampling, recruitment, validation, and aggregation of results.\
 
-Target Population: U.S. citizens eligible to vote in the 2024 U.S. presidential election.
-Sample Size: I plan to survey 3,500 respondents, providing a margin of error of approximately ±1.7 percentage points, ensuring a high level of confidence in the results.
+### Methodology
+
+#### Sampling Approach
+
+To ensure a representative sample of likely voters, I will use a Composite Measure sampling method based on the past voter turnout data from the U.S. previous 2020 elections.After decising the sampling size in each state, I will use a stratified sampling bases on demographics,dividing population into subgroups, and a random sample is taken from each subgroup. We employ composite Measure sampling method refer from (), that increased our chances of selecting respondents from voters in states/ regions that have historically higher voter engagement as compared to the natural distribution we’d expect from the general population. While some states may have larger populations, we are interested in adjusting the sampling to reflect higher turnout rates. To better explain this composite measure of size, lets consider that we have two states that have similar population. For example, even though State A and State B may have similar populations, if State B consistently has a higher voter turnout in past elections, we want to increase the proportion of polls we conduct in State B. State A has a population of 1 million eligible voters, with a historical turnout rate of 50%. State B has a population of 1 million eligible voters, but its turnout rate is 70%. In a purely population-based sampling approach, each state would have an equal chance of being selected for polls: 50% for State A and 50% for State B. However, based on voter turnout, we modify these probabilities to increase the chance of selecting State B, since its voter turnout is historically higher.\
+In following steps, we will explore how to use **voter turnout** as a key factor to create a **composite measure of size** for sampling US election polls. Instead of using population size alone, we adjust the sample allocation based on historical voter turnout, ensuring regions with higher engagement are more heavily represented in our polling data.\
+
+##### Step 1: Define the Sampling Data
+
+We begin by collecting the **eligible voter population** and **historical voter turnout rates** for different states. In this simplified example, we will focus on two states: **State A** and **State B**.
+
+| State   | Eligible Voters | Turnout Rate |
+|---------|-----------------|--------------|
+| State A | 1,000,000       | 50%          |
+| State B | 1,000,000       | 70%          |
+
+##### Step 2: Calculate Actual Voters
+
+Next, we calculate the **number of actual voters** in each state by multiplying the eligible voters by the turnout rate: $$\text{Actual Voters} = \text{Eligible Voters} \times \text{Turnout Rate}$$\
+Actual voters in State A: $\text{Actual Voters}_A = 1,000,000 \times 0.50 = 500,000$\
+Actual voters in State B: $\text{Actual Voters}_B = 1,000,000 \times 0.70 = 700,000$\
+Total actual voters: $\text{Actual Voters}_A+\text{Actual Voters}_B= 500,000 + 700,000 = 1,200,000$\
+
+##### Step 3: Calculate Composite Measure of Size
+
+We now calculate the **total number of voters** across both states and determine the **proportion** of each state's turnout relative to the total. This forms the basis of the composite measure of size, which we will use to adjust the sampling weights.
+
+The total voters in two states are 1,200,000. Therefore, the sampling proportion for State A is: $\text{Sampling Proportion}_A = \frac{500,000}{1,200,000} \approx 0.417$, and for State B is: $\text{Sampling Proportion}_B = \frac{700,000}{1,200,000} \approx 0.583$
+
+##### Step 4: Allocate Sample Based on Turnout
+
+Finally, we allocate the sample size according to the calculated sampling proportions. For instance, if we are conducting 1,000 polls, we would allocate State A with $\text{Polls for State A} = 1,000 \times 0.417 \approx 417 \text{polls}$ and State B with $\text{Polls for State B} = 1,000 \times 0.583 \approx 583 \text{polls}$
+
+By using historical voter turnout to adjust our polling sample, we ensure that regions with higher voter engagement have a greater influence on the polling results. This composite measure of size ensures that our polling sample better reflects the actual voting patterns and preferences in different regions. Consequently, we can produce more accurate and representative poll outcomes that account for the varying levels of voter participation across the country.
+
+### Target Population
+
+Our target population is all U.S. citizens eligible to vote in the 2024 U.S. presidential election (age\>=18).
+
+### Sample frame
+
+### Sample
+
+#### Sample Size:
+
+We plan to survey 300 respondents, which will provide a margin of error of approximately ±1.7 percentage points, ensuring a high level of confidence in the results. Given the limited sample size and to enhance the effectiveness of stratified sampling, the states will be grouped into four regions: Midwest, Northeast, South, and West. The sample size for each region will be allocated based on the proportion of total ballots cast in each region during the 2020 election. The regional grouping of states is shown in @tbl-region.
+
+| **Region**    | **States**                                                                                                                                                 |
+|------------------------------------|------------------------------------|
+| **MIDWEST**   | Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, North Dakota, Ohio, South Dakota, Wisconsin                                      |
+| **Northeast** | Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont      |
+| **SOUTH**     | Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Virginia, West Virginia |
+| **WEST**      | Alaska, Arizona, California, Colorado, Hawaii, Idaho, Montana, Nevada, New Mexico, Oregon, Utah, Washington, Wyoming                                       |
+
+: Regional Grouping of States in the USA {#tbl-region}
+
+| **Region**  | **Voter Turnout (%)** | **Total Ballots Cast** | **VEP**    | **Composite Measure Sampling Proportion** | **Sample Size** |
+|-----------|-----------|-----------|-----------|-----------------|-----------|
+| **MIDWEST** | 69%                   | 35,134,960             | 50,932,439 | 0.214805579                               | 64              |
+| **NW**      | 68%                   | 32,262,303             | 47,473,317 | 0.200216867                               | 60              |
+| **SOUTH**   | 65%                   | 54,746,770             | 84,563,831 | 0.356644666                               | 107             |
+| **WEST**    | 69%                   | 37,594,304             | 54,139,892 | 0.228332888                               | 68              |
+
+: Regional Voting Data and Sample Size Allocation Based on 2020 Election Turnout{#tbl-sample_size}
+
+@tbl-sample_size shows the regional breakdown of the 2020 election data, sourced from [@wiki], including voter turnout, total ballots cast, and Voting Eligible Population (VEP). The sample size for each region was determined based on the **Composite Measure Sampling Proportion**.
+
 Stratification Variables: The sample will be stratified by age, gender, race/ethnicity, education level, geographic region, and income. This ensures that each demographic group is represented proportionally to the U.S. population.
+
 Oversampling: To ensure insights into underrepresented or low-response groups (e.g., younger voters, minorities), I will oversample these groups and apply appropriate post-stratification weighting.
-2. Recruitment of Respondents
+
+#### Recruitment of Respondents
+
 I will use a multi-modal approach to recruit a diverse and representative sample, employing both online and offline strategies to reach various segments of the population.
 
-Online Recruitment: Use targeted advertisements on social media platforms (e.g., Facebook, Instagram) and popular news websites. A portion of the budget will be allocated to recruiting via established online panel providers such as Qualtrics or YouGov.
-Phone and SMS Polling: To capture voters who may not engage online, I will employ live phone interviews using Random Digit Dialing (RDD) and SMS text polls, ensuring coverage of both landline and mobile users.
-In-Person Recruitment: In key battleground states, local fieldworkers will be deployed to recruit voters who may not be reached through digital or phone methods, ensuring a geographically diverse sample.
-3. Data Validation and Quality Control
-Data quality is crucial for accurate forecasting, and several measures will be implemented to ensure the validity of responses:\
-Voter Verification: Respondents will be asked to confirm their voter registration status, and a subset of the sample will be cross-checked with voter databases to validate their responses.
-Attention Checks: To minimize random or disengaged responses, I will include attention checks (e.g., questions asking respondents to select a specific answer) throughout the survey.
-Duplicate Prevention: Respondent IP addresses and email addresses will be tracked to prevent multiple submissions from the same individual.
-Weighting: Post-stratification weighting will be applied to adjust for any demographic imbalances in the final sample. Weighting factors will be based on age, gender, race, education, and voting history to match U.S. population benchmarks.
+Online Recruitment: Use targeted advertisements on social media platforms (e.g., Facebook, Instagram) and popular news websites. A portion of the budget will be allocated to recruiting via established online panel providers such as Qualtrics or YouGov. Phone and SMS Polling: To capture voters who may not engage online, I will employ live phone interviews using Random Digit Dialing (RDD) and SMS text polls, ensuring coverage of both landline and mobile users. In-Person Recruitment: In key battleground states, local fieldworkers will be deployed to recruit voters who may not be reached through digital or phone methods, ensuring a geographically diverse sample. 3. Data Validation and Quality Control Data quality is crucial for accurate forecasting, and several measures will be implemented to ensure the validity of responses:\
+Voter Verification: Respondents will be asked to confirm their voter registration status, and a subset of the sample will be cross-checked with voter databases to validate their responses. Attention Checks: To minimize random or disengaged responses, I will include attention checks (e.g., questions asking respondents to select a specific answer) throughout the survey. Duplicate Prevention: Respondent IP addresses and email addresses will be tracked to prevent multiple submissions from the same individual. Weighting: Post-stratification weighting will be applied to adjust for any demographic imbalances in the final sample. Weighting factors will be based on age, gender, race, education, and voting history to match U.S. population benchmarks.
 
-4. Poll Aggregation and Forecasting Model
-In addition to my own survey, I will aggregate data from other reputable pollsters to improve the accuracy of the forecast.
+4.  Poll Aggregation and Forecasting Model In addition to my own survey, I will aggregate data from other reputable pollsters to improve the accuracy of the forecast.
 
-Poll Aggregation: I will collect data from publicly available polls (e.g., FiveThirtyEight, RealClearPolitics) and develop a weighted average based on the reliability of each poll, sample size, and recency.
-Weighting by Pollster Quality: Pollsters will be rated based on their historical accuracy, sample sizes, and transparency in methodology. More reliable polls will be weighted higher in the aggregation model.
-Predictive Modeling: I will use a Bayesian predictive model that incorporates current polling data, historical voting patterns, economic indicators, and other key variables to generate a probabilistic forecast of the election outcome.
+Poll Aggregation: I will collect data from publicly available polls (e.g., FiveThirtyEight, RealClearPolitics) and develop a weighted average based on the reliability of each poll, sample size, and recency. Weighting by Pollster Quality: Pollsters will be rated based on their historical accuracy, sample sizes, and transparency in methodology. More reliable polls will be weighted higher in the aggregation model. Predictive Modeling: I will use a Bayesian predictive model that incorporates current polling data, historical voting patterns, economic indicators, and other key variables to generate a probabilistic forecast of the election outcome.
 
-5. Questionnaire Design
-The survey will be structured to capture key insights into voting intention, candidate favorability, and the issues driving voter decisions. It will be short and simple, taking no more than 10 minutes to complete.
-Survey Link
-The survey has been implemented using Google Forms. Here is the link to access the survey:\
-https://forms.gle/BAZhkWDyLxAibwvu5
+5.  Questionnaire Design The survey will be structured to capture key insights into voting intention, candidate favorability, and the issues driving voter decisions. It will be short and simple, taking no more than 10 minutes to complete. Survey Link The survey has been implemented using Google Forms. Here is the link to access the survey:\
+    https://forms.gle/BAZhkWDyLxAibwvu5
 
-Budget Breakdown
-Here is a proposed allocation of the $100,000 budget:\
-Survey Platform and Software Costs: $5,000 for survey hosting on Google Forms and Qualtrics.
-Recruitment Costs: $40,000 for online panel recruitment, social media ads, and targeted outreach.
-Phone and SMS Polling: $20,000 to cover live phone interviews and SMS polling.
-Fieldwork in Key States: $15,000 for in-person recruitment in battleground states.
-Data Validation and Cleaning: $10,000 for voter verification, attention checks, and cleaning services.
-Poll Aggregation and Modeling Tools: $7,000 for the development of a poll aggregation tool and Bayesian forecasting model.
-Miscellaneous Costs: $3,000 for administrative costs, project management, and reporting.
+Budget Breakdown Here is a proposed allocation of the \$100,000 budget:\
+Survey Platform and Software Costs: \$5,000 for survey hosting on Google Forms and Qualtrics. Recruitment Costs: \$40,000 for online panel recruitment, social media ads, and targeted outreach. Phone and SMS Polling: \$20,000 to cover live phone interviews and SMS polling. Fieldwork in Key States: \$15,000 for in-person recruitment in battleground states. Data Validation and Cleaning: \$10,000 for voter verification, attention checks, and cleaning services. Poll Aggregation and Modeling Tools: \$7,000 for the development of a poll aggregation tool and Bayesian forecasting model. Miscellaneous Costs: \$3,000 for administrative costs, project management, and reporting.
 
 \newpage
 
-
 # References
-
-
