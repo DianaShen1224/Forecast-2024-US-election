@@ -254,7 +254,7 @@ Based on the recruitment method we discussed later, our sampling frame could be 
 We plan to survey 300 respondents, which will provide a margin of error of approximately ±1.7 percentage points, ensuring a high level of confidence in the results. Given the limited sample size and to enhance the effectiveness of stratified sampling, the states will be grouped into four regions: Midwest, Northeast, South, and West. The sample size for each region will be allocated based on the proportion of total ballots cast in each region during the 2020 election. The regional grouping of states is shown in @tbl-region.
 
 | **Region**    | **States**                                                                                                                                                 |
-|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|----------------------|--------------------------------------------------|
 | **MIDWEST**   | Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, North Dakota, Ohio, South Dakota, Wisconsin                                      |
 | **Northeast** | Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont      |
 | **SOUTH**     | Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Virginia, West Virginia |
@@ -263,7 +263,7 @@ We plan to survey 300 respondents, which will provide a margin of error of appro
 : Regional Grouping of States in the USA {#tbl-region}
 
 | **Region**  | **Voter Turnout (%)** | **Total Ballots Cast** | **VEP**    | **Composite Measure Sampling Proportion** | **Sample Size** |
-|-------------|-----------------------|------------------------|------------|-------------------------------------------|-----------------|
+|------------|------------|------------|------------|------------|------------|
 | **MIDWEST** | 69%                   | 35,134,960             | 50,932,439 | 0.214805579                               | 86              |
 | **NW**      | 68%                   | 32,262,303             | 47,473,317 | 0.200216867                               | 80              |
 | **SOUTH**   | 65%                   | 54,746,770             | 84,563,831 | 0.356644666                               | 143             |
@@ -311,8 +311,38 @@ After getting the survey response, we will aggregate polls from two recruitment 
 
 ### Survey Design
 
-The survey will be structured to capture key insights into voting intention, candidate favorability, and the issues driving voter decisions. It will be short and simple, taking no more than 15 minutes to complete. Survey Link The survey has been implemented using Google Forms. Here is the link to access the survey:\
-https://forms.gle/BAZhkWDyLxAibwvu5
+The survey is designed to capture essential insights into voting intentions, candidate favorability, and the issues influencing voter decisions. It will be concise and straightforward, taking no longer than 15 minutes to complete.
+
+**Survey Link**\
+The survey has been implemented using Google Forms. You can access it here: [Survey Link](https://forms.gle/BAZhkWDyLxAibwvu5).
+
+In our survey, several questions are adapted from the Emerson College Polling data [@emerson]. We also apply insights from @survey to minimize response biases. Common biases identified in survey design include moderacy bias, extreme response bias, ordering bias, acquiescence bias, experimenter demand effect (EDE), and social desirability bias (SDB). Our survey primarily focuses on strategies to reduce moderacy bias, extreme response bias, ordering bias, SDB, and acquiescence bias. \#### Defination of the bias
+
+@survey define these bias as:
+
+-   Moderacy response bias is the tendency to respond to each question by choosing a category in the middle of the scale.
+
+-   Extreme response bias is the tendency to respond with extreme values on the rating scale.
+
+-   Response order bias occurs when the order of response options in a list or a rating scale influences the response chosen. The primacy effect occurs when respondents are more likely to select one of the first alternatives provided, and it is more common in written surveys. This tendency can be due to satisficing, whereby a respondent uses the first acceptable response alternative without paying particular attention to the other options. The recency effect occurs when respondents choose one of the last items presented to them (more common in face-to-face or orally presented surveys).
+
+-   Social desirability bias typically stems from the desire of respondents to avoid embarrassment and project a favorable image to others, resulting in respondents not revealing their actual attitudes. The prevalence of this bias will depend on the topic, questions, respondent, mode of the survey, and the social context. For instance, in some circles, anti-immigrant views are not tolerated, and those who hold them may try to hide them. In other settings, people express such views more freely.
+
+-   Acquiescence is the tendency to answer items in a positive way regardless of their content, for instance, systematically selecting categories such as “agree,” “true,” or “yes”.
+
+### Solution to the bias in our survey
+
+To mitigate bias, we enhance our survey in the following ways, drawing on recommendations from @survey:
+
+Addressing Extreme/Moderacy Bias: We customize the scale and response options with differentiated alternatives. Three-point answer scales can lead to extreme response bias or moderacy bias due to insufficient options. Therefore, for every scale question, we designed at least five response options, which reduces the likelihood of respondents choosing the middle answers because of a lack of alternatives.
+
+Mitigating Response Order Bias: We implement a solution involving seemingly open-ended questions and randomizing the order of response options for unordered (nominal) questions. For ordinal questions, we invert the order. For example, instead of asking, "Will you choose candidate A or candidate B?" we ask, "Who would you vote for? \[pause\] Candidate A or Candidate B?" Additionally, using Google Forms, we randomize the order of options for all unordered questions to further reduce response order bias.
+
+Minimizing Social Desirability Bias (SDB): Given that our survey is conducted online, we employ a minimized SDB format. A recommended strategy for recruiting respondents is to provide only basic information about the survey's purpose at the outset, which engages participants without overwhelming them. Therefore, in the introduction, we state that the survey aims for academic research in Statistics, omitting details about our affiliations or the specific use of the data. We simply inform participants that, "This survey is for nonpartisan researchers in academic research in Statistics." At the end of the survey, we include a feedback section to gauge attitudes toward the surveyor or entity.
+
+Ensuring Anonymity (Minimizing SDB): The complete anonymity of respondents is a crucial aspect of our survey. We guarantee this anonymity as stated on the survey landing and consent page. Before sensitive questions, we will reinforce that all answers are confidential and anonymous, reminding participants of their privacy. We will strategically place sensitive items within the survey to minimize the risk of social desirability bias (SDB).
+
+Reducing Acquiescence Bias: To tackle acquiescence bias, we avoid agree-disagree, true-false, and yes-no question formats. Instead of using agree-disagree questions, we formulate inquiries that utilize direct, item-specific scales tailored to the question. For instance, when asking for respondents' views on candidates, we use options like "very unfavorable, unfavorable, moderate, favorable, very favorable" instead of simple yes or no. Furthermore, we ensure that our questions offer answer options that encompass all possible views. For example, in the question "Do you approve or disapprove of the job Joe Biden is doing as President?", we provide the options "Approve, Disapprove, Neutral or no opinion" rather than just yes or no.
 
 ### Budget Breakdown
 
@@ -325,15 +355,6 @@ Social Media Recruitment (Facebook, Instagram): \$12,000 (400 respondents at \$3
 Data Validation and Quality Control: \$6,000 This covers voter registration verification, attention checks within the survey, and extensive post-collection filtering, particularly for social media responses. Ensuring the integrity and accuracy of the data is crucial to minimize biases and errors.
 
 ## U.S. Presidential Election Polls Survey
-
----
-title: "U.S. Presidential Election Polls Survey"
-author: "Diana Shen, Jinyan Wei, Jerry Yu"
-date: "`r Sys.Date()`"
-output: pdf_document
----
-
-Welcome
 
 Welcome to our 2024 U.S. Presidential Election Polls Survey. Your participation in this survey is vital in helping us understand voters' preferences and opinions on key issues. Rest assured that your responses are anonymous and will only be used for statistical analysis.
 
@@ -364,7 +385,7 @@ Section 1: Survey Questions
     -   Republican
     -   Independent/ Other
     -   Prefer not to say
-    -   Other: __________
+    -   Other: \_\_\_\_\_\_\_\_\_\_
 
 3.  **If the Presidential Election were held today, would you vote for Kamala Harris or Donald Trump?**
 
@@ -377,13 +398,12 @@ Section 1: Survey Questions
 4.  **Although you are undecided, which candidate do you lean toward?**(Jump to this question only if responders choose undecided in Question 3)
 
     -   Kamala Harris
-    -   Kamala Harris
     -   Donald Trump
 
 5.  **How favorable are you towards the following candidates?**
 
     |               | Very unfavorable | Unfavorable | Moderate | Favorable | Very favorable |
-    |---------------|------------------|-------------|----------|-----------|----------------|
+    |------------|------------|------------|------------|------------|------------|
     | Kamala Harris |                  |             |          |           |                |
     | Donald Trump  |                  |             |          |           |                |
 
@@ -413,12 +433,12 @@ Section 1: Survey Questions
     -   Other
     -   Prefer not to say
 
-10. **Imagine the following candidates: Candidate A favors cutting taxes but has a weak stance on climate change, and Candidate B focuses on healthcare but supports increased military spending. Who would you vote for?**
+10. **Imagine the following candidates: Candidate A favors cutting taxes but has a weak stance on climate change, and Candidate B focuses on healthcare but supports increased military spending.Who would you vote for? Candidate A or Candidate B?**
 
     -   Candidate A
     -   Candidate B
 
-11. **Imagine two candidates: Candidate A supports education reform but plans to cut social security, and Candidate B focuses on green energy but raises taxes. Who would you vote for?**
+11. **Imagine two candidates: Candidate A supports education reform but plans to cut social security, and Candidate B focuses on green energy but raises taxes. Who would you vote for? Candidate A or Candidate B?**
 
     -   Candidate A
     -   Candidate B
@@ -432,7 +452,7 @@ Section 1: Survey Questions
     -   National Security
     -   Education
     -   Social Security
-    -   Other: __________
+    -   Other: \_\_\_\_\_\_\_\_\_\_
 
 13. **Select option 3 from the list below:**
 
@@ -530,7 +550,7 @@ Your demographic information is collected anonymously and will be used for stati
 
 Section 3: Feedback
 
-1.  **Do you have any concerns or feedback regarding the survey?**\
+1.  **Do you have any concerns or feedback regarding the survey, surveyor ,or entity?**\
     Your feedback is important to us and will help ensure transparency and trust in the research process.
 
 ------------------------------------------------------------------------
