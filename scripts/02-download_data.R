@@ -27,5 +27,5 @@ write_csv(
   file = "~/2024 US Election Forecast/data/01-raw_data/raw_election_24.csv"
 )
 
-head(toronto_shelters)
-
+head(raw_elections_data)
+raw_elections_data<-read.csv("~/2024 US Election Forecast/data/01-raw_data/raw_election_24.csv")
