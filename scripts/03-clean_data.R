@@ -1,44 +1,54 @@
 #### Preamble ####
-# Purpose: Cleans the raw plane data recorded by two observers..... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 6 April 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Cleans the raw polling data for the 2024 U.S. presidential election and prepares it for multi-level regression with post-stratification (MRP) analysis
+# Author: [Your Name]
+# Date: [Today's Date]
+# Contact: [Your Email]
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: Ensure the raw data file `president_polls_1027.csv` is located in the `data/01-raw_data/` directory, and that necessary packages are installed.
 
 #### Workspace setup ####
 library(tidyverse)
+library(janitor)
+library(lubridate)
 
 #### Clean data ####
-raw_data <- read_csv("inputs/data/plane_data.csv")
+# Load the raw polling data
+raw_data <- read_csv("data/01-raw_data/president_polls.csv")
 
-cleaned_data <-
-  raw_data |>
-  janitor::clean_names() |>
-  select(wing_width_mm, wing_length_mm, flying_time_sec_first_timer) |>
-  filter(wing_width_mm != "caw") |>
+#### Clean data ####
+cleaned_data <- 
+  raw_data %>%
+  clean_names() %>%
+  # Select relevant columns for analysis
+  select(
+    pollster, numeric_grade, state, candidate_name, pct, sample_size, 
+    population, methodology, start_date, end_date
+  ) %>%
+  # Filter for Kamala Harris only, as we're interested in her percentage support
+  filter(candidate_name == "Kamala Harris") %>%
+  # Drop rows with missing values in essential columns
+  drop_na(numeric_grade, pct, sample_size, end_date) %>%
+  # Standardize state names and handle national vs. state-specific polls
   mutate(
-    flying_time_sec_first_timer = if_else(flying_time_sec_first_timer == "1,35",
-                                   "1.35",
-                                   flying_time_sec_first_timer)
-  ) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "490",
-                                 "49",
-                                 wing_width_mm)) |>
-  mutate(wing_width_mm = if_else(wing_width_mm == "6",
-                                 "60",
-                                 wing_width_mm)) |>
+    state = if_else(state == "--", NA_character_, state),
+    national_poll = if_else(is.na(state), 1, 0)  # 1 for national, 0 for state-specific
+  ) %>%
+  # Convert start_date and end_date to Date format
   mutate(
-    wing_width_mm = as.numeric(wing_width_mm),
-    wing_length_mm = as.numeric(wing_length_mm),
-    flying_time_sec_first_timer = as.numeric(flying_time_sec_first_timer)
-  ) |>
-  rename(flying_time = flying_time_sec_first_timer,
-         width = wing_width_mm,
-         length = wing_length_mm
-         ) |> 
-  tidyr::drop_na()
+    start_date = mdy(start_date),
+    end_date = mdy(end_date)
+  ) %>%
+  # Calculate recency weight using exponential decay (more recent polls get higher weight)
+  mutate(
+    days_since_poll = as.numeric(difftime(Sys.Date(), end_date, units = "days")),
+    recency_weight = exp(-days_since_poll / 30)  # Adjust decay rate as needed
+  ) %>%
+  # Apply sample size weight, capped at a maximum of 2,300 responses
+  mutate(sample_size_weight = pmin(sample_size / 2300, 1)) %>%
+  # Finalize relevant columns for modeling and remove unneeded columns
+  select(pollster, numeric_grade, state, pct, sample_size, 
+         population, methodology, recency_weight, sample_size_weight, national_poll)
 
-#### Save data ####
-write_csv(cleaned_data, "outputs/data/analysis_data.csv")
+#### Save cleaned data ####
+write_csv(cleaned_data, "data/02-analysis_data/cleaned_harris_support.csv")
+
