@@ -2,21 +2,18 @@
 
 ## Overview
 
-This repository contains the analysis and methodology used to predict the outcome of the 2024 U.S. Presidential election. The primary objective is to forecast the popular vote and Electoral College results for the two major candidates: Kamala Harris (Democrat) and Donald Trump (Republican), based on aggregated polling data. The project incorporates statistical modeling, demographic analysis, and discussions on polling methodologies to provide a robust election prediction.
-
-
-
+This repository contains the analysis and methodology used to predict the outcome of the 2024 U.S. Presidential election. The primary objective is to forecast the popular vote and Electoral College results for the two major candidates: Kamala Harris (Democrat) and Donald Trump (Republican), based on aggregated polling data. The project incorporates statistical modeling, demographic analysis, and discussions on polling methodologies to provide a robust election prediction. This repository provides readers with all the necessary data, R scripts, and files to understand and reproduce an analysis on 2024 US election prediction based on poll of polls.
 
 ## File Structure
 
-The repo is structured as:
+The repository is structured as:
 
--   `data/raw_data` contains the raw poll data as obtained from FiveThirtyEight.
--   `data/analysis_data` contains the cleaned dataset that was constructed.
--   `model` contains fitted models. 
--   `other` contains relevant literature, details about LLM chat interactions, and sketches.
--   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
--   `scripts` contains the R scripts used to simulate, download and clean data.
+-   `data/raw_data` contains the raw poll data as obtained from [FiveThirtyEight](https://projects.fivethirtyeight.com/polls/president-general/2024/national/).To open these data through GitHub, they can be downloaded. Alternatively, to view these files within RStudio, they can be imported using the library `readr`.
+-   `data/02-analysis_data` contains the cleaned dataset that was constructed in `scripts/03-clean_data`.
+-   The `scripts` folder contains the R scripts and code that simulated, tested, downloaded, and cleaned the data.
+-   `model` contains fitted models.
+-   `other` contains details about LLM chat interactions, and sketches.
+-   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper.
 
 
 ## Statement on LLM usage
