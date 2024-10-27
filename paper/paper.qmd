@@ -130,7 +130,9 @@ Sketches depicting both the desired dataset and the graphs generated in this ana
 
 ## Data Cleaning 
 
-The data cleaning process involved filtering data to just high-quality pollsters (i.e numeric_grade >= 3.0) and filter to just Harris (i.e. candidate_name == "Kamala Harris")
+In this data-cleaning process, we focus on refining raw polling data to enhance its quality and relevance for subsequent analysis. The dataset is first loaded and cleaned using the janitor package to standardize column names, ensuring consistency. We then filter the data to include only relevant columns and remove any rows with missing values in critical fields such as numeric_grade, pct, sample_size, and end_date. Specifically, we isolate the polling data for Kamala Harris and Donald Trump, applying a condition to keep only high-quality polls with a numeric grade of 2 or higher since we find out that the mean of the numeric grade is 2.175 while the median is 1.9.
+
+For state-level polls, we address any placeholder states marked as "--" by converting them to NA. A national poll indicator is created, assigning a value of 1 for national polls and 0 for state-specific ones. Dates are converted to a standard format using the lubridate package to ensure correct handling in analyses. We calculate recency weights based on how many days have passed since the poll ended, applying an exponential decay to give more weight to recent polls. A sample size weight is also implemented, capping the weights at a maximum of 2,300 responses to reflect the reliability of larger sample sizes[@nyt_polling_averages]. Finally, the cleaned datasets for both candidates are saved in CSV format for further modeling and analysis. This systematic approach ensures that the data is accurate, complete, and ready for insightful analysis.
 
 ## Analysis Data Summary Statistics
 
