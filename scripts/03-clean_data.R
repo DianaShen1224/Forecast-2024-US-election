@@ -30,21 +30,24 @@ just_harris_high_quality <- cleaned_data |>
     numeric_grade >= 2 # mean of numeric_gradeis 2.175, median is 1.9 
   ) |>
   mutate(
-    state = if_else(is.na(state), "National", state), # Hacky fix for national polls - come back and check
+    state = if_else(state == "--", NA_character_, state),
+    national_poll = if_else(is.na(state), 1, 0)  # 1 for national, 0 for state-specific
   ) |> mutate(
     start_date = mdy(start_date),
     end_date = mdy(end_date)
   )|>
-  filter(end_date >= as.Date("2024-07-21")) |> # When Harris declared
+  # Calculate recency weight using exponential decay (more recent polls get higher weight)
   mutate(
-    num_harris = round((pct / 100) * sample_size, 0) # Need number not percent for some models
-  )|>
-mutate(sample_size_weight = pmin(sample_size / 2300, 1)) |>
+    days_since_poll = as.numeric(difftime(Sys.Date(), end_date, units = "days")),
+    recency_weight = exp(-days_since_poll / 30)  # Adjust decay rate as needed
+  ) |>
+  # Apply sample size weight, capped at a maximum of 2,300 responses
+  mutate(sample_size_weight = pmin(sample_size / 2300, 1)) |>
   # Finalize relevant columns for modeling and remove unneeded columns
   select(pollster, numeric_grade, state, pct, sample_size, 
          population, methodology, recency_weight, sample_size_weight, national_poll)
 
-just_trump_high_quality <- cleaned_data cleaned_data |>
+just_trump_high_quality <- cleaned_data|>
   # Select relevant columns for analysis
   select(
     pollster, numeric_grade, state, candidate_name, pct, sample_size, 
@@ -53,24 +56,26 @@ just_trump_high_quality <- cleaned_data cleaned_data |>
   # Drop rows with missing values in essential columns
   drop_na(numeric_grade, pct, sample_size, end_date)|>
   filter(
-    candidate_name == "Donald Trump",
+    candidate_name == "Donal Trump",
     numeric_grade >= 2 # mean of numeric_gradeis 2.175, median is 1.9 
   ) |>
   mutate(
-    state = if_else(is.na(state), "National", state), # Hacky fix for national polls - come back and check
+    state = if_else(state == "--", NA_character_, state),
+    national_poll = if_else(is.na(state), 1, 0)  # 1 for national, 0 for state-specific
   ) |> mutate(
     start_date = mdy(start_date),
     end_date = mdy(end_date)
   )|>
-  filter(end_date >= as.Date("2024-07-21")) |> # When Harris declared
+  # Calculate recency weight using exponential decay (more recent polls get higher weight)
   mutate(
-    num_harris = round((pct / 100) * sample_size, 0) # Need number not percent for some models
-  )|>
+    days_since_poll = as.numeric(difftime(Sys.Date(), end_date, units = "days")),
+    recency_weight = exp(-days_since_poll / 30)  # Adjust decay rate as needed
+  ) |>
+  # Apply sample size weight, capped at a maximum of 2,300 responses
   mutate(sample_size_weight = pmin(sample_size / 2300, 1)) |>
   # Finalize relevant columns for modeling and remove unneeded columns
   select(pollster, numeric_grade, state, pct, sample_size, 
          population, methodology, recency_weight, sample_size_weight, national_poll)
-
 #### Save data ####
 write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.csv")
 write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Trump.csv")
