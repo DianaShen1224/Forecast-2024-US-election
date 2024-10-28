@@ -128,7 +128,7 @@ first_model <-
 
 Sketches depicting both the desired dataset and the graphs generated in this analysis are available in the GitHub Repository `other/sketches`.
 
-## Data Cleaning 
+## Data Cleaning
 
 In this data-cleaning process, we focus on refining raw polling data to enhance its quality and relevance for subsequent analysis. The dataset is first loaded and cleaned using the janitor package to standardize column names, ensuring consistency. We then filter the data to include only relevant columns and remove any rows with missing values in critical fields such as numeric_grade, pct, sample_size, and end_date. Specifically, we isolate the polling data for Kamala Harris and Donald Trump, applying a condition to keep only high-quality polls with a numeric grade of 2 or higher since we find out that the mean of the numeric grade is 2.175 while the median is 1.9.
 
@@ -138,13 +138,11 @@ For state-level polls, we address any placeholder states marked as "--" by conve
 
 @tbl-analysisdata presents the summary statistics for each recorded incident type for the years 2017 to 2022.
 
-## Attribution Statement 
- 
+## Attribution Statement
+
 This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). You are free to share, copy, redistribute, remix, transform, and build upon the material for any purpose, even commercially, as long as you credit the original creation.
 
-
 > "Title of the Work" by Author Name, licensed under CC BY 4.0.
-
 
 # Model details {#sec-model-details}
 
@@ -196,7 +194,7 @@ plot(first_model, "trace")
 plot(first_model, "rhat")
 ```
 
-# The New York Times/Siena College Polling Methodology
+# The New York Times/Siena College Polling Methodology {#third-poll}
 
 This appendix provides a comprehensive overview of the methodology employed by the Siena College Polling Institute in conducting its surveys.Siena College is renowned for its methodologically rigorous approach to political polling, focusing on accurately capturing voter sentiment during elections. Siena College has conducted polls in three key states: Michigan, Wisconsin, and Ohio.
 
@@ -258,23 +256,45 @@ The final likely electorate weight was calculated by multiplying the modeled ele
 
 ## Questionnaire Design
 
+### Response bias defination
+
+In the design of the questionnaire, there will be some common bias that may occur when running the questionnaire.
+
+@survey define these bias as:
+
+-   Moderacy response bias is the tendency to respond to each question by choosing a category in the middle of the scale.
+
+-   Extreme response bias is the tendency to respond with extreme values on the rating scale.
+
+-   Response order bias occurs when the order of response options in a list or a rating scale influences the response chosen. The primacy effect occurs when respondents are more likely to select one of the first alternatives provided, and it is more common in written surveys. This tendency can be due to satisficing, whereby a respondent uses the first acceptable response alternative without paying particular attention to the other options. The recency effect occurs when respondents choose one of the last items presented to them (more common in face-to-face or orally presented surveys).
+
+-   Social desirability bias typically stems from the desire of respondents to avoid embarrassment and project a favorable image to others, resulting in respondents not revealing their actual attitudes. The prevalence of this bias will depend on the topic, questions, respondent, mode of the survey, and the social context. For instance, in some circles, anti-immigrant views are not tolerated, and those who hold them may try to hide them. In other settings, people express such views more freely.
+
+-   Acquiescence is the tendency to answer items in a positive way regardless of their content, for instance, systematically selecting categories such as “agree,” “true,” or “yes”.
+
+### Strengths and Weakness
+
 **Strengths**:
 
 The questionnaire is crafted to be concise and straightforward, effectively minimizing respondent fatigue and maximizing clarity in question phrasing. This design is essential for maintaining participant engagement, especially in surveys that may include a wide array of questions. Additionally, the use of a mix of closed and open-ended formats allows for a comprehensive analysis of voter sentiment. Closed-ended questions yield quantifiable data, enabling researchers to identify trends and patterns, while open-ended questions provide rich qualitative insights that contextualize these trends.
 
-The careful structuring of questions also plays a crucial role in reducing moderacy bias, where respondents might lean towards neutral options when unsure. By providing clear response categories, the questionnaire encourages participants to express their opinions more decisively. Furthermore, the inclusion of diverse question types can mitigate acquiescence bias, which occurs when respondents habitually agree with statements instead of reflecting their true feelings. By framing questions in a balanced manner and avoiding leading language, the design helps ensure that participants feel comfortable expressing varied opinions.
+The careful structuring of questions also plays a crucial role in reducing moderacy bias, where respondents might lean towards neutral options when unsure. By providing clear response categories, the questionnaire encourages participants to express their opinions more decisively. For each of the degree question, Siena designed at least 4 options to help the respondents not only choose extreme or moderate answer in the question.
+
+Furthermore, the inclusion of diverse question types can mitigate acquiescence bias, which occurs when respondents habitually agree with statements instead of reflecting their true feelings. By framing questions in a balanced manner and avoiding leading language, the design helps ensure that participants feel comfortable expressing varied opinions.
 
 **Weaknesses**:
 
-However, the questionnaire is not without its weaknesses. Critics highlight that the reliance on agree-disagree formats can lead to acquiescence bias, where respondents might select favorable options rather than accurately expressing their true opinions. This tendency skews the results, potentially misrepresenting genuine voter sentiment and leading to misleading conclusions.
+However, the questionnaire is not without its weaknesses. Critics highlight that the reliance on agree-disagree, yes-no formats can lead to acquiescence bias, where respondents might select favorable options rather than accurately expressing their true opinions. This tendency skews the results, potentially misrepresenting genuine voter sentiment and leading to misleading conclusions.
 
 Moreover, the questionnaire may not adequately address the nuances that are important to specific demographic groups, resulting in potential gaps in understanding voter motivations. For instance, certain groups may have distinct issues or concerns that are not adequately captured by the survey's questions. This limitation can contribute to nonresponse bias, where individuals from underrepresented groups choose not to participate or drop out of the survey, further skewing the results.
 
-Additionally, the structure of the questions could inadvertently create extreme response bias, where participants feel pressured to choose the most extreme options rather than selecting a moderate stance. This bias can be exacerbated by the order in which questions are presented. If respondents encounter highly charged or leading questions early in the survey, they may be influenced to respond similarly in subsequent questions, a phenomenon known as ordering bias.
+Additionally, since we don’t know whether they use randomization when interviewers ask the respondents, there might be response order bias with the occurrence of recency effect, in which respondents choose one of the last items presented to them ( as telephone survey is orally presented surveys). This bias can be exacerbated by the order of response options in a list or a rating scale influences the response chosen [@survey].
 
-Furthermore, while the questionnaire aims to be inclusive, if it fails to adequately represent the voices of certain demographic groups, it could lead to a lack of adequacy in the data collected. This inadequacy undermines the ability to draw comprehensive conclusions about the electorate, particularly in a diverse political landscape.
+Furthermore, as the questionnaire hasn't been provided, we haven't found an assured of complete anonymity in the survey landing and consent page (record of interviewers' words) in the posted questionnaire. This might cause social desirability bias, which typically stems from the desire of respondents to avoid embarrassment and project a favorable image to others, resulting in respondents not revealing their actual attitudes. Thus Siena cannot get the true polls from their sample.
 
-In summary, while the questionnaire design has strengths in clarity and mixed-format questions that encourage engagement and nuanced responses, it also faces challenges related to biases such as acquiescence, nonresponse, extreme response tendencies, and ordering effects. To enhance its effectiveness, future iterations of the questionnaire should strive to incorporate more varied question types, ensure demographic representation, and remain mindful of question order and phrasing to minimize the potential for bias and improve the overall validity of the findings.
+Finally, we noticed that the questionnaire is quite long, with more than 50 questions. It will significantly increase the attribution rate of the questionnaires, especially in a telephone survey which takes more time than the online panel. This will increase the possibility of the occurrence of non-response bias.
+
+In summary, the questionnaire exhibits strengths such as clarity and a mixed-format approach that promotes engagement and nuanced responses. However, it faces significant challenges related to biases including acquiescence, nonresponse, social desirability, and ordering effects. To enhance its effectiveness, future iterations should incorporate a broader range of question types, ensure demographic representation, and carefully consider question order and phrasing. Addressing these issues is crucial for minimizing bias and improving the overall validity of the findings.
 
 # Idealized Methodology for US Presidential Election Forecast
 
@@ -320,9 +340,9 @@ By using historical voter turnout to adjust our polling sample, we ensure that r
 
 After determining the number of respondents to be sampled from each region, stratified sampling will be employed across key demographic categories, including age, gender, race/ethnicity, and education level. This approach ensures that the final sample accurately reflects the diversity of the U.S. voting population by proportionally representing each subgroup within every region. To mitigate potential non-response bias, post-stratification weighting[^2] will be applied, correcting for any imbalances caused by variations in response rates among different demographic groups. The sample will be stratified based on several critical demographic and geographic variables to guarantee proportional representation of the U.S. voting population. Strata information will be sourced from U.S. census data obtained through IPUMS USA [@ruggles2024ipums].
 
-These variables include age, with categories such as 18-24 (12%), 25-34 (17%), 35-44 (16%), 45-54 (16%), 55-64 (16%), and 65+ (23%); gender, split into male (48%), female (52%), and non-binary/other (less than 1%); and race/ethnicity, covering groups like White/Caucasian (67%), Black/African American (13%), Hispanic/Latino (13%), Asian/Pacific Islander (5%), Native American/Alaskan Native (1%), and Other/Mixed Race (1%). Additionally, education level will be stratified into high school diploma or less (36%), some college, no degree (17%), Associate’s degree (9%), Bachelor’s degree (23%), and graduate or professional degree (15%). Geographic region will also be a key factor, ensuring representation from the Midwest (21%), Northeast (17%), South (38%), and West (24%). For each variable, U.S. Census or voter turnout data will be used to proportionally allocate respondents, ensuring that the final sample closely mirrors the demographic and regional composition of the actual voting population. Post-stratification weighting will be applied to adjust for any imbalances that may occur during data collection.
-
 [^2]: Post-stratification weighting adjusts survey data by applying weights to under- or over-represented demographic groups in the sample, ensuring the final results align with the true population distribution and reducing biases such as non-response bias.
+
+These variables include age, with categories such as 18-24 (12%), 25-34 (17%), 35-44 (16%), 45-54 (16%), 55-64 (16%), and 65+ (23%); gender, split into male (48%), female (52%), and non-binary/other (less than 1%); and race/ethnicity, covering groups like White/Caucasian (67%), Black/African American (13%), Hispanic/Latino (13%), Asian/Pacific Islander (5%), Native American/Alaskan Native (1%), and Other/Mixed Race (1%). Additionally, education level will be stratified into high school diploma or less (36%), some college, no degree (17%), Associate’s degree (9%), Bachelor’s degree (23%), and graduate or professional degree (15%). Geographic region will also be a key factor, ensuring representation from the Midwest (21%), Northeast (17%), South (38%), and West (24%). For each variable, U.S. Census or voter turnout data will be used to proportionally allocate respondents, ensuring that the final sample closely mirrors the demographic and regional composition of the actual voting population. Post-stratification weighting will be applied to adjust for any imbalances that may occur during data collection.
 
 ## Target Population
 
@@ -337,7 +357,7 @@ Based on the recruitment method we discussed later, our sampling frame could be 
 We plan to survey 300 respondents, which will provide a margin of error of approximately ±1.7 percentage points, ensuring a high level of confidence in the results. Given the limited sample size and to enhance the effectiveness of stratified sampling, the states will be grouped into four regions: Midwest, Northeast, South, and West. The sample size for each region will be allocated based on the proportion of total ballots cast in each region during the 2020 election. The regional grouping of states is shown in @tbl-region.
 
 | **Region**    | **States**                                                                                                                                                 |
-|------------------------|------------------------------------------------|
+|------------------------|-----------------------------------------------|
 | **MIDWEST**   | Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, North Dakota, Ohio, South Dakota, Wisconsin                                      |
 | **Northeast** | Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont      |
 | **SOUTH**     | Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Virginia, West Virginia |
@@ -355,7 +375,6 @@ We plan to survey 300 respondents, which will provide a margin of error of appro
 : Regional Voting Data and Sample Size Allocation Based on 2020 Election Turnout {#tbl-samplesize}
 
 @tbl-samplesize shows the regional breakdown of the 2020 election data, sourced from [@wikivote], including voter turnout, total ballots cast, and Voting Eligible Population (VEP). The sample size for each region shown in @tbl-samplesize was determined based on the **Composite Measure Sampling Proportion**.
-
 
 ## Recruitment of Respondents
 
@@ -404,17 +423,7 @@ In our survey, several questions are adapted from the Emerson College Polling da
 
 ### Defination of the response bias
 
-@survey define these bias as:
-
--   Moderacy response bias is the tendency to respond to each question by choosing a category in the middle of the scale.
-
--   Extreme response bias is the tendency to respond with extreme values on the rating scale.
-
--   Response order bias occurs when the order of response options in a list or a rating scale influences the response chosen. The primacy effect occurs when respondents are more likely to select one of the first alternatives provided, and it is more common in written surveys. This tendency can be due to satisficing, whereby a respondent uses the first acceptable response alternative without paying particular attention to the other options. The recency effect occurs when respondents choose one of the last items presented to them (more common in face-to-face or orally presented surveys).
-
--   Social desirability bias typically stems from the desire of respondents to avoid embarrassment and project a favorable image to others, resulting in respondents not revealing their actual attitudes. The prevalence of this bias will depend on the topic, questions, respondent, mode of the survey, and the social context. For instance, in some circles, anti-immigrant views are not tolerated, and those who hold them may try to hide them. In other settings, people express such views more freely.
-
--   Acquiescence is the tendency to answer items in a positive way regardless of their content, for instance, systematically selecting categories such as “agree,” “true,” or “yes”.
+We have defined the bias we want to solve in [Appendix C](#third-poll).
 
 ### Solution to the response bias in our survey
 
@@ -429,7 +438,6 @@ Minimizing Social Desirability Bias (SDB): Given that our survey is conducted on
 Ensuring Anonymity (Minimizing SDB): The complete anonymity of respondents is a crucial aspect of our survey. We guarantee this anonymity as stated on the survey landing and consent page. Before sensitive questions, we will reinforce that all answers are confidential and anonymous, reminding participants of their privacy. We will strategically place sensitive items within the survey to minimize the risk of social desirability bias (SDB).
 
 Reducing Acquiescence Bias: To tackle acquiescence bias, we avoid agree-disagree, true-false, and yes-no question formats. Instead of using agree-disagree questions, we formulate inquiries that utilize direct, item-specific scales tailored to the question. For instance, when asking for respondents' views on candidates, we use options like "very unfavorable, unfavorable, moderate, favorable, very favorable" instead of simple yes or no. Furthermore, we ensure that our questions offer answer options that encompass all possible views. For example, in the question "Do you approve or disapprove of the job Joe Biden is doing as President?", we provide the options "Approve, Disapprove, Neutral or no opinion" rather than just yes or no.
-
 
 ## Budget Breakdown
 
@@ -448,7 +456,7 @@ Welcome to our 2024 U.S. Presidential Election Polls Survey. Your participation 
 This survey is for academic research in Statistics. It consists of 26 carefully designed questions and should take approximately 12-15 minutes to complete.
 
 For any questions or concerns regarding this survey, please contact:\
-**Email:**  diana.shen\@mail.utoronto.ca; jinyan.wei\@mail.utoronto.ca; huayan.yu\@mail.utoronto.ca
+**Email:** diana.shen\@mail.utoronto.ca; jinyan.wei\@mail.utoronto.ca; huayan.yu\@mail.utoronto.ca
 
 ------------------------------------------------------------------------
 
