@@ -11,6 +11,9 @@ abstract: "This paper predicts the outcome of the 2024 U.S. presidential electio
 format: pdf
 number-sections: true
 bibliography: references.bib
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r}
@@ -23,25 +26,75 @@ library(tidyverse)
 
 # Introduction
 
-Election forecasting has long played a crucial role in understanding public opinion and predicting the outcome of political contests. The use of data-driven methods, particularly polling data, has become an important pre-election analytical tool for political analysts. The purpose of this paper is to predict the winner of the upcoming 2024 U.S. presidential election by constructing a statistical model based on aggregated polling data. The “polling” approach combines results from different pollsters to provide a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015), and our goal is to predict the outcome of the popular vote and the Electoral College. Our analysis, based on data collected from multiple polling sources, captures voter intentions for the two major candidates, Kamala Harris (Democrat) and Donald Trump (Republican).
+Election forecasting has long played a crucial role in understanding
+public opinion and predicting the outcome of political contests. The use
+of data-driven methods, particularly polling data, has become an
+important pre-election analytical tool for political analysts. The
+purpose of this paper is to predict the winner of the upcoming 2024 U.S.
+presidential election by constructing a statistical model based on
+aggregated polling data. The “polling” approach combines results from
+different pollsters to provide a more comprehensive picture of voter
+preferences (Blumenthal 2014; Pasek 2015), and our goal is to predict
+the outcome of the popular vote and the Electoral College. Our analysis,
+based on data collected from multiple polling sources, captures voter
+intentions for the two major candidates, Kamala Harris (Democrat) and
+Donald Trump (Republican).
 
-In addition to constructing and interpreting predictive models, this paper dive into the methods used by xx pollsters, analyzing the strengths as well as the weaknesses of the methods used against them. At the end of the paper, we also propose an idealized survey methodology for election forecasting with a budget of \$100,000 USD.
+In addition to constructing and interpreting predictive models, this
+paper dive into the methods used by xx pollsters, analyzing the
+strengths as well as the weaknesses of the methods used against them. At
+the end of the paper, we also propose an idealized survey methodology
+for election forecasting with a budget of \$100,000 USD.
 
-This paper begins with an introduction to data in Section 2. In this section, we focus on measurement techniques and the visualization and analysis of key variables. Next, in Section 3, we provide an overview of the linear model used to analyze the relationships within the dataset. The results of the analysis are detailed in Section 4 (Results). Finally, in Section 5, we summarize our main conclusions as well as suggest some possible future research directions.
+This paper begins with an introduction to data in Section 2. In this
+section, we focus on measurement techniques and the visualization and
+analysis of key variables. Next, in Section 3, we provide an overview of
+the linear model used to analyze the relationships within the dataset.
+The results of the analysis are detailed in Section 4 (Results).
+Finally, in Section 5, we summarize our main conclusions as well as
+suggest some possible future research directions.
 
 # Data {#sec-data}
 
 ## Overview
 
-The data for this paper was sourced from ABC News (xxxxx). The statistical software R (R Core Team, 2023) was employed to retrieve, clean, and process the dataset. Specifically, the tidyverse package (Wickham et al., 2019) was used for data acquisition, cleaning, and processing. The ggplot2 (Wickham, 2016) package was utilized to generate the visualizations.
+The data for this paper was sourced from ABC News (xxxxx). The
+statistical software R (R Core Team, 2023) was employed to retrieve,
+clean, and process the dataset. Specifically, the tidyverse package
+(Wickham et al., 2019) was used for data acquisition, cleaning, and
+processing. The ggplot2 (Wickham, 2016) package was utilized to generate
+the visualizations.
 
 ## Measurement
 
-The data used to predict the outcome of the 2024 U.S. presidential election in this study came from a variety of polling sources. The results of these polls represent key measures of electoral support and voter sentiment, and are therefore the main variables in our analysis.
+The data used to predict the outcome of the 2024 U.S. presidential
+election in this study came from a variety of polling sources. The
+results of these polls represent key measures of electoral support and
+voter sentiment, and are therefore the main variables in our analysis.
 
-To ensure that polling data accurately reflect real-world voter preferences, we rely on several key measurement constructs. First, voter preferences are measured by the percentage of respondents who indicated support for each candidate. Each poll is conducted using different sample sizes, sampling methods (e.g., online surveys, IVR calls, etc.), which can inject more variability into the data. To mitigate these differences, we aggregate poll results using a “”poll of polls“” methodology that eliminates anomalies and provides a more comprehensive picture of voter preferences (Blumenthal 2014; Pasek 2015).
+To ensure that polling data accurately reflect real-world voter
+preferences, we rely on several key measurement constructs. First, voter
+preferences are measured by the percentage of respondents who indicated
+support for each candidate. Each poll is conducted using different
+sample sizes, sampling methods (e.g., online surveys, IVR calls, etc.),
+which can inject more variability into the data. To mitigate these
+differences, we aggregate poll results using a “”poll of polls“”
+methodology that eliminates anomalies and provides a more comprehensive
+picture of voter preferences (Blumenthal 2014; Pasek 2015).
 
-In this study, we recognize the measurement problems inherent in polling data. Polls rely on sample data to represent the entire voting population, and therefore, there may be potential biases in the data. For example, there may be no-response bias due to the potential under representation of certain populations, or because of the wording of the questions and thus the influence of respondents to report their preferences. Therefore, in this study, we chose to analyze aggregated data from multiple pollsters and adjust for sampling variability and response rates in an effort to be able to provide a more robust measure of electoral support. We believe that our aggregated dataset can serve as a reliable basis for our predictive model to help us translate the data into quantitative metrics that can be used to predict election outcomes.
+In this study, we recognize the measurement problems inherent in polling
+data. Polls rely on sample data to represent the entire voting
+population, and therefore, there may be potential biases in the data.
+For example, there may be no-response bias due to the potential under
+representation of certain populations, or because of the wording of the
+questions and thus the influence of respondents to report their
+preferences. Therefore, in this study, we chose to analyze aggregated
+data from multiple pollsters and adjust for sampling variability and
+response rates in an effort to be able to provide a more robust measure
+of electoral support. We believe that our aggregated dataset can serve
+as a reliable basis for our predictive model to help us translate the
+data into quantitative metrics that can be used to predict election
+outcomes.
 
 ## Outcome variables
 
@@ -49,46 +102,97 @@ In this study, we recognize the measurement problems inherent in polling data. P
 
 # Model
 
-We performed multi-level regression with post-stratification (MRP) to predict support for Kamala Harris in the upcoming election. To perform MRP, we fit a logistic regression model to predict support for Harris using sex, age, race, race_hispanic, highest level of education, state, and urban as predictors on our survey data set [@americaspoliticalpulse], and post-stratified it using ACS census data [@citeIPUMS].
+We conducted a regression analysis to predict support for Kamala Harris
+in the 2024 U.S. presidential election. Our analysis includes two
+models: an **unweighted linear model** and a **weighted linear model**.
+These models predict Harris’s support as a continuous outcome across
+different states, using aggregated polling data with a focus on
+adjusting for poll quality, sample size, recency, and potential
+partisanship biases. This setup aligns with the New York Times
+methodology for election polling, which assigns weights based on poll
+quality, sample size, and recency of the poll to reflect an accurate
+picture of voter sentiment [@nytimes].
 
-## Model set-up
+## Model Set-up
 
-We built our Bayesian logistic regression model using the `stan_glm()` function of the `rstanarm` package [@rstanarm]. The model that we use is:
+We implemented our linear regression models using the `lm()` function in
+R. The unweighted model provides a baseline with equal treatment for all
+polls, while the weighted model adjusts each poll observation based on
+combined factors, including recency, sample size, and poll quality. The
+model specifications are as follows:
 
-```{=tex}
-\begin{align} 
-vote\_harris_i|\pi_i &\sim \text{Bernoulli}(\pi_i) \\
-\text{logit}(\pi_i) &= \beta_0 + \beta_1 \text{sex}_i + \beta_2  \text{age\_bracket}_i + \beta_3 \text{race}_i + \beta_4 \text{race\_hispanic}_i + \beta_5 \text{education\_level}_i + \beta_6 \text{urban}_i \\
-\beta_0 &\sim \text{Normal}(0, 2.5) \\
-\beta_1 &\sim \text{Normal}(0, 2.5) \\
-\beta_2 &\sim \text{Normal}(0, 2.5) \\
-\beta_3 &\sim \text{Normal}(0, 2.5) \\
-\beta_4 &\sim \text{Normal}(0, 2.5) \\
-\beta_5 &\sim \text{Normal}(0, 2.5) \\
-\beta_6 &\sim \text{Normal}(0, 2.5)
-\end{align}
-```
-where binary variable $vote\_harris_i$ is equal to 1 if the respondent's preferred 2024 presidential candidate is Kamala Harris, or 0 if the respondent's preferred 2024 presidential candidate is Donald Trump. We run our model in R [@citeR] using `stan_glm`, with the default priors from `rstanarm` [@citerstanarm]. We then apply our model to our post-stratification data [@citeIPUMS] to predict the popular vote and electoral college results of the 2024 U.S. Presidential election.
+#### Unweighted Linear Model
 
-Our model uses logistic regression, therefore one of its weaknesses is the fact that it predicts a binary outcome and does not consider the possibility that some American adults might vote for a third-party candidate or abstain from voting. Tradeoffs and concerns about our model are discussed in more detail in @sec-weaknesses-limitations.
+The unweighted model serves as a baseline, treating all polls equally
+without incorporating adjustments for recency, sample size, or poll
+quality. The model is defined as:
 
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
+$$
+\text{Support_Harris}_i = \beta_0 + \beta_1 \cdot \text{National_Poll}_i + \epsilon_i
+$$
 
-### Model justification
+This unweighted model provides a baseline estimate of Harris’s support
+across different polls without considering variations in poll recency,
+sample size, or quality. It allows us to understand Harris’s support
+level with a simplified assumption that all polls are of equal
+relevance.
 
-We expect a positive relationship between certain demographic characteristics and support for Kamala Harris. Specifically:
+#### Weighted Linear Model
 
--   **Sex**: We might expect differences in support between male and female respondents, with women potentially being more likely to support Kamala Harris due to certain policy stances that may appeal to this demographic.
--   **Age Bracket**: Age can be a significant factor, as younger voters might lean more progressive, potentially increasing support for Kamala Harris compared to Donald Trump.
--   **Race and Hispanic Ethnicity**: Historical voting patterns suggest that non-white racial groups, including Hispanic voters, may show stronger support for Democratic candidates, such as Harris. This is reflected in the coefficients $\beta_3$ for race and $\beta_4$ for Hispanic ethnicity.
--   **Education Level**: Higher education levels are often correlated with progressive political views, so we might expect a positive relationship between education level and support for Harris.
--   **Urban**: Respondents living in urban areas may be more likely to support Kamala Harris due to the urban-rural political divide observed in recent elections, where urban areas tend to lean more Democratic.
+To enhance the accuracy of our predictions, the weighted model
+incorporates adjustments for recency, sample size, and pollster quality.
+This model is defined as:
 
-The coefficients, such as $\beta_1$ for sex and $\beta_2$ for age bracket, represent the strength of these relationships. For example, a positive value of $\beta_1$ would suggest that being female increases the probability of supporting Harris, all else being equal.
+$$
+\text{Support_Harris}_i = \beta_0 + \beta_1 \cdot \text{National_Poll}_i + \beta_2 \cdot \text{Recency_Weight}_i + \beta_3 \cdot \text{Sample_Size_Weight}_i + \beta_4 \cdot \text{Numeric_Grade}_i + \epsilon_i
+$$
 
-By using normal priors like $\beta_1 \sim \text{Normal}(0, 2.5)$, we assume that, before seeing the data, the effect of each predictor on the log-odds of supporting Kamala Harris is centered around zero, but with flexibility for the data to inform the posterior estimates.
+The weighted model applies these additional factors to account for
+variations in data quality and recency, offering a refined view of
+Harris’s support.
 
-The Bayesian framework allows us to capture the uncertainty in our estimates and to refine our understanding of how different factors influence political support as new data becomes available. This is especially important in political forecasting, where the relationships between demographic factors and candidate support can be influenced by evolving social and political dynamics.
+## Model Justification
+
+In developing our model to predict support for Kamala Harris, we
+included adjustments based on national polling, recency, sample size,
+and pollster grade. These features were selected to mitigate common
+biases in polling data and to ensure our model reflects up-to-date and
+high-quality information. The decision to incorporate recency as a
+predictor is motivated by the observation that voter sentiment can shift
+rapidly in response to events, such as debates or political
+controversies, especially as the election date approaches (The New York
+Times, 2024). Sample size was also used as a weight, as larger polls
+tend to reduce sampling variability up to a reasonable threshold, set at
+2,300 responses.
+
+Pollster quality, represented through numeric grades, accounts for
+systematic differences in methodology, professionalism, and past
+accuracy. Pollsters with a strong historical performance are given more
+weight, as they are more likely to produce unbiased and reliable
+results. The model structure, however, is based on linear regression,
+meaning it assumes an additive relationship between these predictors and
+voter support. This simplification, while computationally efficient and
+interpretable, may not capture more complex interactions between
+factors, such as shifts in demographic or regional support.
+
+Our model was implemented in R using the `lm()` function for the
+unweighted model and a weighted version for the adjusted model.
+Validation was performed using out-of-sample testing and RMSE
+calculations to assess accuracy. Sensitivity analyses were also
+conducted, examining how the model performed across different subsets of
+data.
+
+The model has several limitations, including the linearity assumption,
+which may not fully capture the dynamic nature of voter support. Its
+effectiveness relies on the assumption that the weights (recency, sample
+size, pollster grade) adequately mitigate biases in polling data.
+Additionally, it does not account for third-party candidates or
+undecided voters, which could affect the election outcome. While
+Bayesian hierarchical models were considered for their capability to
+handle multi-level data, they were ultimately set aside for a simpler,
+more interpretable linear model due to the analysis's scope and
+computational constraints. Future research should explore these more
+complex methods if time and resources permit.
 
 # Results
 
@@ -126,10 +230,12 @@ first_model <-
 
 ## Dataset and Graph Sketches
 
-Sketches depicting both the desired dataset and the graphs generated in this analysis are available in the GitHub Repository `other/sketches`.
+Sketches depicting both the desired dataset and the graphs generated in
+this analysis are available in the GitHub Repository `other/sketches`.
 
 ## Data Cleaning
 
+<<<<<<< HEAD
 In this data-cleaning process, we focus on refining raw polling data to enhance its quality and relevance for subsequent analysis. The dataset is first loaded and cleaned using the janitor package to standardize column names, ensuring consistency. We then filter the data to include only relevant columns and remove any rows with missing values in critical fields such as numeric_grade, pct, sample_size, and end_date. Specifically, we isolate the polling data for Kamala Harris and Donald Trump, applying a condition to keep only high-quality polls with a numeric grade of 2 or higher since we find out that the mean of the numeric grade is 2.175 while the median is 1.9.
 
 For state-level polls, we address any placeholder states marked as "--" by converting them to NA. A national poll indicator is created, assigning a value of 1 for national polls and 0 for state-specific ones. Dates are converted to a standard format using the lubridate package to ensure correct handling in analyses. We calculate recency weights based on how many days have passed since the poll ended, applying an exponential decay to give more weight to recent polls. A sample size weight is also implemented, capping the weights at a maximum of 2,300 responses to reflect the reliability of larger sample sizes[@nyt_polling_averages]. Finally, the cleaned datasets for both candidates are saved in CSV format for further modeling and analysis. This systematic approach ensures that the data is accurate, complete, and ready for insightful analysis.
@@ -142,15 +248,31 @@ For state-level polls, we address any placeholder states marked as "--" by conve
 
 This work is licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/). You are free to share, copy, redistribute, remix, transform, and build upon the material for any purpose, even commercially, as long as you credit the original creation.
 
+=======
+The data cleaning process involved filtering data to just high-quality
+pollsters (i.e numeric_grade \>= 3.0) and filter to just Harris (i.e.
+candidate_name == "Kamala Harris")
+
+## Attribution Statement
+
+This work is licensed under a [Creative Commons Attribution 4.0
+International License](https://creativecommons.org/licenses/by/4.0/).
+You are free to share, copy, redistribute, remix, transform, and build
+upon the material for any purpose, even commercially, as long as you
+credit the original creation.
+
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 > "Title of the Work" by Author Name, licensed under CC BY 4.0.
 
 # Model details {#sec-model-details}
 
 ## Posterior predictive check
 
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
+In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive
+check. This shows...
 
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows...
+In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the
+prior. This shows...
 
 ```{r}
 #| eval: true
@@ -196,63 +318,236 @@ plot(first_model, "rhat")
 
 # The New York Times/Siena College Polling Methodology {#third-poll}
 
-This appendix provides a comprehensive overview of the methodology employed by the Siena College Polling Institute in conducting its surveys.Siena College is renowned for its methodologically rigorous approach to political polling, focusing on accurately capturing voter sentiment during elections. Siena College has conducted polls in three key states: Michigan, Wisconsin, and Ohio.
+This appendix provides a comprehensive overview of the methodology
+employed by the Siena College Polling Institute in conducting its
+surveys.Siena College is renowned for its methodologically rigorous
+approach to political polling, focusing on accurately capturing voter
+sentiment during elections. Siena College has conducted polls in three
+key states: Michigan, Wisconsin, and Ohio.
 
-In this section, we will delve into the key components of Siena's polling methodology, including the target population, sampling frame, recruitment processes, and the sampling strategies used. We will also address how non-response is managed and evaluate the strengths and weaknesses of the questionnaire design. By exploring these elements, this appendix aims to clarify how Siena College ensures the reliability and validity of its polling results, contributing valuable insights to the understanding of voter behavior and election outcomes.
+In this section, we will delve into the key components of Siena's
+polling methodology, including the target population, sampling frame,
+recruitment processes, and the sampling strategies used. We will also
+address how non-response is managed and evaluate the strengths and
+weaknesses of the questionnaire design. By exploring these elements,
+this appendix aims to clarify how Siena College ensures the reliability
+and validity of its polling results, contributing valuable insights to
+the understanding of voter behavior and election outcomes.
 
 ## Pollster Overview
 
-Siena College Polling Institute is a prominent pollster known for its comprehensive and methodologically rigorous surveys. It specializes in political polling and is particularly recognized for its work in understanding voter sentiment during elections.
+Siena College Polling Institute is a prominent pollster known for its
+comprehensive and methodologically rigorous surveys. It specializes in
+political polling and is particularly recognized for its work in
+understanding voter sentiment during elections.
 
-Established in 1980 at Siena College in New York's Capital District, the Siena College Research Institute (SCRI) conducts surveys at regional, state, and national levels on various topics, including business, economics, politics, voter behavior, social issues, academics, and history. The institute carries out both expert and public opinion polls.
+Established in 1980 at Siena College in New York's Capital District, the
+Siena College Research Institute (SCRI) conducts surveys at regional,
+state, and national levels on various topics, including business,
+economics, politics, voter behavior, social issues, academics, and
+history. The institute carries out both expert and public opinion polls.
 
-Students from Siena and other colleges participate in every survey, gaining hands-on experience in fields such as political science, computing, communications, sociology, and psychology. SCRI also hires interns for special projects involving event planning, in-depth research, report writing, and analysis. The results of SCRI's surveys are featured in major regional and national publications, including The Wall Street Journal and The New York Times, as well as in academic journals, books, and encyclopedias, both in print and online. Their findings are regularly highlighted in local and national television and radio broadcasts. SCRI conducts the Siena New York Poll, a monthly survey that captures the opinions of registered voters across New York State on current political issues, along with the New York State Index of Consumer Sentiment, which offers a quarterly assessment of New Yorkers' spending intentions. SCRI adheres to the American Association of Public Opinion Research (AAPOR) Code of Professional Ethics and Practices. The institute is often commissioned to carry out surveys for various organizations, businesses, and local and state government agencies. [@aboutsiena]
+Students from Siena and other colleges participate in every survey,
+gaining hands-on experience in fields such as political science,
+computing, communications, sociology, and psychology. SCRI also hires
+interns for special projects involving event planning, in-depth
+research, report writing, and analysis. The results of SCRI's surveys
+are featured in major regional and national publications, including The
+Wall Street Journal and The New York Times, as well as in academic
+journals, books, and encyclopedias, both in print and online. Their
+findings are regularly highlighted in local and national television and
+radio broadcasts. SCRI conducts the Siena New York Poll, a monthly
+survey that captures the opinions of registered voters across New York
+State on current political issues, along with the New York State Index
+of Consumer Sentiment, which offers a quarterly assessment of New
+Yorkers' spending intentions. SCRI adheres to the American Association
+of Public Opinion Research (AAPOR) Code of Professional Ethics and
+Practices. The institute is often commissioned to carry out surveys for
+various organizations, businesses, and local and state government
+agencies. [@aboutsiena]
 
 ## Population, Frame and sample
 
-In essence, statistics is about collecting data and making informed conclusions, even though we can never access every piece of information.\
+In essence, statistics is about collecting data and making informed
+conclusions, even though we can never access every piece of
+information.\
 From @tellingstories, we defined three key terms as:\
-Target population : The collection of all items about which we would like to speak. / The entire group about which we want to draw conclusions\
-Sampling frame : A list of all the items from the target population that we could get data about.\
+Target population : The collection of all items about which we would
+like to speak. / The entire group about which we want to draw
+conclusions\
+Sampling frame : A list of all the items from the target population that
+we could get data about.\
 Sample : The items from the sampling frame that we get data about.\
 
-The target population for Siena’s polls includes registered voters eligible to vote in Michigan, Wisconsin, and Ohio. The sampling frame consists of a comprehensive list of registered voters, which includes demographic information for each voter. This enables the pollsters to ensure an appropriate representation of voters across various parties, races, and regions [@poll]. The sample of registered voters sourced from the voter file maintained by L2, a nonpartisan vendor, and supplemented with additional cellular phone numbers matched from Marketing Systems Group. The sample for the poll totals 2,055 likely voters, with 688 from Michigan, 687 from Ohio, and 680 from Wisconsin, surveyed from September 21 to 26, 2024.\
+The target population for Siena’s polls includes registered voters
+eligible to vote in Michigan, Wisconsin, and Ohio. The sampling frame
+consists of a comprehensive list of registered voters, which includes
+demographic information for each voter. This enables the pollsters to
+ensure an appropriate representation of voters across various parties,
+races, and regions [@poll]. The sample of registered voters sourced from
+the voter file maintained by L2, a nonpartisan vendor, and supplemented
+with additional cellular phone numbers matched from Marketing Systems
+Group. The sample for the poll totals 2,055 likely voters, with 688 from
+Michigan, 687 from Ohio, and 680 from Wisconsin, surveyed from September
+21 to 26, 2024.\
 
 ## Sample Recruitment
 
-Siena use phone poll to recruit sample. Telephone polling is a common method for gathering public opinion and assessing voter sentiment by contacting individuals via landlines and mobile phones. This approach uses live interviewers to enhance data quality, allowing for clarification and nuanced responses. By utilizing random digit dialing or national voter registration databases, researchers can ensure a representative sample across various demographics. Despite its effectiveness in reaching diverse audiences quickly, telephone polling must address potential biases, such as nonresponse and shifts in communication habits, to maintain the reliability of its findings.[^1]
+Siena use phone poll to recruit sample. Telephone polling is a common
+method for gathering public opinion and assessing voter sentiment by
+contacting individuals via landlines and mobile phones. This approach
+uses live interviewers to enhance data quality, allowing for
+clarification and nuanced responses. By utilizing random digit dialing
+or national voter registration databases, researchers can ensure a
+representative sample across various demographics. Despite its
+effectiveness in reaching diverse audiences quickly, telephone polling
+must address potential biases, such as nonresponse and shifts in
+communication habits, to maintain the reliability of its findings.[^1]
 
-[^1]: Phone polls, once considered the gold standard in survey research, now compete with methods like online panels and text messaging. Their advantages have diminished due to declining response rates, which increase costs and may affect representativeness, raising concerns about their future viability. However, they still effectively reach a random selection of voters quickly, as there is no national email database and postal mail can be slow. Other methods, such as recruiting panelists by mail, risk attracting only the most politically engaged individuals. Recent elections have shown that telephone polls, including The Times/Siena Poll, continue to perform well due to the reliability of voter registration files in balancing party representation.
+[^1]: Phone polls, once considered the gold standard in survey research,
+    now compete with methods like online panels and text messaging.
+    Their advantages have diminished due to declining response rates,
+    which increase costs and may affect representativeness, raising
+    concerns about their future viability. However, they still
+    effectively reach a random selection of voters quickly, as there is
+    no national email database and postal mail can be slow. Other
+    methods, such as recruiting panelists by mail, risk attracting only
+    the most politically engaged individuals. Recent elections have
+    shown that telephone polls, including The Times/Siena Poll, continue
+    to perform well due to the reliability of voter registration files
+    in balancing party representation.
 
-According to @freqqa, the polls are conducted by live interviewers at call centers located in Florida, New York, South Carolina, Texas, and Virginia. The respondents are randomly selected from a national database of registered voters and are contacted via both landlines and cellphones.
+According to @freqqa, the polls are conducted by live interviewers at
+call centers located in Florida, New York, South Carolina, Texas, and
+Virginia. The respondents are randomly selected from a national database
+of registered voters and are contacted via both landlines and
+cellphones.
 
-Siena polls are conducted over the phone in both English and Spanish. For these polls, interviewers made nearly 260,000 calls to just over 140,000 voters. Overall, about 97 percent of respondents were contacted on a cellphone for these polls.
+Siena polls are conducted over the phone in both English and Spanish.
+For these polls, interviewers made nearly 260,000 calls to just over
+140,000 voters. Overall, about 97 percent of respondents were contacted
+on a cellphone for these polls.
 
 ## Sampling Approach
 
-Siena employs a response-rate-adjusted stratified sampling of registered voters sourced from the voter file maintained by L2, a nonpartisan vendor, and supplemented with additional cellular phone numbers matched from Marketing Systems Group. The New York Times selected the sample in multiple stages to address differences in telephone coverage, nonresponses, and notable variations in telephone number productivity by state.
+Siena employs a response-rate-adjusted stratified sampling of registered
+voters sourced from the voter file maintained by L2, a nonpartisan
+vendor, and supplemented with additional cellular phone numbers matched
+from Marketing Systems Group. The New York Times selected the sample in
+multiple stages to address differences in telephone coverage,
+nonresponses, and notable variations in telephone number productivity by
+state.
 
-Stratified sampling is typically utilized to ensure all strata of the population are represented. When considering our population, it typically consists of various groupings. These can range from a country being divided into states, provinces, counties, or statistical districts to a university comprising faculties and departments or even demographic characteristics groups among individuals. A stratified structure allows us to categorize the population into mutually exclusive and collectively exhaustive sub-populations known as "strata".
+Stratified sampling is typically utilized to ensure all strata of the
+population are represented. When considering our population, it
+typically consists of various groupings. These can range from a country
+being divided into states, provinces, counties, or statistical districts
+to a university comprising faculties and departments or even demographic
+characteristics groups among individuals. A stratified structure allows
+us to categorize the population into mutually exclusive and collectively
+exhaustive sub-populations known as "strata".
 
-Stratification is employed to enhance sampling efficiency and ensure balance within the survey. For example, the population of the United States is approximately 335 million, with around 40 million residents in California and roughly half a million in Wyoming. In a survey with 10,000 responses, we would expect to receive only about 15 responses from Wyoming, which could complicate any inferences about that state. By implementing stratification, we could ensure, for instance, that there are 200 responses from each state. Within each state, we could then use random sampling to select individuals for data collection [@tellingstories].
+Stratification is employed to enhance sampling efficiency and ensure
+balance within the survey. For example, the population of the United
+States is approximately 335 million, with around 40 million residents in
+California and roughly half a million in Wyoming. In a survey with
+10,000 responses, we would expect to receive only about 15 responses
+from Wyoming, which could complicate any inferences about that state. By
+implementing stratification, we could ensure, for instance, that there
+are 200 responses from each state. Within each state, we could then use
+random sampling to select individuals for data collection
+[@tellingstories].
 
-In this scenario, we want to collect the polls from all strata of our target population to balance our poll result. The sample was stratified by political party, race, and region, and screened by M.S.G. to ensure that the cellular phone numbers were active. The Siena College Research Institute conducted the survey, with additional support from various institutions, including ReconMR, the Public Opinion Research Laboratory at the University of North Florida, the Institute for Policy and Opinion Research at Roanoke College, the Center for Public Opinion and Policy Research at Winthrop University in South Carolina, and the Survey Center at the University of New Hampshire. Interviewers sought to speak with the individuals listed on the voter file and would terminate the interview if those persons were unavailable. Overall, 97 percent of respondents across all four samples were reached via cellular phones.
+In this scenario, we want to collect the polls from all strata of our
+target population to balance our poll result. The sample was stratified
+by political party, race, and region, and screened by M.S.G. to ensure
+that the cellular phone numbers were active. The Siena College Research
+Institute conducted the survey, with additional support from various
+institutions, including ReconMR, the Public Opinion Research Laboratory
+at the University of North Florida, the Institute for Policy and Opinion
+Research at Roanoke College, the Center for Public Opinion and Policy
+Research at Winthrop University in South Carolina, and the Survey Center
+at the University of New Hampshire. Interviewers sought to speak with
+the individuals listed on the voter file and would terminate the
+interview if those persons were unavailable. Overall, 97 percent of
+respondents across all four samples were reached via cellular phones.
 
-The survey instrument was translated into Spanish by ReconMR, and bilingual interviewers began in English, following the respondent's preference for either language. Among self-reported Hispanics, 11 percent of interviews were conducted in Spanish, with this percentage rising to 15 percent in the weighted sample of registered voters. An interview was considered complete for inclusion in the voting questions if the respondent did not drop out after answering the two self-reported variables used for weighting—age and education—and responded to at least one question related to age, education, or presidential candidate preference.
+The survey instrument was translated into Spanish by ReconMR, and
+bilingual interviewers began in English, following the respondent's
+preference for either language. Among self-reported Hispanics, 11
+percent of interviews were conducted in Spanish, with this percentage
+rising to 15 percent in the weighted sample of registered voters. An
+interview was considered complete for inclusion in the voting questions
+if the respondent did not drop out after answering the two self-reported
+variables used for weighting—age and education—and responded to at least
+one question related to age, education, or presidential candidate
+preference.
 
-Stratified sampling enhances the representativeness of the sample by ensuring that smaller subgroups, which might otherwise be underrepresented, are adequately included. A significant advantage of this method is that it allows for more efficient resource allocation, enabling researchers to target specific groups and gather more insightful data. However, this focus can lead to **higher overall costs**, particularly due to the comprehensive data collection and analysis required when sampling large states or countries. Additionally, while stratified sampling provides richer insights into the characteristics and opinions of different subgroups, it introduces **complexity in data analysis**, necessitating advanced statistical techniques to interpret the results accurately. Consequently, researchers must have sufficient evidence to determine how to weight each stratum appropriately. Lastly, if the strata are not well-defined or if there is an imbalance in sampling, it could still result in sampling bias. Overall, while stratified sampling offers substantial benefits in terms of representation and analytical depth, it also presents challenges related to complexity, cost, and potential bias if not executed carefully.
+Stratified sampling enhances the representativeness of the sample by
+ensuring that smaller subgroups, which might otherwise be
+underrepresented, are adequately included. A significant advantage of
+this method is that it allows for more efficient resource allocation,
+enabling researchers to target specific groups and gather more
+insightful data. However, this focus can lead to **higher overall
+costs**, particularly due to the comprehensive data collection and
+analysis required when sampling large states or countries. Additionally,
+while stratified sampling provides richer insights into the
+characteristics and opinions of different subgroups, it introduces
+**complexity in data analysis**, necessitating advanced statistical
+techniques to interpret the results accurately. Consequently,
+researchers must have sufficient evidence to determine how to weight
+each stratum appropriately. Lastly, if the strata are not well-defined
+or if there is an imbalance in sampling, it could still result in
+sampling bias. Overall, while stratified sampling offers substantial
+benefits in terms of representation and analytical depth, it also
+presents challenges related to complexity, cost, and potential bias if
+not executed carefully.
 
 ## Non-response Bias
 
-An interview was deemed complete for inclusion in the voting preference questions if the respondent stayed engaged in the survey after answering the two self-reported variables used for weighting—age and education—and provided responses to at least one question concerning age, education, or the presidential election candidate reference. If these conditions were not met, the interview was recorded as a non-response.
+An interview was deemed complete for inclusion in the voting preference
+questions if the respondent stayed engaged in the survey after answering
+the two self-reported variables used for weighting—age and education—and
+provided responses to at least one question concerning age, education,
+or the presidential election candidate reference. If these conditions
+were not met, the interview was recorded as a non-response.
 
-To handle the non-response bias, Siena choose to use weighting adjustments. Weighting is like balancing a scale to make sure each group in the survey counts the right amount. It changes the importance of each answer depending on how likely people are to skip the survey [@surveylab].
+To handle the non-response bias, Siena choose to use weighting
+adjustments. Weighting is like balancing a scale to make sure each group
+in the survey counts the right amount. It changes the importance of each
+answer depending on how likely people are to skip the survey
+[@surveylab].
 
-Siena use several steps to address nonresponse bias and ensure the reliability of the results. The weighting process was conducted by The Times using the R survey package and involved multiple adjustments. Initially, the samples were adjusted for the unequal probability of selection by stratum. Subsequently, the first-stage weight was modified to account for the likelihood that a registrant would vote in the 2024 election, based on a model derived from turnout data in the 2020 election.
+Siena use several steps to address nonresponse bias and ensure the
+reliability of the results. The weighting process was conducted by The
+Times using the R survey package and involved multiple adjustments.
+Initially, the samples were adjusted for the unequal probability of
+selection by stratum. Subsequently, the first-stage weight was modified
+to account for the likelihood that a registrant would vote in the 2024
+election, based on a model derived from turnout data in the 2020
+election.
 
-To create a composition that reflects the likely electorate, the sample was further weighted to match specific targets. These targets were developed by aggregating individual-level turnout estimates from the L2 voter file, with categories aligning with those used for registered voters. Additionally, the initial likely electorate weight was adjusted to incorporate self-reported voting intentions. In this final adjustment, four-fifths of the probability that a registrant would vote in the 2024 election was based on their ex ante modeled turnout score, while one-fifth relied on their self-reported intentions, adjusted for the tendency of survey respondents to have higher turnout rates than nonrespondents.
+To create a composition that reflects the likely electorate, the sample
+was further weighted to match specific targets. These targets were
+developed by aggregating individual-level turnout estimates from the L2
+voter file, with categories aligning with those used for registered
+voters. Additionally, the initial likely electorate weight was adjusted
+to incorporate self-reported voting intentions. In this final
+adjustment, four-fifths of the probability that a registrant would vote
+in the 2024 election was based on their ex ante modeled turnout score,
+while one-fifth relied on their self-reported intentions, adjusted for
+the tendency of survey respondents to have higher turnout rates than
+nonrespondents.
 
-The final likely electorate weight was calculated by multiplying the modeled electorate rake weight by the final turnout probability and then dividing by the ex ante modeled turnout probability. This comprehensive approach to weighting helps mitigate nonresponse bias by ensuring that the sample reflects both the characteristics of the general population and the expected behavior of likely voters. As a result, the sample of respondents who completed all questions in the survey was adjusted to accurately represent the likely electorate, enhancing the overall validity of the findings.
+The final likely electorate weight was calculated by multiplying the
+modeled electorate rake weight by the final turnout probability and then
+dividing by the ex ante modeled turnout probability. This comprehensive
+approach to weighting helps mitigate nonresponse bias by ensuring that
+the sample reflects both the characteristics of the general population
+and the expected behavior of likely voters. As a result, the sample of
+respondents who completed all questions in the survey was adjusted to
+accurately represent the likely electorate, enhancing the overall
+validity of the findings.
 
 ## Questionnaire Design
 
@@ -276,8 +571,17 @@ In the design of the questionnaire, there will be some common bias that may occu
 
 **Strengths**:
 
-The questionnaire is crafted to be concise and straightforward, effectively minimizing respondent fatigue and maximizing clarity in question phrasing. This design is essential for maintaining participant engagement, especially in surveys that may include a wide array of questions. Additionally, the use of a mix of closed and open-ended formats allows for a comprehensive analysis of voter sentiment. Closed-ended questions yield quantifiable data, enabling researchers to identify trends and patterns, while open-ended questions provide rich qualitative insights that contextualize these trends.
+The questionnaire is crafted to be concise and straightforward,
+effectively minimizing respondent fatigue and maximizing clarity in
+question phrasing. This design is essential for maintaining participant
+engagement, especially in surveys that may include a wide array of
+questions. Additionally, the use of a mix of closed and open-ended
+formats allows for a comprehensive analysis of voter sentiment.
+Closed-ended questions yield quantifiable data, enabling researchers to
+identify trends and patterns, while open-ended questions provide rich
+qualitative insights that contextualize these trends.
 
+<<<<<<< HEAD
 The careful structuring of questions also plays a crucial role in reducing moderacy bias, where respondents might lean towards neutral options when unsure. By providing clear response categories, the questionnaire encourages participants to express their opinions more decisively. For each of the degree question, Siena designed at least 4 options to help the respondents not only choose extreme or moderate answer in the question.
 
 Furthermore, the inclusion of diverse question types can mitigate acquiescence bias, which occurs when respondents habitually agree with statements instead of reflecting their true feelings. By framing questions in a balanced manner and avoiding leading language, the design helps ensure that participants feel comfortable expressing varied opinions.
@@ -285,9 +589,37 @@ Furthermore, the inclusion of diverse question types can mitigate acquiescence b
 **Weaknesses**:
 
 However, the questionnaire is not without its weaknesses. Critics highlight that the reliance on agree-disagree, yes-no formats can lead to acquiescence bias, where respondents might select favorable options rather than accurately expressing their true opinions. This tendency skews the results, potentially misrepresenting genuine voter sentiment and leading to misleading conclusions.
+=======
+The careful structuring of questions also plays a crucial role in
+reducing moderacy bias, where respondents might lean towards neutral
+options when unsure. By providing clear response categories, the
+questionnaire encourages participants to express their opinions more
+decisively. Furthermore, the inclusion of diverse question types can
+mitigate acquiescence bias, which occurs when respondents habitually
+agree with statements instead of reflecting their true feelings. By
+framing questions in a balanced manner and avoiding leading language,
+the design helps ensure that participants feel comfortable expressing
+varied opinions.
 
-Moreover, the questionnaire may not adequately address the nuances that are important to specific demographic groups, resulting in potential gaps in understanding voter motivations. For instance, certain groups may have distinct issues or concerns that are not adequately captured by the survey's questions. This limitation can contribute to nonresponse bias, where individuals from underrepresented groups choose not to participate or drop out of the survey, further skewing the results.
+**Weaknesses**:
 
+However, the questionnaire is not without its weaknesses. Critics
+highlight that the reliance on agree-disagree formats can lead to
+acquiescence bias, where respondents might select favorable options
+rather than accurately expressing their true opinions. This tendency
+skews the results, potentially misrepresenting genuine voter sentiment
+and leading to misleading conclusions.
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
+
+Moreover, the questionnaire may not adequately address the nuances that
+are important to specific demographic groups, resulting in potential
+gaps in understanding voter motivations. For instance, certain groups
+may have distinct issues or concerns that are not adequately captured by
+the survey's questions. This limitation can contribute to nonresponse
+bias, where individuals from underrepresented groups choose not to
+participate or drop out of the survey, further skewing the results.
+
+<<<<<<< HEAD
 Additionally, since we don’t know whether they use randomization when interviewers ask the respondents, there might be response order bias with the occurrence of recency effect, in which respondents choose one of the last items presented to them ( as telephone survey is orally presented surveys). This bias can be exacerbated by the order of response options in a list or a rating scale influences the response chosen [@survey].
 
 Furthermore, as the questionnaire hasn't been provided, we haven't found an assured of complete anonymity in the survey landing and consent page (record of interviewers' words) in the posted questionnaire. This might cause social desirability bias, which typically stems from the desire of respondents to avoid embarrassment and project a favorable image to others, resulting in respondents not revealing their actual attitudes. Thus Siena cannot get the true polls from their sample.
@@ -295,22 +627,79 @@ Furthermore, as the questionnaire hasn't been provided, we haven't found an assu
 Finally, we noticed that the questionnaire is quite long, with more than 50 questions. It will significantly increase the attribution rate of the questionnaires, especially in a telephone survey which takes more time than the online panel. This will increase the possibility of the occurrence of non-response bias.
 
 In summary, the questionnaire exhibits strengths such as clarity and a mixed-format approach that promotes engagement and nuanced responses. However, it faces significant challenges related to biases including acquiescence, nonresponse, social desirability, and ordering effects. To enhance its effectiveness, future iterations should incorporate a broader range of question types, ensure demographic representation, and carefully consider question order and phrasing. Addressing these issues is crucial for minimizing bias and improving the overall validity of the findings.
+=======
+Additionally, the structure of the questions could inadvertently create
+extreme response bias, where participants feel pressured to choose the
+most extreme options rather than selecting a moderate stance. This bias
+can be exacerbated by the order in which questions are presented. If
+respondents encounter highly charged or leading questions early in the
+survey, they may be influenced to respond similarly in subsequent
+questions, a phenomenon known as ordering bias.
+
+Furthermore, while the questionnaire aims to be inclusive, if it fails
+to adequately represent the voices of certain demographic groups, it
+could lead to a lack of adequacy in the data collected. This inadequacy
+undermines the ability to draw comprehensive conclusions about the
+electorate, particularly in a diverse political landscape.
+
+In summary, while the questionnaire design has strengths in clarity and
+mixed-format questions that encourage engagement and nuanced responses,
+it also faces challenges related to biases such as acquiescence,
+nonresponse, extreme response tendencies, and ordering effects. To
+enhance its effectiveness, future iterations of the questionnaire should
+strive to incorporate more varied question types, ensure demographic
+representation, and remain mindful of question order and phrasing to
+minimize the potential for bias and improve the overall validity of the
+findings.
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 
 # Idealized Methodology for US Presidential Election Forecast
 
-This appendix details the methodology and design for conducting a U.S. presidential election forecast survey with a budget of \$100,000. The objective is to generate an accurate and reliable prediction of the election outcome while ensuring data quality through meticulous sampling, recruitment, validation, and aggregation of results.\
+This appendix details the methodology and design for conducting a U.S.
+presidential election forecast survey with a budget of \$100,000. The
+objective is to generate an accurate and reliable prediction of the
+election outcome while ensuring data quality through meticulous
+sampling, recruitment, validation, and aggregation of results.\
 
 ## Sampling Approach
 
-To ensure a representative sample of likely voters, I will employ a Composite Measure sampling method based on past voter turnout data from the 2020 U.S. elections. After determining the sample size for each state, I will use stratified sampling based on demographics, dividing the population into subgroups and taking random samples from each subgroup. This Composite Measure sampling approach, as referenced in @india, enhances our chances of selecting respondents from states or regions that have historically exhibited higher voter engagement compared to the general population distribution. While some states may have larger populations, we aim to adjust the sampling to reflect higher turnout rates.
+To ensure a representative sample of likely voters, I will employ a
+Composite Measure sampling method based on past voter turnout data from
+the 2020 U.S. elections. After determining the sample size for each
+state, I will use stratified sampling based on demographics, dividing
+the population into subgroups and taking random samples from each
+subgroup. This Composite Measure sampling approach, as referenced in
+@india, enhances our chances of selecting respondents from states or
+regions that have historically exhibited higher voter engagement
+compared to the general population distribution. While some states may
+have larger populations, we aim to adjust the sampling to reflect higher
+turnout rates.
 
-To illustrate this Composite Measure of size, consider two states with similar populations. For instance, although State A and State B both have 1 million eligible voters, State B consistently shows a higher voter turnout in past elections. Therefore, we will increase the proportion of polls conducted in State B. In this scenario, State A has a historical turnout rate of 50%, while State B has a turnout rate of 70%. In a purely population-based sampling approach, both states would have an equal chance of being selected for polls: 50% for State A and 50% for State B. However, by incorporating voter turnout, we modify these probabilities to increase the likelihood of selecting State B due to its higher historical turnout.
+To illustrate this Composite Measure of size, consider two states with
+similar populations. For instance, although State A and State B both
+have 1 million eligible voters, State B consistently shows a higher
+voter turnout in past elections. Therefore, we will increase the
+proportion of polls conducted in State B. In this scenario, State A has
+a historical turnout rate of 50%, while State B has a turnout rate of
+70%. In a purely population-based sampling approach, both states would
+have an equal chance of being selected for polls: 50% for State A and
+50% for State B. However, by incorporating voter turnout, we modify
+these probabilities to increase the likelihood of selecting State B due
+to its higher historical turnout.
 
-In the subsequent steps, we will detail how to utilize **voter turnout** as a crucial factor in creating a **composite measure of size** for sampling U.S. election polls. Rather than relying solely on population size, we will adjust the sample allocation based on historical voter turnout, ensuring that regions with higher engagement are more prominently represented in our polling data.
+In the subsequent steps, we will detail how to utilize **voter turnout**
+as a crucial factor in creating a **composite measure of size** for
+sampling U.S. election polls. Rather than relying solely on population
+size, we will adjust the sample allocation based on historical voter
+turnout, ensuring that regions with higher engagement are more
+prominently represented in our polling data.
 
 ### Step 1: Define the Sampling Data
 
-We begin by collecting the **eligible voter population** and **historical voter turnout rates** for different states. In this simplified example, we will focus on two states: **State A** and **State B**.
+We begin by collecting the **eligible voter population** and
+**historical voter turnout rates** for different states. In this
+simplified example, we will focus on two states: **State A** and **State
+B**.
 
 | State   | Eligible Voters | Turnout Rate |
 |---------|-----------------|--------------|
@@ -319,45 +708,119 @@ We begin by collecting the **eligible voter population** and **historical voter 
 
 ### Step 2: Calculate Actual Voters
 
-Next, we calculate the **number of actual voters** in each state by multiplying the eligible voters by the turnout rate: $$\text{Actual Voters} = \text{Eligible Voters} \times \text{Turnout Rate}$$\
-Actual voters in State A: $\text{Actual Voters}_A = 1,000,000 \times 0.50 = 500,000$\
-Actual voters in State B: $\text{Actual Voters}_B = 1,000,000 \times 0.70 = 700,000$\
-Total actual voters: $\text{Actual Voters}_A+\text{Actual Voters}_B= 500,000 + 700,000 = 1,200,000$\
+Next, we calculate the **number of actual voters** in each state by
+multiplying the eligible voters by the turnout rate:
+$$\text{Actual Voters} = \text{Eligible Voters} \times \text{Turnout Rate}$$\
+Actual voters in State A:
+$\text{Actual Voters}_A = 1,000,000 \times 0.50 = 500,000$\
+Actual voters in State B:
+$\text{Actual Voters}_B = 1,000,000 \times 0.70 = 700,000$\
+Total actual voters:
+$\text{Actual Voters}_A+\text{Actual Voters}_B= 500,000 + 700,000 = 1,200,000$\
 
 ### Step 3: Calculate Composite Measure of Size
 
-We now calculate the **total number of voters** across both states and determine the **proportion** of each state's turnout relative to the total. This forms the basis of the composite measure of size, which we will use to adjust the sampling weights.
+We now calculate the **total number of voters** across both states and
+determine the **proportion** of each state's turnout relative to the
+total. This forms the basis of the composite measure of size, which we
+will use to adjust the sampling weights.
 
-The total voters in two states are 1,200,000. Therefore, the sampling proportion for State A is: $\text{Sampling Proportion}_A = \frac{500,000}{1,200,000} \approx 0.417$, and for State B is: $\text{Sampling Proportion}_B = \frac{700,000}{1,200,000} \approx 0.583$
+The total voters in two states are 1,200,000. Therefore, the sampling
+proportion for State A is:
+$\text{Sampling Proportion}_A = \frac{500,000}{1,200,000} \approx 0.417$,
+and for State B is:
+$\text{Sampling Proportion}_B = \frac{700,000}{1,200,000} \approx 0.583$
 
 ### Step 4: Allocate Sample Based on Turnout
 
-Finally, we allocate the sample size according to the calculated sampling proportions. For instance, if we are conducting 1,000 polls, we would allocate State A with $\text{Polls for State A} = 1,000 \times 0.417 \approx 417 \text{polls}$ and State B with $\text{Polls for State B} = 1,000 \times 0.583 \approx 583 \text{polls}$
+Finally, we allocate the sample size according to the calculated
+sampling proportions. For instance, if we are conducting 1,000 polls, we
+would allocate State A with
+$\text{Polls for State A} = 1,000 \times 0.417 \approx 417 \text{polls}$
+and State B with
+$\text{Polls for State B} = 1,000 \times 0.583 \approx 583 \text{polls}$
 
-By using historical voter turnout to adjust our polling sample, we ensure that regions with higher voter engagement have a greater influence on the polling results. This composite measure of size ensures that our polling sample better reflects the actual voting patterns and preferences in different regions. Consequently, we can produce more accurate and representative poll outcomes that account for the varying levels of voter participation across the country.
+By using historical voter turnout to adjust our polling sample, we
+ensure that regions with higher voter engagement have a greater
+influence on the polling results. This composite measure of size ensures
+that our polling sample better reflects the actual voting patterns and
+preferences in different regions. Consequently, we can produce more
+accurate and representative poll outcomes that account for the varying
+levels of voter participation across the country.
 
 ### Stratification Variables
 
-After determining the number of respondents to be sampled from each region, stratified sampling will be employed across key demographic categories, including age, gender, race/ethnicity, and education level. This approach ensures that the final sample accurately reflects the diversity of the U.S. voting population by proportionally representing each subgroup within every region. To mitigate potential non-response bias, post-stratification weighting[^2] will be applied, correcting for any imbalances caused by variations in response rates among different demographic groups. The sample will be stratified based on several critical demographic and geographic variables to guarantee proportional representation of the U.S. voting population. Strata information will be sourced from U.S. census data obtained through IPUMS USA [@ruggles2024ipums].
+After determining the number of respondents to be sampled from each
+region, stratified sampling will be employed across key demographic
+categories, including age, gender, race/ethnicity, and education level.
+This approach ensures that the final sample accurately reflects the
+diversity of the U.S. voting population by proportionally representing
+each subgroup within every region. To mitigate potential non-response
+bias, post-stratification weighting[^2] will be applied, correcting for
+any imbalances caused by variations in response rates among different
+demographic groups. The sample will be stratified based on several
+critical demographic and geographic variables to guarantee proportional
+representation of the U.S. voting population. Strata information will be
+sourced from U.S. census data obtained through IPUMS USA
+[@ruggles2024ipums].
 
+<<<<<<< HEAD
 [^2]: Post-stratification weighting adjusts survey data by applying weights to under- or over-represented demographic groups in the sample, ensuring the final results align with the true population distribution and reducing biases such as non-response bias.
+=======
+[^2]: Post-stratification weighting adjusts survey data by applying
+    weights to under- or over-represented demographic groups in the
+    sample, ensuring the final results align with the true population
+    distribution and reducing biases such as non-response bias.
+
+These variables include age, with categories such as 18-24 (12%), 25-34
+(17%), 35-44 (16%), 45-54 (16%), 55-64 (16%), and 65+ (23%); gender,
+split into male (48%), female (52%), and non-binary/other (less than
+1%); and race/ethnicity, covering groups like White/Caucasian (67%),
+Black/African American (13%), Hispanic/Latino (13%), Asian/Pacific
+Islander (5%), Native American/Alaskan Native (1%), and Other/Mixed Race
+(1%). Additionally, education level will be stratified into high school
+diploma or less (36%), some college, no degree (17%), Associate’s degree
+(9%), Bachelor’s degree (23%), and graduate or professional degree
+(15%). Geographic region will also be a key factor, ensuring
+representation from the Midwest (21%), Northeast (17%), South (38%), and
+West (24%). For each variable, U.S. Census or voter turnout data will be
+used to proportionally allocate respondents, ensuring that the final
+sample closely mirrors the demographic and regional composition of the
+actual voting population. Post-stratification weighting will be applied
+to adjust for any imbalances that may occur during data collection.
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 
 These variables include age, with categories such as 18-24 (12%), 25-34 (17%), 35-44 (16%), 45-54 (16%), 55-64 (16%), and 65+ (23%); gender, split into male (48%), female (52%), and non-binary/other (less than 1%); and race/ethnicity, covering groups like White/Caucasian (67%), Black/African American (13%), Hispanic/Latino (13%), Asian/Pacific Islander (5%), Native American/Alaskan Native (1%), and Other/Mixed Race (1%). Additionally, education level will be stratified into high school diploma or less (36%), some college, no degree (17%), Associate’s degree (9%), Bachelor’s degree (23%), and graduate or professional degree (15%). Geographic region will also be a key factor, ensuring representation from the Midwest (21%), Northeast (17%), South (38%), and West (24%). For each variable, U.S. Census or voter turnout data will be used to proportionally allocate respondents, ensuring that the final sample closely mirrors the demographic and regional composition of the actual voting population. Post-stratification weighting will be applied to adjust for any imbalances that may occur during data collection.
 
 ## Target Population
 
-Our target population is all U.S. citizens eligible to vote in the 2024 U.S. presidential election (age\>=18).
+Our target population is all U.S. citizens eligible to vote in the 2024
+U.S. presidential election (age\>=18).
 
 ## Sample frame
 
-Based on the recruitment method we discussed later, our sampling frame could be all registered voters in online panels like Qualtrics and YouGov and the millions of U.S. voters who are reachable via social media platforms like Facebook and Instagram.
+Based on the recruitment method we discussed later, our sampling frame
+could be all registered voters in online panels like Qualtrics and
+YouGov and the millions of U.S. voters who are reachable via social
+media platforms like Facebook and Instagram.
 
 ## Sample
 
-We plan to survey 300 respondents, which will provide a margin of error of approximately ±1.7 percentage points, ensuring a high level of confidence in the results. Given the limited sample size and to enhance the effectiveness of stratified sampling, the states will be grouped into four regions: Midwest, Northeast, South, and West. The sample size for each region will be allocated based on the proportion of total ballots cast in each region during the 2020 election. The regional grouping of states is shown in @tbl-region.
+We plan to survey 300 respondents, which will provide a margin of error
+of approximately ±1.7 percentage points, ensuring a high level of
+confidence in the results. Given the limited sample size and to enhance
+the effectiveness of stratified sampling, the states will be grouped
+into four regions: Midwest, Northeast, South, and West. The sample size
+for each region will be allocated based on the proportion of total
+ballots cast in each region during the 2020 election. The regional
+grouping of states is shown in @tbl-region.
 
 | **Region**    | **States**                                                                                                                                                 |
+<<<<<<< HEAD
 |------------------------|-----------------------------------------------|
+=======
+|-------------------------|-----------------------------------------------|
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 | **MIDWEST**   | Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, North Dakota, Ohio, South Dakota, Wisconsin                                      |
 | **Northeast** | Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont      |
 | **SOUTH**     | Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Virginia, West Virginia |
@@ -372,103 +835,305 @@ We plan to survey 300 respondents, which will provide a margin of error of appro
 | **SOUTH**   | 65%                   | 54,746,770             | 84,563,831 | 0.356644666                               | 143             |
 | **WEST**    | 69%                   | 37,594,304             | 54,139,892 | 0.228332888                               | 91              |
 
-: Regional Voting Data and Sample Size Allocation Based on 2020 Election Turnout {#tbl-samplesize}
+: Regional Voting Data and Sample Size Allocation Based on 2020 Election
+Turnout {#tbl-samplesize}
 
-@tbl-samplesize shows the regional breakdown of the 2020 election data, sourced from [@wikivote], including voter turnout, total ballots cast, and Voting Eligible Population (VEP). The sample size for each region shown in @tbl-samplesize was determined based on the **Composite Measure Sampling Proportion**.
+<<<<<<< HEAD
+=======
+@tbl-samplesize shows the regional breakdown of the 2020 election data,
+sourced from [@wikivote], including voter turnout, total ballots cast,
+and Voting Eligible Population (VEP). The sample size for each region
+shown in @tbl-samplesize was determined based on the **Composite Measure
+Sampling Proportion**.
 
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 ## Recruitment of Respondents
 
-Due to budget constraints, we will focus on online recruitment methods, which offer a cost-effective and efficient way to reach a diverse and representative sample of voters across the country.
+Due to budget constraints, we will focus on online recruitment methods,
+which offer a cost-effective and efficient way to reach a diverse and
+representative sample of voters across the country.
 
-Online Recruitment: With the objective of surveying 400 respondents, we will focus our resources on implementing the survey and ensuring high-quality data collection. The survey will be developed in-house, and respondents will be recruited using online survey platforms. The recruitment approach is as follows:
+Online Recruitment: With the objective of surveying 400 respondents, we
+will focus our resources on implementing the survey and ensuring
+high-quality data collection. The survey will be developed in-house, and
+respondents will be recruited using online survey platforms. The
+recruitment approach is as follows:
 
 Sample Size Distribution Across Platforms
 
-Online Panel Providers (Qualtrics, YouGov): 200 respondents will be recruited through reputable online panel providers like Qualtrics and YouGov, known for high-quality samples with verified voter registration status. This recruitment source provides a strong base of quality data, given the stringent participant verification process in place.
+Online Panel Providers (Qualtrics, YouGov): 200 respondents will be
+recruited through reputable online panel providers like Qualtrics and
+YouGov, known for high-quality samples with verified voter registration
+status. This recruitment source provides a strong base of quality data,
+given the stringent participant verification process in place.
 
-Social Media Recruitment: We plan to recruit 400 respondents through targeted social media panels on platforms such as Facebook and Instagram. Given the typically lower data quality from social media recruitment, we anticipate that 50% of responses may be invalid. To compensate, we will oversample from this group, aiming to gather a sufficient number of valid and high-quality responses. To attract participants, each respondent will receive a small monetary reward (such as a gift card) for completing the survey. Targeted ads and eligibility screening will be used to reach respondents who meet key criteria, such as age and U.S. voter registration status. This approach helps ensure that those recruited are likely to be eligible voters.
+Social Media Recruitment: We plan to recruit 400 respondents through
+targeted social media panels on platforms such as Facebook and
+Instagram. Given the typically lower data quality from social media
+recruitment, we anticipate that 50% of responses may be invalid. To
+compensate, we will oversample from this group, aiming to gather a
+sufficient number of valid and high-quality responses. To attract
+participants, each respondent will receive a small monetary reward (such
+as a gift card) for completing the survey. Targeted ads and eligibility
+screening will be used to reach respondents who meet key criteria, such
+as age and U.S. voter registration status. This approach helps ensure
+that those recruited are likely to be eligible voters.
 
 ## Handling Non-response bias
 
-Nonresponse bias occurs when participants are unwilling or unable to respond to specific questions or complete the entire survey. For example, since our survey takes about 15 minutes to finish, there is a potential for nonresponse bias to arise. To address this concern, as highlighted by @surveymonkey, we strive to establish clear expectations regarding the survey's objectives and the estimated time required for completion. Furthermore, we utilize post-stratification, which changes the survey weights to make sure the group that answered fits well with the actual population characteristics [@surveylab].
+Nonresponse bias occurs when participants are unwilling or unable to
+respond to specific questions or complete the entire survey. For
+example, since our survey takes about 15 minutes to finish, there is a
+potential for nonresponse bias to arise. To address this concern, as
+highlighted by @surveymonkey, we strive to establish clear expectations
+regarding the survey's objectives and the estimated time required for
+completion. Furthermore, we utilize post-stratification, which changes
+the survey weights to make sure the group that answered fits well with
+the actual population characteristics [@surveylab].
 
 ## Respondent Validation
 
-To ensure high data quality and accuracy, respondent validation will be conducted through multiple checks and verification processes. This process ensures that only eligible and relevant participants are included in the survey, maintaining the integrity of the sample.
+To ensure high data quality and accuracy, respondent validation will be
+conducted through multiple checks and verification processes. This
+process ensures that only eligible and relevant participants are
+included in the survey, maintaining the integrity of the sample.
 
 Voter Registration Verification:
 
-Respondents will be required to confirm their voter registration status, with a portion of the sample cross-referenced against voter registration databases or verified through reputable online panel providers like Qualtrics or YouGov. This step ensures that the survey includes only registered and likely voters, crucial for representing the target population accurately. Screening and Eligibility Questions:
+Respondents will be required to confirm their voter registration status,
+with a portion of the sample cross-referenced against voter registration
+databases or verified through reputable online panel providers like
+Qualtrics or YouGov. This step ensures that the survey includes only
+registered and likely voters, crucial for representing the target
+population accurately. Screening and Eligibility Questions:
 
-Respondents will complete a set of screening questions to verify eligibility criteria, such as age (18 or older) and U.S. citizenship. Only those meeting these criteria will be allowed to proceed with the survey. Attention Checks:
+Respondents will complete a set of screening questions to verify
+eligibility criteria, such as age (18 or older) and U.S. citizenship.
+Only those meeting these criteria will be allowed to proceed with the
+survey. Attention Checks:
 
-To detect and filter out inattentive or disengaged participants, attention-check questions will be embedded throughout the survey (e.g., asking respondents to select a specific answer to verify attentiveness). Respondents who fail these checks may be excluded from the final sample. Duplicate Prevention:
+To detect and filter out inattentive or disengaged participants,
+attention-check questions will be embedded throughout the survey (e.g.,
+asking respondents to select a specific answer to verify attentiveness).
+Respondents who fail these checks may be excluded from the final sample.
+Duplicate Prevention:
 
-Unique identifiers such as IP addresses and email addresses will be tracked to prevent multiple submissions from the same individual, ensuring that each response represents a unique participant. Post-Survey Data Cleaning:
+Unique identifiers such as IP addresses and email addresses will be
+tracked to prevent multiple submissions from the same individual,
+ensuring that each response represents a unique participant. Post-Survey
+Data Cleaning:
 
-After data collection, responses will be reviewed for consistency and completeness. Inconsistent responses or incomplete surveys will be removed, maintaining the quality and reliability of the dataset. By implementing these respondent validation steps, the survey methodology ensures that data collected reflects only eligible, registered, and attentive respondents, thereby enhancing the validity and accuracy of the survey results.
+After data collection, responses will be reviewed for consistency and
+completeness. Inconsistent responses or incomplete surveys will be
+removed, maintaining the quality and reliability of the dataset. By
+implementing these respondent validation steps, the survey methodology
+ensures that data collected reflects only eligible, registered, and
+attentive respondents, thereby enhancing the validity and accuracy of
+the survey results.
 
 ## Poll Aggregation
 
-After getting the survey response, we will aggregate polls from two recruitment sources: online panel providers and social media platforms.To weight the two panels effectively, we will first identify key demographic variables for stratification, such as age, gender, race/ethnicity, and education level, and establish population proportions using U.S. Census data or other reliable sources. For the online panel (200 respondents), we will compare the demographic distribution of respondents to these population benchmarks, calculating weights based on the degree of under- or over-representation. Similarly, we will perform this analysis for the social media panel (400 respondents) to determine its weights. Once we have calculated weights for each panel, we will combine them into a single weighting scheme that reflects the overall demographic composition of the target population. During data analysis, we will apply these weights to the responses, ensuring that underrepresented groups have a greater influence on the results while adjusting for those that are overrepresented. Finally, we will conduct post-stratification adjustments to confirm that the combined sample accurately mirrors the true characteristics of the U.S. voting population, providing reliable insights into voter preferences and behaviors.
+After getting the survey response, we will aggregate polls from two
+recruitment sources: online panel providers and social media
+platforms.To weight the two panels effectively, we will first identify
+key demographic variables for stratification, such as age, gender,
+race/ethnicity, and education level, and establish population
+proportions using U.S. Census data or other reliable sources. For the
+online panel (200 respondents), we will compare the demographic
+distribution of respondents to these population benchmarks, calculating
+weights based on the degree of under- or over-representation. Similarly,
+we will perform this analysis for the social media panel (400
+respondents) to determine its weights. Once we have calculated weights
+for each panel, we will combine them into a single weighting scheme that
+reflects the overall demographic composition of the target population.
+During data analysis, we will apply these weights to the responses,
+ensuring that underrepresented groups have a greater influence on the
+results while adjusting for those that are overrepresented. Finally, we
+will conduct post-stratification adjustments to confirm that the
+combined sample accurately mirrors the true characteristics of the U.S.
+voting population, providing reliable insights into voter preferences
+and behaviors.
 
 ## Survey Design
 
-The survey is designed to capture essential insights into voting intentions, candidate favorability, and the issues influencing voter decisions. It will be concise and straightforward, taking no longer than 15 minutes to complete.
+The survey is designed to capture essential insights into voting
+intentions, candidate favorability, and the issues influencing voter
+decisions. It will be concise and straightforward, taking no longer than
+15 minutes to complete.
 
 **Survey Link**\
-The survey has been implemented using Google Forms. You can access it here: [Survey Link](https://forms.gle/BAZhkWDyLxAibwvu5).
+The survey has been implemented using Google Forms. You can access it
+here: [Survey Link](https://forms.gle/BAZhkWDyLxAibwvu5).
 
-In our survey, several questions are adapted from the Emerson College Polling data [@emerson]. We apply insights from @survey to minimize response biases. Common response biases identified in survey design include moderacy bias, extreme response bias, ordering bias, acquiescence bias, experimenter demand effect (EDE), and social desirability bias (SDB). Our survey primarily focuses on strategies to reduce moderacy bias, extreme response bias, ordering bias, SDB, and acquiescence bias.
+In our survey, several questions are adapted from the Emerson College
+Polling data [@emerson]. We apply insights from @survey to minimize
+response biases. Common response biases identified in survey design
+include moderacy bias, extreme response bias, ordering bias,
+acquiescence bias, experimenter demand effect (EDE), and social
+desirability bias (SDB). Our survey primarily focuses on strategies to
+reduce moderacy bias, extreme response bias, ordering bias, SDB, and
+acquiescence bias.
 
 ### Defination of the response bias
 
+<<<<<<< HEAD
 We have defined the bias we want to solve in [Appendix C](#third-poll).
+=======
+@survey define these bias as:
+
+-   Moderacy response bias is the tendency to respond to each question
+    by choosing a category in the middle of the scale.
+
+-   Extreme response bias is the tendency to respond with extreme values
+    on the rating scale.
+
+-   Response order bias occurs when the order of response options in a
+    list or a rating scale influences the response chosen. The primacy
+    effect occurs when respondents are more likely to select one of the
+    first alternatives provided, and it is more common in written
+    surveys. This tendency can be due to satisficing, whereby a
+    respondent uses the first acceptable response alternative without
+    paying particular attention to the other options. The recency effect
+    occurs when respondents choose one of the last items presented to
+    them (more common in face-to-face or orally presented surveys).
+
+-   Social desirability bias typically stems from the desire of
+    respondents to avoid embarrassment and project a favorable image to
+    others, resulting in respondents not revealing their actual
+    attitudes. The prevalence of this bias will depend on the topic,
+    questions, respondent, mode of the survey, and the social context.
+    For instance, in some circles, anti-immigrant views are not
+    tolerated, and those who hold them may try to hide them. In other
+    settings, people express such views more freely.
+
+-   Acquiescence is the tendency to answer items in a positive way
+    regardless of their content, for instance, systematically selecting
+    categories such as “agree,” “true,” or “yes”.
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 
 ### Solution to the response bias in our survey
 
-To mitigate bias, we enhance our survey in the following ways, drawing on recommendations from @survey:
+To mitigate bias, we enhance our survey in the following ways, drawing
+on recommendations from @survey:
 
-Addressing Extreme/Moderacy Bias: We customize the scale and response options with differentiated alternatives. Three-point answer scales can lead to extreme response bias or moderacy bias due to insufficient options. Therefore, for every scale question, we designed at least five response options, which reduces the likelihood of respondents choosing the middle answers because of a lack of alternatives.
+Addressing Extreme/Moderacy Bias: We customize the scale and response
+options with differentiated alternatives. Three-point answer scales can
+lead to extreme response bias or moderacy bias due to insufficient
+options. Therefore, for every scale question, we designed at least five
+response options, which reduces the likelihood of respondents choosing
+the middle answers because of a lack of alternatives.
 
-Mitigating Response Order Bias: We implement a solution involving seemingly open-ended questions and randomizing the order of response options for unordered (nominal) questions. For ordinal questions, we invert the order. For example, instead of asking, "Will you choose candidate A or candidate B?" we ask, "Who would you vote for? \[pause\] Candidate A or Candidate B?" Additionally, using Google Forms, we randomize the order of options for all unordered questions to further reduce response order bias.
+Mitigating Response Order Bias: We implement a solution involving
+seemingly open-ended questions and randomizing the order of response
+options for unordered (nominal) questions. For ordinal questions, we
+invert the order. For example, instead of asking, "Will you choose
+candidate A or candidate B?" we ask, "Who would you vote for? \[pause\]
+Candidate A or Candidate B?" Additionally, using Google Forms, we
+randomize the order of options for all unordered questions to further
+reduce response order bias.
 
-Minimizing Social Desirability Bias (SDB): Given that our survey is conducted online, we employ a minimized SDB format. A recommended strategy for recruiting respondents is to provide only basic information about the survey's purpose at the outset, which engages participants without overwhelming them. Therefore, in the introduction, we state that the survey aims for academic research in Statistics, omitting details about our affiliations or the specific use of the data. We simply inform participants that, "This survey is for nonpartisan researchers in academic research in Statistics." At the end of the survey, we include a feedback section to gauge attitudes toward the surveyor or entity.
+Minimizing Social Desirability Bias (SDB): Given that our survey is
+conducted online, we employ a minimized SDB format. A recommended
+strategy for recruiting respondents is to provide only basic information
+about the survey's purpose at the outset, which engages participants
+without overwhelming them. Therefore, in the introduction, we state that
+the survey aims for academic research in Statistics, omitting details
+about our affiliations or the specific use of the data. We simply inform
+participants that, "This survey is for nonpartisan researchers in
+academic research in Statistics." At the end of the survey, we include a
+feedback section to gauge attitudes toward the surveyor or entity.
 
-Ensuring Anonymity (Minimizing SDB): The complete anonymity of respondents is a crucial aspect of our survey. We guarantee this anonymity as stated on the survey landing and consent page. Before sensitive questions, we will reinforce that all answers are confidential and anonymous, reminding participants of their privacy. We will strategically place sensitive items within the survey to minimize the risk of social desirability bias (SDB).
+Ensuring Anonymity (Minimizing SDB): The complete anonymity of
+respondents is a crucial aspect of our survey. We guarantee this
+anonymity as stated on the survey landing and consent page. Before
+sensitive questions, we will reinforce that all answers are confidential
+and anonymous, reminding participants of their privacy. We will
+strategically place sensitive items within the survey to minimize the
+risk of social desirability bias (SDB).
 
-Reducing Acquiescence Bias: To tackle acquiescence bias, we avoid agree-disagree, true-false, and yes-no question formats. Instead of using agree-disagree questions, we formulate inquiries that utilize direct, item-specific scales tailored to the question. For instance, when asking for respondents' views on candidates, we use options like "very unfavorable, unfavorable, moderate, favorable, very favorable" instead of simple yes or no. Furthermore, we ensure that our questions offer answer options that encompass all possible views. For example, in the question "Do you approve or disapprove of the job Joe Biden is doing as President?", we provide the options "Approve, Disapprove, Neutral or no opinion" rather than just yes or no.
+<<<<<<< HEAD
+=======
+Reducing Acquiescence Bias: To tackle acquiescence bias, we avoid
+agree-disagree, true-false, and yes-no question formats. Instead of
+using agree-disagree questions, we formulate inquiries that utilize
+direct, item-specific scales tailored to the question. For instance,
+when asking for respondents' views on candidates, we use options like
+"very unfavorable, unfavorable, moderate, favorable, very favorable"
+instead of simple yes or no. Furthermore, we ensure that our questions
+offer answer options that encompass all possible views. For example, in
+the question "Do you approve or disapprove of the job Joe Biden is doing
+as President?", we provide the options "Approve, Disapprove, Neutral or
+no opinion" rather than just yes or no.
 
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 ## Budget Breakdown
 
-Budget Breakdown With a total budget of \$100,000, the allocation for various components of the survey implementation and data collection is as follows:
+Budget Breakdown With a total budget of \$100,000, the allocation for
+various components of the survey implementation and data collection is
+as follows:
 
-Survey Design and Development: \$2,000 This portion covers the design and development of the survey, including question formatting, testing, and integration with online platforms like Qualtrics and social media platforms. Ensuring the survey is user-friendly and addresses key research questions is essential for high-quality data collection. Online Panel Providers (Qualtrics, YouGov): \$80,000 (200 respondents at \$400 per respondent) We will recruit 100 respondents via reputable online panel providers like Qualtrics and YouGov. These platforms ensure high-quality responses through verified voter registration, but they come at a higher cost per respondent due to their validation processes.
+Survey Design and Development: \$2,000 This portion covers the design
+and development of the survey, including question formatting, testing,
+and integration with online platforms like Qualtrics and social media
+platforms. Ensuring the survey is user-friendly and addresses key
+research questions is essential for high-quality data collection. Online
+Panel Providers (Qualtrics, YouGov): \$80,000 (200 respondents at \$400
+per respondent) We will recruit 100 respondents via reputable online
+panel providers like Qualtrics and YouGov. These platforms ensure
+high-quality responses through verified voter registration, but they
+come at a higher cost per respondent due to their validation processes.
 
-Social Media Recruitment (Facebook, Instagram): \$12,000 (400 respondents at \$30 per respondent) 400 respondents will be recruited using targeted social media ads. Since we expect 50% of responses to be invalid, oversampling will allow us to achieve a final valid sample of 200 respondents. The cost per respondent is lower than online panel providers, but rigorous validation and filtering are required to ensure data quality.
+Social Media Recruitment (Facebook, Instagram): \$12,000 (400
+respondents at \$30 per respondent) 400 respondents will be recruited
+using targeted social media ads. Since we expect 50% of responses to be
+invalid, oversampling will allow us to achieve a final valid sample of
+200 respondents. The cost per respondent is lower than online panel
+providers, but rigorous validation and filtering are required to ensure
+data quality.
 
-Data Validation and Quality Control: \$6,000 This covers voter registration verification, attention checks within the survey, and extensive post-collection filtering, particularly for social media responses. Ensuring the integrity and accuracy of the data is crucial to minimize biases and errors.
+Data Validation and Quality Control: \$6,000 This covers voter
+registration verification, attention checks within the survey, and
+extensive post-collection filtering, particularly for social media
+responses. Ensuring the integrity and accuracy of the data is crucial to
+minimize biases and errors.
 
 ## Copy of U.S. Presidential Election Polls Survey
 
-Welcome to our 2024 U.S. Presidential Election Polls Survey. Your participation in this survey is vital in helping us understand voters' preferences and opinions on key issues. Rest assured that your responses are anonymous and will only be used for statistical analysis.
+Welcome to our 2024 U.S. Presidential Election Polls Survey. Your
+participation in this survey is vital in helping us understand voters'
+preferences and opinions on key issues. Rest assured that your responses
+are anonymous and will only be used for statistical analysis.
 
-This survey is for academic research in Statistics. It consists of 26 carefully designed questions and should take approximately 12-15 minutes to complete.
+This survey is for academic research in Statistics. It consists of 26
+carefully designed questions and should take approximately 12-15 minutes
+to complete.
 
 For any questions or concerns regarding this survey, please contact:\
+<<<<<<< HEAD
 **Email:** diana.shen\@mail.utoronto.ca; jinyan.wei\@mail.utoronto.ca; huayan.yu\@mail.utoronto.ca
+=======
+**Email:** diana.shen\@mail.utoronto.ca; jinyan.wei\@mail.utoronto.ca;
+huayan.yu\@mail.utoronto.ca
+>>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 
 ------------------------------------------------------------------------
 
 Privacy Notice for Respondents
 
-Your privacy is our priority. In this survey, your responses are completely anonymous, ensuring that no one can link your answers back to you. We encourage you to share your true opinions, as this survey is conducted by a neutral, nonpartisan entity. Your data will only be used for research purposes, and you will not be identified individually. If you have concerns, we ask for your feedback at the end of the survey to ensure transparency and trust.
+Your privacy is our priority. In this survey, your responses are
+completely anonymous, ensuring that no one can link your answers back to
+you. We encourage you to share your true opinions, as this survey is
+conducted by a neutral, nonpartisan entity. Your data will only be used
+for research purposes, and you will not be identified individually. If
+you have concerns, we ask for your feedback at the end of the survey to
+ensure transparency and trust.
 
 ------------------------------------------------------------------------
 
 Section 1: Survey Questions
 
-1.  **Do you approve or disapprove of the job Joe Biden is doing as President?**
+1.  **Do you approve or disapprove of the job Joe Biden is doing as
+    President?**
 
     -   Approve
     -   Disapprove
@@ -482,7 +1147,8 @@ Section 1: Survey Questions
     -   Prefer not to say
     -   Other: \_\_\_\_\_\_\_\_\_\_
 
-3.  **If the Presidential Election were held today, would you vote for Kamala Harris or Donald Trump?**
+3.  **If the Presidential Election were held today, would you vote for
+    Kamala Harris or Donald Trump?**
 
     -   Kamala Harris
     -   Donald Trump
@@ -490,7 +1156,9 @@ Section 1: Survey Questions
     -   Undecided
     -   Prefer not to say
 
-4.  **Although you are undecided, which candidate do you lean toward?**(Jump to this question only if responders choose undecided in Question 3)
+4.  **Although you are undecided, which candidate do you lean
+    toward?**(Jump to this question only if responders choose undecided
+    in Question 3)
 
     -   Kamala Harris
     -   Donald Trump
@@ -528,17 +1196,24 @@ Section 1: Survey Questions
     -   Other
     -   Prefer not to say
 
-10. **Imagine the following candidates: Candidate A favors cutting taxes but has a weak stance on climate change, and Candidate B focuses on healthcare but supports increased military spending.Who would you vote for? Candidate A or Candidate B?**
+10. **Imagine the following candidates: Candidate A favors cutting taxes
+    but has a weak stance on climate change, and Candidate B focuses on
+    healthcare but supports increased military spending.Who would you
+    vote for? Candidate A or Candidate B?**
 
     -   Candidate A
     -   Candidate B
 
-11. **Imagine two candidates: Candidate A supports education reform but plans to cut social security, and Candidate B focuses on green energy but raises taxes. Who would you vote for? Candidate A or Candidate B?**
+11. **Imagine two candidates: Candidate A supports education reform but
+    plans to cut social security, and Candidate B focuses on green
+    energy but raises taxes. Who would you vote for? Candidate A or
+    Candidate B?**
 
     -   Candidate A
     -   Candidate B
 
-12. **What do you think is the most important issue facing the United States?**
+12. **What do you think is the most important issue facing the United
+    States?**
 
     -   Economy
     -   Healthcare
@@ -586,13 +1261,15 @@ Section 1: Survey Questions
     -   5
     -   Very important
 
-17. **How closely are you following news about the 2024 U.S. presidential election?**
+17. **How closely are you following news about the 2024 U.S.
+    presidential election?**
 
     -   Very closely
     -   Somewhat closely
     -   Not closely
 
-18. **Which social media platforms do you use to get political news?** (Select all that apply)
+18. **Which social media platforms do you use to get political news?**
+    (Select all that apply)
 
     -   Facebook
     -   Twitter
@@ -605,7 +1282,11 @@ Section 1: Survey Questions
 Section 2: Demographic Information
 
 **Privacy Notice for Demographic Information Collection**\
-Your demographic information is collected anonymously and will be used for statistical purposes only, helping us analyze trends across different groups. We ensure that your individual responses cannot be traced back to you, maintaining full confidentiality. Your privacy and honest participation are important to us.
+Your demographic information is collected anonymously and will be used
+for statistical purposes only, helping us analyze trends across
+different groups. We ensure that your individual responses cannot be
+traced back to you, maintaining full confidentiality. Your privacy and
+honest participation are important to us.
 
 1.  **What is your age group?**
     -   18-24
@@ -619,7 +1300,8 @@ Your demographic information is collected anonymously and will be used for stati
     -   South
     -   Midwest
     -   West
-3.  **For statistical purposes only, can you please tell me your ethnicity?**
+3.  **For statistical purposes only, can you please tell me your
+    ethnicity?**
     -   Hispanic or Latino of any race
     -   White or Caucasian
     -   Black or African American
@@ -645,14 +1327,18 @@ Your demographic information is collected anonymously and will be used for stati
 
 Section 3: Feedback
 
-1.  **Do you have any concerns or feedback regarding the survey, surveyor ,or entity?**\
-    Your feedback is important to us and will help ensure transparency and trust in the research process.
+1.  **Do you have any concerns or feedback regarding the survey,
+    surveyor ,or entity?**\
+    Your feedback is important to us and will help ensure transparency
+    and trust in the research process.
 
 ------------------------------------------------------------------------
 
 Thank You
 
-Thank you for taking the time to complete this survey. Your honest feedback is invaluable and will contribute greatly to our research. We appreciate your participation!
+Thank you for taking the time to complete this survey. Your honest
+feedback is invaluable and will contribute greatly to our research. We
+appreciate your participation!
 
 \newpage
 

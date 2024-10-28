@@ -73,7 +73,7 @@ correlation_matrix <- cor(data %>% select(national_poll, recency_weight, sample_
 
 #### Step 5: Build Models ####
 # 5.1 Unweighted Linear Model
-model_unweighted <- lm(pct ~ national_poll + recency_weight + sample_size_weight + numeric_grade, data = data)
+model_unweighted <- lm(pct ~ national_poll, data = data)
 
 # 5.2 Weighted Linear Model
 model_weighted <- lm(pct ~ national_poll + recency_weight + sample_size_weight + numeric_grade, 
@@ -93,3 +93,4 @@ saveRDS(model_unweighted, file = "models/model_unweighted.rds")
 
 # Save weighted model
 saveRDS(model_weighted, file = "models/model_weighted.rds")
+
