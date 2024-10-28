@@ -581,7 +581,6 @@ Closed-ended questions yield quantifiable data, enabling researchers to
 identify trends and patterns, while open-ended questions provide rich
 qualitative insights that contextualize these trends.
 
-<<<<<<< HEAD
 The careful structuring of questions also plays a crucial role in reducing moderacy bias, where respondents might lean towards neutral options when unsure. By providing clear response categories, the questionnaire encourages participants to express their opinions more decisively. For each of the degree question, Siena designed at least 4 options to help the respondents not only choose extreme or moderate answer in the question.
 
 Furthermore, the inclusion of diverse question types can mitigate acquiescence bias, which occurs when respondents habitually agree with statements instead of reflecting their true feelings. By framing questions in a balanced manner and avoiding leading language, the design helps ensure that participants feel comfortable expressing varied opinions.
@@ -589,27 +588,6 @@ Furthermore, the inclusion of diverse question types can mitigate acquiescence b
 **Weaknesses**:
 
 However, the questionnaire is not without its weaknesses. Critics highlight that the reliance on agree-disagree, yes-no formats can lead to acquiescence bias, where respondents might select favorable options rather than accurately expressing their true opinions. This tendency skews the results, potentially misrepresenting genuine voter sentiment and leading to misleading conclusions.
-=======
-The careful structuring of questions also plays a crucial role in
-reducing moderacy bias, where respondents might lean towards neutral
-options when unsure. By providing clear response categories, the
-questionnaire encourages participants to express their opinions more
-decisively. Furthermore, the inclusion of diverse question types can
-mitigate acquiescence bias, which occurs when respondents habitually
-agree with statements instead of reflecting their true feelings. By
-framing questions in a balanced manner and avoiding leading language,
-the design helps ensure that participants feel comfortable expressing
-varied opinions.
-
-**Weaknesses**:
-
-However, the questionnaire is not without its weaknesses. Critics
-highlight that the reliance on agree-disagree formats can lead to
-acquiescence bias, where respondents might select favorable options
-rather than accurately expressing their true opinions. This tendency
-skews the results, potentially misrepresenting genuine voter sentiment
-and leading to misleading conclusions.
->>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 
 Moreover, the questionnaire may not adequately address the nuances that
 are important to specific demographic groups, resulting in potential
@@ -619,7 +597,6 @@ the survey's questions. This limitation can contribute to nonresponse
 bias, where individuals from underrepresented groups choose not to
 participate or drop out of the survey, further skewing the results.
 
-<<<<<<< HEAD
 Additionally, since we don’t know whether they use randomization when interviewers ask the respondents, there might be response order bias with the occurrence of recency effect, in which respondents choose one of the last items presented to them ( as telephone survey is orally presented surveys). This bias can be exacerbated by the order of response options in a list or a rating scale influences the response chosen [@survey].
 
 Furthermore, as the questionnaire hasn't been provided, we haven't found an assured of complete anonymity in the survey landing and consent page (record of interviewers' words) in the posted questionnaire. This might cause social desirability bias, which typically stems from the desire of respondents to avoid embarrassment and project a favorable image to others, resulting in respondents not revealing their actual attitudes. Thus Siena cannot get the true polls from their sample.
@@ -627,31 +604,6 @@ Furthermore, as the questionnaire hasn't been provided, we haven't found an assu
 Finally, we noticed that the questionnaire is quite long, with more than 50 questions. It will significantly increase the attribution rate of the questionnaires, especially in a telephone survey which takes more time than the online panel. This will increase the possibility of the occurrence of non-response bias.
 
 In summary, the questionnaire exhibits strengths such as clarity and a mixed-format approach that promotes engagement and nuanced responses. However, it faces significant challenges related to biases including acquiescence, nonresponse, social desirability, and ordering effects. To enhance its effectiveness, future iterations should incorporate a broader range of question types, ensure demographic representation, and carefully consider question order and phrasing. Addressing these issues is crucial for minimizing bias and improving the overall validity of the findings.
-=======
-Additionally, the structure of the questions could inadvertently create
-extreme response bias, where participants feel pressured to choose the
-most extreme options rather than selecting a moderate stance. This bias
-can be exacerbated by the order in which questions are presented. If
-respondents encounter highly charged or leading questions early in the
-survey, they may be influenced to respond similarly in subsequent
-questions, a phenomenon known as ordering bias.
-
-Furthermore, while the questionnaire aims to be inclusive, if it fails
-to adequately represent the voices of certain demographic groups, it
-could lead to a lack of adequacy in the data collected. This inadequacy
-undermines the ability to draw comprehensive conclusions about the
-electorate, particularly in a diverse political landscape.
-
-In summary, while the questionnaire design has strengths in clarity and
-mixed-format questions that encourage engagement and nuanced responses,
-it also faces challenges related to biases such as acquiescence,
-nonresponse, extreme response tendencies, and ordering effects. To
-enhance its effectiveness, future iterations of the questionnaire should
-strive to incorporate more varied question types, ensure demographic
-representation, and remain mindful of question order and phrasing to
-minimize the potential for bias and improve the overall validity of the
-findings.
->>>>>>> d0e03d11e07a37bf564498a6aaa0d614288363c8
 
 # Idealized Methodology for US Presidential Election Forecast
 
