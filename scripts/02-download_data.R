@@ -13,13 +13,11 @@ library(tidyverse)
 
 #### Download data ####
 #### Acquire ####
-raw_elections_data <-
-  read_csv(
-    file = 
-      "https://projects.fivethirtyeight.com/polls/data/president_polls.csv",
-    show_col_types = FALSE,
-    skip = 1
-  )
+raw_elections_data <- read_csv(
+  file = "https://projects.fivethirtyeight.com/polls/data/president_polls.csv",
+  show_col_types = FALSE,
+  col_names = TRUE  
+)
 
 #### Save data ####
 write_csv(
