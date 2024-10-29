@@ -12,21 +12,25 @@ library(ggplot2)
 library(lubridate)
 
 #### Step 1: Load cleaned data ####
-data <- read.csv("data/02-analysis_data/cleaned_harris_support.csv")
+library(dplyr)  # Load dplyr package
 
-# Ensure `end_date` exists and is in Date format or set it to today's date if missing
-if (!"end_date" %in% names(data)) {
-  data$end_date <- Sys.Date()
+data <- read.csv("data/02-analysis_data/analysis_data_Harris.csv")
+
+# Set end date to October 27, 2024, if it doesn't exist or is NA
+if (!"end_date" %in% names(data) || is.na(data$end_date[1])) {
+  data$end_date <- as.Date("2024-10-27")  # Set the end date to October 27, 2024
 } else {
-  data$end_date <- as.Date(data$end_date)
+  data$end_date <- as.Date(data$end_date)  # Convert existing end_date to Date format
 }
-data <- data %>% filter(!is.na(end_date))
+data <- data %>% filter(!is.na(end_date))  # Filter out rows with NA in end_date
 
 #### Step 2: Calculate weights ####
 # 2.1 Recency Weight
 data <- data %>%
   mutate(
-    days_since_poll = as.numeric(difftime(Sys.Date(), end_date, units = "days")),
+    # Assuming 'poll_release_date' is a new column you will need to create or add.
+    poll_release_date = as.Date("2024-10-15"),  # Replace with actual poll release date if available
+    days_since_poll = as.numeric(difftime(end_date, poll_release_date, units = "days")),
     recency_weight = ifelse(days_since_poll < 30, exp(-days_since_poll / 15), exp(-days_since_poll / 30))
   )
 
