@@ -14,6 +14,16 @@ library(testthat)
 
 data <- read_csv("data/02-analysis_data/analysis_data.csv")
 
+raw_igme_data <-
+  read_csv(
+    file = "data/01-raw_data/raw_election_24.csv",
+    col_select = c(`Geographic area`, TIME_PERIOD, OBS_VALUE),
+    col_types = cols(
+      `Geographic area` = col_character(),
+      TIME_PERIOD = col_character(),
+      OBS_VALUE = col_double(),
+    )
+  )
 
 #### Test data ####
 # Test that the dataset has 151 rows - there are 151 divisions in Australia
@@ -67,3 +77,16 @@ test_that("no empty strings in 'division', 'party', or 'state' columns", {
 test_that("'party' column contains at least 2 unique values", {
   expect_true(length(unique(analysis_data$party)) >= 2)
 })
+
+rules <- validator(
+  is.numeric(age),
+  is.character(gender),
+  is.numeric(income),
+  age < 120,
+  gender %in% c("female", "male", "other", "prefer not to disclose")
+)
+
+out <-
+  confront(dataset_with_issues, rules)
+
+summary(out)
