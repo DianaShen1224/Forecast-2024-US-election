@@ -59,7 +59,7 @@ just_trump_high_quality <- cleaned_data|>
   # Drop rows with missing values in essential columns
   drop_na(numeric_grade, pct, sample_size, end_date)|>
   filter(
-    candidate_name == "Donal Trump",
+    candidate_name == "Donald Trump",
     numeric_grade >= 2 # mean of numeric_gradeis 2.175, median is 1.9 
   ) |>
   mutate(
@@ -81,4 +81,4 @@ just_trump_high_quality <- cleaned_data|>
          population, methodology, recency_weight, sample_size_weight, national_poll)
 #### Save data ####
 write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.csv")
-write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Trump.csv")
+write_csv(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.csv")
