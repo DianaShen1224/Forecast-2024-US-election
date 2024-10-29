@@ -41,14 +41,11 @@ just_harris_high_quality <- cleaned_data |>
   )|>
   # Calculate recency weight using exponential decay (more recent polls get higher weight)
   mutate(
-    days_since_poll = as.numeric(difftime(Sys.Date(), end_date, units = "days")),
-    recency_weight = exp(-days_since_poll / 30)  # Adjust decay rate as needed
+    recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
+    recency_weight = exp(-recency*0.1)  # Adjust decay rate as needed
   ) |>
   # Apply sample size weight, capped at a maximum of 2,300 responses
-  mutate(sample_size_weight = pmin(sample_size / 2300, 1)) |>
-  # Finalize relevant columns for modeling and remove unneeded columns
-  select(pollster, numeric_grade, state, pct, sample_size, 
-         population, methodology, recency_weight, sample_size_weight, national_poll)
+  mutate(sample_size_weight = pmin(sample_size / 2300, 1))
 
 just_trump_high_quality <- cleaned_data|>
   # Select relevant columns for analysis
@@ -71,14 +68,11 @@ just_trump_high_quality <- cleaned_data|>
   )|>
   # Calculate recency weight using exponential decay (more recent polls get higher weight)
   mutate(
-    days_since_poll = as.numeric(difftime(Sys.Date(), end_date, units = "days")),
-    recency_weight = exp(-days_since_poll / 30)  # Adjust decay rate as needed
+    recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
+    recency_weight = exp(-recency*0.1)  # Adjust decay rate as needed
   ) |>
   # Apply sample size weight, capped at a maximum of 2,300 responses
-  mutate(sample_size_weight = pmin(sample_size / 2300, 1)) |>
-  # Finalize relevant columns for modeling and remove unneeded columns
-  select(pollster, numeric_grade, state, pct, sample_size, 
-         population, methodology, recency_weight, sample_size_weight, national_poll)
+  mutate(sample_size_weight = pmin(sample_size / 2300, 1)) 
 #### Save data ####
 write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.csv")
 write_csv(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.csv")
