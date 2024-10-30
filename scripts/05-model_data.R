@@ -13,6 +13,8 @@ library(dplyr)
 # Load Harris and Trump data
 harris_data <- read.csv("data/02-analysis_data/analysis_data_Harris.csv")
 trump_data <- read.csv("data/02-analysis_data/analysis_data_Trump.csv")
+harris_data <- read_parquet("data/02-analysis_data/analysis_data_Harris.parquet")
+trump_data <- read_parquet("data/02-analysis_data/analysis_data_Trump.parquet")
 
 #### Calculate Weights ####
 # Calculate weights for Harris data
@@ -20,6 +22,8 @@ harris_data <- harris_data %>%
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
     pollster_quality_weight = numeric_grade / 4
+    pollster_quality_weight = numeric_grade / 4,
+    recency_weight = exp(-recency * 0.1)
   ) %>%
   group_by(pollster) %>%
   mutate(
@@ -28,12 +32,15 @@ harris_data <- harris_data %>%
   ) %>%
   ungroup() %>%
   mutate(combined_weight = recency * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 # Calculate weights for Trump data
 trump_data <- trump_data %>%
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
     pollster_quality_weight = numeric_grade / 4
+    pollster_quality_weight = numeric_grade / 4,
+    recency_weight = exp(-recency * 0.1)
   ) %>%
   group_by(pollster) %>%
   mutate(
@@ -46,6 +53,7 @@ trump_data <- trump_data %>%
 #### Model Preparation ####
 # Define selected states for filtering
 selected_states <- c("Pennsylvania", "Nevada", "North Carolina", "Wisconsin", "Michigan", "Georgia", "Arizona")
+  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 # Filter Harris and Trump data by selected states
 harris_data <- harris_data %>%
