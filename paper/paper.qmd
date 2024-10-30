@@ -257,9 +257,7 @@ handling in subsequent analyses.
 
 Recency weights are calculated based on the number of days elapsed since
 the poll ended, utilizing an exponential decay function to give greater
-weight to more recent polls. Additionally, a sample size weight is
-implemented, capping the weights at a maximum of 2,300 responses to
-reflect the reliability of larger sample sizes.
+weight to more recent polls. 
 
 Finally, the cleaned datasets for both candidates are saved in CSV
 format for further modeling and analysis. This systematic approach
