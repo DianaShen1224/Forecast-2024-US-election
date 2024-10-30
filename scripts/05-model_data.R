@@ -9,6 +9,7 @@
 
 #### Load cleaned data ####
 library(dplyr)
+library(arrow)
 
 # Load Harris and Trump data
 harris_data <- read_parquet("data/02-analysis_data/analysis_data_Harris.parquet")
@@ -58,6 +59,7 @@ model_trump_unweighted <- lm(pct ~ national_poll + pollster + population, data =
 
 # 4. Weighted model for Trump
 model_trump_weighted <- lm(pct ~ national_poll + pollster + population, data = trump_data, weights = combined_weight)
+
 
 #### Save Models ####
 saveRDS(model_harris_unweighted, "models/model_harris_unweighted.rds")
