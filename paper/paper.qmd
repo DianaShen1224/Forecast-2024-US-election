@@ -352,7 +352,7 @@ ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, siz
   scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
   scale_size_continuous(range = c(0.5, 3), guide = "none") +
   theme_minimal() +
-  theme(theme(panel.spacing = unit(1, "lines"))
+  theme(
     legend.position = "top",
     axis.text.x = element_text(angle = 0, hjust = 0.5),
     panel.grid.major = element_line(size = 0.1, color = "grey80")
