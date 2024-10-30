@@ -244,8 +244,13 @@ The recent three-month support trends for Kamala Harris and Donald Trump across 
 #| warning: false
 #| message: false
 #| eval: true
-#| label: fig-support-trends
+#| label: fig-support-trends-by-state
 #| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
+
+# Load necessary libraries
+library(tidyverse)
+library(ggplot2)
+
 
 # Load necessary libraries
 library(tidyverse)
@@ -282,6 +287,7 @@ trump_data <- trump_data %>%
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+
 recent_date_cutoff <- as.Date("2024-08-01")  # Set cutoff for recent data
 
 harris_filtered <- harris_data %>%
@@ -289,12 +295,6 @@ harris_filtered <- harris_data %>%
 
 trump_filtered <- trump_data %>%
   filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
-
-# Combine datasets for plotting with a new column for candidate
-harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
-trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
-combined_data <- bind_rows(harris_filtered, trump_filtered)
-
 # Plot with recent data, specific axis formatting, and smoother trend lines
 ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
   geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
@@ -313,7 +313,114 @@ ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, siz
   ) +
   guides(color = guide_legend(title = "Candidate"))
 ```
-@fig-support-trends illustrates the recent support trends for Kamala Harris and Donald Trump across selected battleground states from August to November 2024. Each subplot represents a different state, with support percentages for each candidate displayed over time. Key features include Harris shown in blue and Trump in red, with smoothed trend lines to capture changes over time. The plot's y-axis spans from approximately 30% to 50% support, while the x-axis highlights monthly intervals from August to November. For example, in Arizona, Trump maintains a slight lead with support fluctuating around 50% in October, compared to Harris around 48%. In Georgia, Trump's support reaches just above 49% in late September, whereas Harris hovers closer to 47%. In Wisconsin, both candidates show tightly aligned trends near 48%, highlighting a close race. Each point's size reflects the poll weight—calculated using recency, pollster quality, and sample size—indicating the relative importance of each poll. This visualization emphasizes recent trends in candidate support across key battleground states.
+@fig-support-trends-by-state illustrates the recent support trends for Kamala Harris and Donald Trump across selected battleground states from August to November 2024. Each subplot represents a different state, with support percentages for each candidate displayed over time. Key features include Harris shown in blue and Trump in red, with smoothed trend lines to capture changes over time. The plot's y-axis spans from approximately 30% to 50% support, while the x-axis highlights monthly intervals from August to November. For example, in Arizona, Trump maintains a slight lead with support fluctuating around 50% in October, compared to Harris around 48%. In Georgia, Trump's support reaches just above 49% in late September, whereas Harris hovers closer to 47%. In Wisconsin, both candidates show tightly aligned trends near 48%, highlighting a close race. Each point's size reflects the poll weight—calculated using recency, pollster quality, and sample size—indicating the relative importance of each poll. This visualization emphasizes recent trends in candidate support across key battleground states.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| label: fig-national-support-trends
+#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
+
+harris_data <- harris_data %>%
+  mutate(
+    sample_size_weight = pmin(sample_size / 2300, 1),
+    pollster_quality_weight = numeric_grade / 4,
+    recency_weight = exp(-recency * 0.1)
+  ) %>%
+  group_by(pollster) %>%
+  mutate(
+    recent_poll_count = sum(recency < 30),
+    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
+  ) %>%
+  ungroup() %>%
+  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+
+# Calculate weights for Trump data
+trump_data <- trump_data %>%
+  mutate(
+    sample_size_weight = pmin(sample_size / 2300, 1),
+    pollster_quality_weight = numeric_grade / 4,
+    recency_weight = exp(-recency * 0.1)
+  ) %>%
+  group_by(pollster) %>%
+  mutate(
+    recent_poll_count = sum(recency < 30),
+    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
+  ) %>%
+  ungroup() %>%
+  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+
+harris_data <- harris_data %>% mutate(candidate = "Harris")
+trump_data <- trump_data %>% mutate(candidate = "Trump")
+combined_data_total <- bind_rows(harris_data, trump_data)
+
+selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+recent_date_cutoff <- as.Date("2024-08-01")  # Set cutoff for recent data
+
+harris_filtered <- harris_data %>%
+  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
+
+trump_filtered <- trump_data %>%
+  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
+
+# Combine datasets for plotting with a new column for candidate
+harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
+trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
+combined_data <- bind_rows(harris_filtered, trump_filtered)
+# Plot with recent data, specific axis formatting, and smoother trend lines
+ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
+  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
+  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
+  facet_wrap(~ state) +
+  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Selected States",
+       x = "Date", y = "Support (%)") +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-31"))) +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  scale_size_continuous(range = c(0.5, 3), guide = "none") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    panel.grid.major = element_line(size = 0.1, color = "grey80")
+  ) +
+  guides(color = guide_legend(title = "Candidate"))
+```
+@fig-support-trends-by-state illustrates the recent support trends for Kamala Harris and Donald Trump across selected battleground states from August to November 2024. Each subplot represents a different state, with support percentages for each candidate displayed over time. Key features include Harris shown in blue and Trump in red, with smoothed trend lines to capture changes over time. The plot's y-axis spans from approximately 30% to 50% support, while the x-axis highlights monthly intervals from August to November. For example, in Arizona, Trump maintains a slight lead with support fluctuating around 50% in October, compared to Harris around 48%. In Georgia, Trump's support reaches just above 49% in late September, whereas Harris hovers closer to 47%. In Wisconsin, both candidates show tightly aligned trends near 48%, highlighting a close race. Each point's size reflects the poll weight—calculated using recency, pollster quality, and sample size—indicating the relative importance of each poll. This visualization emphasizes recent trends in candidate support across key battleground states.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| label: fig-national-support-trends
+#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
+
+# Combine datasets for plotting with a new column for candidate
+harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
+trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
+combined_data <- bind_rows(harris_filtered, trump_filtered)
+
+combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
+  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
+  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
+  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Country",
+       x = "Date", y = "Support (%)") +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-27"))) +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  scale_size_continuous(range = c(0.5, 3), guide = "none") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    panel.grid.major = element_line(size = 0.1, color = "grey80")
+  ) +
+  guides(color = guide_legend(title = "Candidate"))
+
+
+```
+@fig-national-support-trendsillustrates illustrates the polling support trends for Kamala Harris and Donald Trump across the country from August to October. The scatter points represent individual poll results, with blue for Harris and red for Trump, while each dot's size reflects the weight of the poll, accounting for factors like sample size, quality, and recency. Harris’s support trend line generally remains above Trump’s, with an average support level around 49%, compared to Trump’s approximate average of 47% over this period. Toward the end of October, both candidates show a slight increase, with Harris’s support reaching just over 50% and Trump’s approaching 49%. This trend suggests a potential narrowing in support levels as the election approaches, providing a quantitative snapshot of national polling dynamics.
 
 # Discussion
 
