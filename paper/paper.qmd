@@ -281,13 +281,25 @@ While the mathematical expression for the models remains consistent, the
 weighted models effectively adjust for variations in data quality and
 recency, leading to more accurate predictions of voter sentiment.
 
+
 # Result
+
+## Recent 3 Months Support Trends Prediction
+
+The recent three-month support trends for Kamala Harris and Donald Trump across key battleground states—Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, and Wisconsin—show a highly competitive race. Each state’s panel displays support percentages over time from August to November 2024, with Harris shown in blue and Trump in red. The plot uses point size to represent poll weights, accounting for factors such as recency, pollster quality, and sample size, where larger points indicate higher-weighted polls, emphasizing more reliable data.
+
 
 ```{r}
 #| echo: false
-#| eval: true
 #| warning: false
 #| message: false
+#| eval: true
+#| label: fig-support-trends-by-state
+#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
+
+# Load necessary libraries
+library(tidyverse)
+library(ggplot2)
 
 harris_data <- harris_data %>%
   mutate(
@@ -318,42 +330,17 @@ trump_data <- trump_data %>%
   ungroup() %>%
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
-harris_data <- harris_data %>% mutate(candidate = "Harris")
-trump_data <- trump_data %>% mutate(candidate = "Trump")
-combined_data_total <- bind_rows(harris_data, trump_data)
-
 selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+
 recent_date_cutoff <- as.Date("2024-08-01")  # Set cutoff for recent data
 
 harris_filtered <- harris_data %>%
-  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
-
+  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)|>mutate(candidate = "Harris")
 trump_filtered <- trump_data %>%
-  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
+  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)|>mutate(candidate = "Trump")
 
-# Combine datasets for plotting with a new column for candidate
-harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
-trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
 combined_data <- bind_rows(harris_filtered, trump_filtered)
-
-combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
-  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
-  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
-  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Country",
-       x = "Date", y = "Support (%)") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-27"))) +
-  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
-  scale_size_continuous(range = c(0.5, 3), guide = "none") +
-  theme_minimal() +
-  theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 0, hjust = 0.5),
-    panel.grid.major = element_line(size = 0.1, color = "grey80")
-  )
-```
-
-
-```{r}
+# Plot with recent data, specific axis formatting, and smoother trend lines
 ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
   geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
   geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
@@ -371,8 +358,37 @@ ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, siz
   ) +
   guides(color = guide_legend(title = "Candidate"))
 ```
+@fig-support-trends-by-state illustrates the recent support trends for Kamala Harris and Donald Trump across selected battleground states from August to November 2024. Each subplot represents a different state, with support percentages for each candidate displayed over time. Key features include Harris shown in blue and Trump in red, with smoothed trend lines to capture changes over time. The plot's y-axis spans from approximately 30% to 50% support, while the x-axis highlights monthly intervals from August to November. For example, in Arizona, Trump maintains a slight lead with support fluctuating around 50% in October, compared to Harris around 48%. In Georgia, Trump's support reaches just above 49% in late September, whereas Harris hovers closer to 47%. In Wisconsin, both candidates show tightly aligned trends near 48%, highlighting a close race. Each point's size reflects the poll weight—calculated using recency, pollster quality, and sample size—indicating the relative importance of each poll. This visualization emphasizes recent trends in candidate support across key battleground states.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| label: fig-national-support-trends
+#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
+harris_data<-harris_data|>mutate(candidate = "Harris")
+trump_data<-trump_data |>mutate(candidate= "Trump")
+combined_data_total <- bind_rows(harris_data, trump_data)
+combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
+  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
+  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
+  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Country",
+       x = "Date", y = "Support (%)") +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-27"))) +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  scale_size_continuous(range = c(0.5, 3), guide = "none") +
+  theme_minimal() +
+  theme(
+    legend.position = "top",
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    panel.grid.major = element_line(size = 0.1, color = "grey80")
+  ) +
+  guides(color = guide_legend(title = "Candidate"))
 
 
+```
+@fig-national-support-trendsillustrates illustrates the polling support trends for Kamala Harris and Donald Trump across the country from August to October. The scatter points represent individual poll results, with blue for Harris and red for Trump, while each dot's size reflects the weight of the poll, accounting for factors like sample size, quality, and recency. Harris’s support trend line generally remains above Trump’s, with an average support level around 49%, compared to Trump’s approximate average of 47% over this period. Toward the end of October, both candidates show a slight increase, with Harris’s support reaching just over 50% and Trump’s approaching 49%. This trend suggests a potential narrowing in support levels as the election approaches, providing a quantitative snapshot of national polling dynamics.
 
 # Discussion
 
@@ -440,6 +456,10 @@ the original creation.
 ## Model validation: K-Fold Cross-Validation
 
 ```{r}
+#| echo: false
+#| eval: true
+#| message: false
+#| warning: false
 # Load necessary libraries
 library(boot)    # For bootstrapping
 library(caret)   # For cross-validation
@@ -465,25 +485,43 @@ model_trump_cv <- train(model_formula, data = trump_data, method = "lm", trContr
 print(model_trump_cv)
 ```
 
-We use a 10-fold cross-validation on two linear regression models—one for Harris and one for Trump. The models use three predictors: national_poll, pollster, and population. The output provides key metrics, which breaks down here:
+We use a 10-fold cross-validation on two linear regression models—one
+for Harris and one for Trump. The models use three predictors:
+national_poll, pollster, and population. The output provides key
+metrics, which breaks down here:
 
-RMSE (Root Mean Square Error): Measures the average magnitude of prediction errors (lower is better).
+RMSE (Root Mean Square Error): Measures the average magnitude of
+prediction errors (lower is better).
 
-Harris model: RMSE of 3.47, indicating an average prediction error of around 3.47 percentage points.\
-Trump model: RMSE of 4.39, showing a slightly higher prediction error on average.\
+Harris model: RMSE of 3.47, indicating an average prediction error of
+around 3.47 percentage points.\
+Trump model: RMSE of 4.39, showing a slightly higher prediction error on
+average.\
 
-R-squared: Represents the proportion of the variance in the response variable explained by the model (higher is better).\
-Harris model: R-squared of 0.346, meaning the model explains about 34.6% of the variance in Harris's polling data.\
-Trump model: R-squared of 0.346 as well, indicating similar explanatory power for Trump's polling data.
+R-squared: Represents the proportion of the variance in the response
+variable explained by the model (higher is better).\
+Harris model: R-squared of 0.346, meaning the model explains about 34.6%
+of the variance in Harris's polling data.\
+Trump model: R-squared of 0.346 as well, indicating similar explanatory
+power for Trump's polling data.
 
-MAE (Mean Absolute Error): Shows the average absolute difference between observed and predicted values (lower is better).\
-Harris model: MAE of 2.50, meaning that, on average, the predictions are off by 2.5 percentage points.\
-Trump model: MAE of 3.13, indicating slightly less precise predictions compared to the Harris model.\
+MAE (Mean Absolute Error): Shows the average absolute difference between
+observed and predicted values (lower is better).\
+Harris model: MAE of 2.50, meaning that, on average, the predictions are
+off by 2.5 percentage points.\
+Trump model: MAE of 3.13, indicating slightly less precise predictions
+compared to the Harris model.\
 
-Interpretation Summary
-Predictive Accuracy: The Harris model has slightly better predictive accuracy than the Trump model, as reflected by its lower RMSE and MAE values.\
-Model Fit: Both models explain roughly 34.6% of the variance in their respective datasets. This suggests that other factors not included in the model may play a significant role in explaining the remaining variance.\
-This summary indicates the models are moderately predictive, with room for improvement in accuracy and fit, potentially by adding more predictors or adjusting model specifications.\
+Interpretation Summary Predictive Accuracy: The Harris model has
+slightly better predictive accuracy than the Trump model, as reflected
+by its lower RMSE and MAE values.\
+Model Fit: Both models explain roughly 34.6% of the variance in their
+respective datasets. This suggests that other factors not included in
+the model may play a significant role in explaining the remaining
+variance.\
+This summary indicates the models are moderately predictive, with room
+for improvement in accuracy and fit, potentially by adding more
+predictors or adjusting model specifications.\
 
 ## Diagnostics
 
@@ -493,7 +531,7 @@ This summary indicates the models are moderately predictive, with room for impro
 #| message: false
 #| warning: false
 #| label: fig-stanareyouokay
-#| fig-cap: "Diagnostics of model using residual vs fitted plot and norm Q-Q plot\n-Support for Harris"
+#| fig-cap: "Diagnostics of model using residual vs fitted plot and norm Q-Q plot\-Support for Harris"
 #| fig-subcap: ["Residual Plot for Unweighted Model", "Q-Q Plot for Unweighted Model", "Residual Plot for Weighted Model", "Q-Q Plot for Weighted Model"]
 #| layout-ncol: 2
 
@@ -513,20 +551,61 @@ qqline(residuals(harris_weighted_model), col = "red")
 
 
 ```
-Generally, we use Residual vs Fitted plot and Q-Q Plot diagnostic our model. Residual vs Fitted plot aare Residuals (differences between observed and predicted values) plotted against fitted values. Ideally, these residuals should be randomly scattered around the zero line to indicate that the model does not have systematic errors. The Q-Q plot for the unweighted model shows how the residuals align with a theoretical normal distribution. Ideally, residuals should follow a straight line in this plot if they are normally distributed, which is an assumption of linear regression.
 
-@fig-stanareyouokay-1 is a residual plot of un-weighted model for Harris support. It
-showsthe residuals are generally spread around zero, with no clear pattern. This suggests the model is relatively well-specified. However, there is a slight curvature, indicating potential non-linearity that the model may not fully capture. A few notable outliers with larger residuals might be influencing the model, indicating that some data points have more significant prediction errors.
+Generally, we use Residual vs Fitted plot and Q-Q Plot diagnostic our
+model. Residual vs Fitted plot aare Residuals (differences between
+observed and predicted values) plotted against fitted values. Ideally,
+these residuals should be randomly scattered around the zero line to
+indicate that the model does not have systematic errors. The Q-Q plot
+for the unweighted model shows how the residuals align with a
+theoretical normal distribution. Ideally, residuals should follow a
+straight line in this plot if they are normally distributed, which is an
+assumption of linear regression.
 
-@fig-stanareyouokay-2 is a Q-Q plot of un-weighted model plot for Harris support. It
-shows most residuals fall along the line, especially in the middle range. This suggests that our model satisfy the normality assumption. However, some points at the tails deviate, indicating potential outliers or non-normality in the extreme residual values. This slight deviation at the ends suggests the model might have some issues with extreme predictions but performs reasonably well overall.
+@fig-stanareyouokay-1 is a residual plot of un-weighted model for Harris
+support. It showsthe residuals are generally spread around zero, with no
+clear pattern. This suggests the model is relatively well-specified.
+However, there is a slight curvature, indicating potential non-linearity
+that the model may not fully capture. A few notable outliers with larger
+residuals might be influencing the model, indicating that some data
+points have more significant prediction errors.
 
-@fig-stanareyouokay-3 is a residual plot of weighted model for Harris support.It shows residuals are again plotted against fitted values. Similar to the unweighted model, the residuals are mostly centered around zero, indicating that the weighted model captures the general trend without significant systematic bias. The curvature is slightly reduced compared to the un-weighted model, suggesting that weighting has helped in addressing some of the non-linearity observed in the un-weighted model. However, some residuals are still notably large, which may indicate outliers that influence the model despite the weighting scheme. This suggests that while the weighted model performs better in terms of capturing non-linearity, further refinement might still be beneficial.
+@fig-stanareyouokay-2 is a Q-Q plot of un-weighted model plot for Harris
+support. It shows most residuals fall along the line, especially in the
+middle range. This suggests that our model satisfy the normality
+assumption. However, some points at the tails deviate, indicating
+potential outliers or non-normality in the extreme residual values. This
+slight deviation at the ends suggests the model might have some issues
+with extreme predictions but performs reasonably well overall.
 
-@fig-stanareyouokay-4 is a  Q-Q Plot of weighted model plot for Harris support.The residuals generally align with the theoretical normal distribution line, particularly in the central range, indicating that the residuals of the weighted model are close to normal. Similar to the unweighted model, there are deviations at the tails, though they appear less pronounced. This suggests that the weighting scheme has slightly improved the distribution of residuals, making the model’s predictions more robust. However, some extreme values remain, which could still affect model
+@fig-stanareyouokay-3 is a residual plot of weighted model for Harris
+support.It shows residuals are again plotted against fitted values.
+Similar to the unweighted model, the residuals are mostly centered
+around zero, indicating that the weighted model captures the general
+trend without significant systematic bias. The curvature is slightly
+reduced compared to the un-weighted model, suggesting that weighting has
+helped in addressing some of the non-linearity observed in the
+un-weighted model. However, some residuals are still notably large,
+which may indicate outliers that influence the model despite the
+weighting scheme. This suggests that while the weighted model performs
+better in terms of capturing non-linearity, further refinement might
+still be beneficial.
 
-In summary, both models show a reasonably good fit, with the weighted model offering slight improvements in handling non-linearity and extreme values. However, both models exhibit minor deviations from normality and a few notable outliers, which may warrant further model adjustments for improved prediction accuracy.
+@fig-stanareyouokay-4 is a Q-Q Plot of weighted model plot for Harris
+support.The residuals generally align with the theoretical normal
+distribution line, particularly in the central range, indicating that
+the residuals of the weighted model are close to normal. Similar to the
+unweighted model, there are deviations at the tails, though they appear
+less pronounced. This suggests that the weighting scheme has slightly
+improved the distribution of residuals, making the model’s predictions
+more robust. However, some extreme values remain, which could still
+affect model
 
+In summary, both models show a reasonably good fit, with the weighted
+model offering slight improvements in handling non-linearity and extreme
+values. However, both models exhibit minor deviations from normality and
+a few notable outliers, which may warrant further model adjustments for
+improved prediction accuracy.
 
 ```{r}
 #| echo: false
@@ -555,16 +634,48 @@ qqline(residuals(trump_weighted_model), col = "red")
 
 ```
 
-@fig-dia-1 shows the residuals plotted against the fitted values for the unweighted model. It shows that the residuals are generally spread around zero with no clear pattern, suggesting that the model is relatively well-specified. However, there is a slight curvature, indicating possible non-linearity that the model may not fully capture. Some notable outliers with larger residuals suggest that certain data points have significant prediction errors, potentially influencing the model.
+@fig-dia-1 shows the residuals plotted against the fitted values for the
+unweighted model. It shows that the residuals are generally spread
+around zero with no clear pattern, suggesting that the model is
+relatively well-specified. However, there is a slight curvature,
+indicating possible non-linearity that the model may not fully capture.
+Some notable outliers with larger residuals suggest that certain data
+points have significant prediction errors, potentially influencing the
+model.
 
-@fig-dia-2 shows the Q-Q plot for the unweighted model, showing that most residuals fall along the line, especially in the middle range, suggesting that the model satisfies the normality assumption. However, some points at the tails deviate, indicating potential outliers or non-normality in extreme residual values. This deviation at the ends suggests the model may face issues with extreme predictions, though it performs reasonably well overall.
+@fig-dia-2 shows the Q-Q plot for the unweighted model, showing that
+most residuals fall along the line, especially in the middle range,
+suggesting that the model satisfies the normality assumption. However,
+some points at the tails deviate, indicating potential outliers or
+non-normality in extreme residual values. This deviation at the ends
+suggests the model may face issues with extreme predictions, though it
+performs reasonably well overall.
 
-@fig-dia3 shows residuals plotted against fitted values. Similar to the unweighted model, the residuals are centered around zero, indicating that the weighted model captures the overall trend without significant systematic bias. The slight curvature seen in the unweighted model is reduced here, suggesting that weighting has addressed some of the non-linearity. However, some large residuals remain, which could indicate outliers that affect the model even with the weighting scheme. This suggests that while the weighted model has improved in handling non-linearity, further refinements could enhance accuracy.
+@fig-dia3 shows residuals plotted against fitted values. Similar to the
+unweighted model, the residuals are centered around zero, indicating
+that the weighted model captures the overall trend without significant
+systematic bias. The slight curvature seen in the unweighted model is
+reduced here, suggesting that weighting has addressed some of the
+non-linearity. However, some large residuals remain, which could
+indicate outliers that affect the model even with the weighting scheme.
+This suggests that while the weighted model has improved in handling
+non-linearity, further refinements could enhance accuracy.
 
-@fig-dia-4 shows the Q-Q plot for the weighted model compares residuals with a theoretical normal distribution. Here, the residuals generally align with the theoretical line, especially in the central range, indicating that the residuals of the weighted model are close to normal. Similar to the unweighted model, some deviations occur at the tails, though they appear less pronounced, suggesting that the weighting scheme has slightly improved the normality of residuals. Nonetheless, some extreme values persist, which may impact model robustness in cases of outliers.
+@fig-dia-4 shows the Q-Q plot for the weighted model compares residuals
+with a theoretical normal distribution. Here, the residuals generally
+align with the theoretical line, especially in the central range,
+indicating that the residuals of the weighted model are close to normal.
+Similar to the unweighted model, some deviations occur at the tails,
+though they appear less pronounced, suggesting that the weighting scheme
+has slightly improved the normality of residuals. Nonetheless, some
+extreme values persist, which may impact model robustness in cases of
+outliers.
 
-Summary
-Both models exhibit a reasonably good fit, with the weighted model offering slight improvements in managing non-linearity and extreme values. Despite this, both models show minor deviations from normality and some notable outliers, suggesting that further model adjustments may be beneficial for improved prediction accuracy.
+Summary Both models exhibit a reasonably good fit, with the weighted
+model offering slight improvements in managing non-linearity and extreme
+values. Despite this, both models show minor deviations from normality
+and some notable outliers, suggesting that further model adjustments may
+be beneficial for improved prediction accuracy.
 
 # The New York Times/Siena College Polling Methodology {#third-poll}
 
