@@ -167,10 +167,25 @@ model_harris_weighted <- lm(pct ~ national_poll + pollster + population, data = 
 
 ### Model Justification
 
-1.  **Use of Weighted Model**: The weighted model is essential for
-    accurately reflecting voter sentiment. By incorporating weights, we
-    adjust for the reliability of the polling data, ensuring that more
-    credible polls have a greater influence on the estimates.
+
+1. **Weighted Least Squares Estimation**
+
+In our analysis, we utilize weighted least squares estimation to account
+for the varying quality of polling data. The weights are crucial in the
+estimation process, leading to the following expression for the
+estimates of the coefficients ($\hat{\beta}$):
+
+$$
+\hat{\beta} = (X^T W X)^{-1} X^T W y
+$$
+
+Where: - $X$ is the design matrix of predictors. - $W$ is the diagonal
+matrix of weights, which incorporates factors such as recency, sample
+size, and pollster quality to enhance the reliability of our estimates.
+
+The weighted model is essential for accurately reflecting voter sentiment. 
+By incorporating weights, we adjust for the reliability of the polling data, 
+ensuring that more credible polls have a greater influence on the estimates.
 
 2.  **Calculation of Variables**:
 
@@ -198,6 +213,7 @@ model_harris_weighted <- lm(pct ~ national_poll + pollster + population, data = 
         of the pollster, this weight emphasizes the reliability of their
         polling methods.
 
+
 ### Alternative Models
 
 While this analysis employs linear regression with weighted least
@@ -209,20 +225,6 @@ Bayesian approach was not chosen primarily due to the complexity
 involved in defining priors and the additional computational
 requirements.
 
-### Weighted Least Squares Estimation
-
-In our analysis, we utilize weighted least squares estimation to account
-for the varying quality of polling data. The weights are crucial in the
-estimation process, leading to the following expression for the
-estimates of the coefficients ($\hat{\beta}$):
-
-$$
-\hat{\beta} = (X^T W X)^{-1} X^T W y
-$$
-
-Where: - $X$ is the design matrix of predictors. - $W$ is the diagonal
-matrix of weights, which incorporates factors such as recency, sample
-size, and pollster quality to enhance the reliability of our estimates.
 
 ### Importance of Combined Weights
 
@@ -245,82 +247,6 @@ The recent three-month support trends for Kamala Harris and Donald Trump across 
 #| message: false
 #| eval: true
 #| label: fig-support-trends-by-state
-#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
-
-# Load necessary libraries
-library(tidyverse)
-library(ggplot2)
-
-
-# Load necessary libraries
-library(tidyverse)
-library(ggplot2)
-
-
-harris_data <- harris_data %>%
-  mutate(
-    sample_size_weight = pmin(sample_size / 2300, 1),
-    pollster_quality_weight = numeric_grade / 4,
-    recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
-  mutate(
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
-
-# Calculate weights for Trump data
-trump_data <- trump_data %>%
-  mutate(
-    sample_size_weight = pmin(sample_size / 2300, 1),
-    pollster_quality_weight = numeric_grade / 4,
-    recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
-  mutate(
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
-
-selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
-
-recent_date_cutoff <- as.Date("2024-08-01")  # Set cutoff for recent data
-
-harris_filtered <- harris_data %>%
-  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
-
-trump_filtered <- trump_data %>%
-  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
-# Plot with recent data, specific axis formatting, and smoother trend lines
-ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
-  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
-  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
-  facet_wrap(~ state) +
-  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Selected States",
-       x = "Date", y = "Support (%)") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-31"))) +
-  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
-  scale_size_continuous(range = c(0.5, 3), guide = "none") +
-  theme_minimal() +
-  theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 0, hjust = 0.5),
-    panel.grid.major = element_line(size = 0.1, color = "grey80")
-  ) +
-  guides(color = guide_legend(title = "Candidate"))
-```
-@fig-support-trends-by-state illustrates the recent support trends for Kamala Harris and Donald Trump across selected battleground states from August to November 2024. Each subplot represents a different state, with support percentages for each candidate displayed over time. Key features include Harris shown in blue and Trump in red, with smoothed trend lines to capture changes over time. The plot's y-axis spans from approximately 30% to 50% support, while the x-axis highlights monthly intervals from August to November. For example, in Arizona, Trump maintains a slight lead with support fluctuating around 50% in October, compared to Harris around 48%. In Georgia, Trump's support reaches just above 49% in late September, whereas Harris hovers closer to 47%. In Wisconsin, both candidates show tightly aligned trends near 48%, highlighting a close race. Each point's size reflects the poll weight—calculated using recency, pollster quality, and sample size—indicating the relative importance of each poll. This visualization emphasizes recent trends in candidate support across key battleground states.
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| eval: true
-#| label: fig-national-support-trends
 #| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
 
 harris_data <- harris_data %>%
@@ -424,7 +350,12 @@ combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date),
 
 # Discussion
 
-## First discussion point {#sec-first-point}
+## Key Findings and Real-World Implications {#sec-key-findings}
+Our model reveals a portrait of a nation deeply divided, with Harris holding a narrow 49% edge over Trump’s 47% in national support. However, as recent elections have shown, the national popular vote does not always translate into an Electoral College victory. The U.S. electoral system, which awards each state’s electoral votes to the candidate with the majority of votes in that state, means that winning the popular vote nationally might still leave Harris short of the presidency. This structural quirk played a defining role in the 2016 election, where Hillary Clinton’s popular vote win failed to deliver the electoral majority, paving Trump’s path to the White House. Our findings underscore this enduring tension: while Harris may have a slight national advantage, the true battle will be fought state by state, in a handful of battlegrounds that could flip the election either way.
+
+In states like Wisconsin and Arizona, our model highlights just how close the race remains. Wisconsin, for instance, shows both candidates locked in a near tie around 48% support—a statistical dead heat that brings the state’s significance into sharp relief. Arizona, meanwhile, leans modestly toward Trump, a reflection of the unique demographic and political nuances shaping each battleground. These state-level insights illuminate a critical truth: while national polls offer a snapshot of overall sentiment, they risk obscuring the specific, local dynamics that will ultimately decide the outcome. The stakes are high; these are the states that could swing, the margins that will be watched closely on election night, as even slight changes in turnout or last-minute shifts in opinion could tip the balance.
+
+Yet, as with all models, limitations persist. While our weighting system, with its emphasis on recent data, aims to capture a timely snapshot of voter sentiment, it may miss sudden changes sparked by campaign events or unexpected shifts in public discourse. The variability in our state projections—ranging from a low estimate of 363 electoral votes for Harris to a high of 471—reflects the inherent uncertainty in polling-based models, particularly given the constraints of our data sources. This wide range suggests that while data-driven insights can illuminate trends, they cannot fully account for the unpredictable nature of electoral outcomes. Moving forward, incorporating real-time sentiment from social media or demographic-specific insights could offer a more responsive understanding of voter behavior. Ultimately, these findings highlight the intricate dance between popular sentiment and the electoral mechanics of American democracy—a system where every vote counts, but some states matter just a bit more than others.
 
 ## Second discussion point
 
