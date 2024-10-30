@@ -101,103 +101,139 @@ outcomes.
 
 ## Predictor variables
 
-# Model
+## Model
 
 We conducted a regression analysis to predict support for Kamala Harris
-in the 2024 U.S. presidential election. Our analysis includes two
-models: an **unweighted linear model** and a **weighted linear model**.
-These models predict Harris’s support as a continuous outcome across
-different states, using aggregated polling data with a focus on
-adjusting for poll quality, sample size, recency, and potential
-partisanship biases. This setup aligns with the New York Times
-methodology for election polling, which assigns weights based on poll
-quality, sample size, and recency of the poll to reflect an accurate
-picture of voter sentiment [@nytimes].
+and Donald Trump in the 2024 U.S. presidential election, including
+models for Trump for comparison. Our analysis includes four models:
+**unweighted linear models** and **weighted linear models** for both
+candidates. These models predict each candidate’s support as a
+continuous outcome across different states, using **pollster**,
+**national poll**, and **population** as key predictors. The weighted
+models additionally incorporate adjustments for recency, sample size,
+and poll quality to account for potential biases. This setup aligns with
+the New York Times methodology for election polling, which assigns
+weights based on poll quality, sample size, and recency to better
+reflect voter sentiment [@nytimes].
 
 ## Model Set-up
 
 We implemented our linear regression models using the `lm()` function in
-R. The unweighted model provides a baseline with equal treatment for all
-polls, while the weighted model adjusts each poll observation based on
-combined factors, including recency, sample size, and poll quality. The
-model specifications are as follows:
+R.
 
-#### Unweighted Linear Model
+### Mathematical Expressions
 
-The unweighted model serves as a baseline, treating all polls equally
-without incorporating adjustments for recency, sample size, or poll
-quality. The model is defined as:
+Both the unweighted and weighted models share the same mathematical
+expression format:
 
-$$
-\text{Support_Harris}_i = \beta_0 + \beta_1 \cdot \text{National_Poll}_i + \epsilon_i
-$$
+#### Unweighted Model
 
-This unweighted model provides a baseline estimate of Harris’s support
-across different polls without considering variations in poll recency,
-sample size, or quality. It allows us to understand Harris’s support
-level with a simplified assumption that all polls are of equal
-relevance.
-
-#### Weighted Linear Model
-
-To enhance the accuracy of our predictions, the weighted model
-incorporates adjustments for recency, sample size, and pollster quality.
-This model is defined as:
+The unweighted model for Harris provides a baseline by treating all
+polls equally without adjustments for recency, sample size, or poll
+quality:
 
 $$
-\text{Support_Harris}_i = \beta_0 + \beta_1 \cdot \text{National_Poll}_i + \beta_2 \cdot \text{Recency_Weight}_i + \beta_3 \cdot \text{Sample_Size_Weight}_i + \beta_4 \cdot \text{Numeric_Grade}_i + \epsilon_i
+\text{Support\_Harris}_i = \beta_0 + \beta_1 \cdot \text{National\_Poll}_i + \beta_2 \cdot \text{Pollster}_i + \beta_3 \cdot \text{Population}_i + \epsilon_i
 $$
 
-The weighted model applies these additional factors to account for
-variations in data quality and recency, offering a refined view of
-Harris’s support.
+```{r}
+model_harris_unweighted <- lm(pct ~ national_poll + pollster + population, data = harris_data)
+```
 
-## Model Justification
+#### Weighted Model
 
-In developing our model to predict support for Kamala Harris, we
-included adjustments based on national polling, recency, sample size,
-and pollster grade. These features were selected to mitigate common
-biases in polling data and to ensure our model reflects up-to-date and
-high-quality information. The decision to incorporate recency as a
-predictor is motivated by the observation that voter sentiment can shift
-rapidly in response to events, such as debates or political
-controversies, especially as the election date approaches (The New York
-Times, 2024). Sample size was also used as a weight, as larger polls
-tend to reduce sampling variability up to a reasonable threshold, set at
-2,300 responses.
+The weighted model for Harris incorporates adjustments for recency,
+sample size, and pollster quality:
 
-Pollster quality, represented through numeric grades, accounts for
-systematic differences in methodology, professionalism, and past
-accuracy. Pollsters with a strong historical performance are given more
-weight, as they are more likely to produce unbiased and reliable
-results. The model structure, however, is based on linear regression,
-meaning it assumes an additive relationship between these predictors and
-voter support. This simplification, while computationally efficient and
-interpretable, may not capture more complex interactions between
-factors, such as shifts in demographic or regional support.
+$$
+\text{Support\_Harris}_i = \beta_0 + \beta_1 \cdot \text{National\_Poll}_i + \beta_2 \cdot \text{Pollster}_i + \beta_3 \cdot \text{Population}_i + \epsilon_i
+$$
 
-Our model was implemented in R using the `lm()` function for the
-unweighted model and a weighted version for the adjusted model.
-Validation was performed using out-of-sample testing and RMSE
-calculations to assess accuracy. Sensitivity analyses were also
-conducted, examining how the model performed across different subsets of
-data.
+```{r}
+model_harris_weighted <- lm(pct ~ national_poll + pollster + population, data = harris_data, weights = combined_weight)
+```
 
-The model has several limitations, including the linearity assumption,
-which may not fully capture the dynamic nature of voter support. Its
-effectiveness relies on the assumption that the weights (recency, sample
-size, pollster grade) adequately mitigate biases in polling data.
-Additionally, it does not account for third-party candidates or
-undecided voters, which could affect the election outcome. While
-Bayesian hierarchical models were considered for their capability to
-handle multi-level data, they were ultimately set aside for a simpler,
-more interpretable linear model due to the analysis's scope and
-computational constraints. Future research should explore these more
-complex methods if time and resources permit.
+### Coefficient Explanations
 
-# Results
+-   $\beta_0$: Intercept of the model, representing the expected support
+    when all predictors are zero.
+-   $\beta_1$: Coefficient for the national poll, indicating how much
+    support changes with a one-unit increase in the national poll
+    percentage.
+-   $\beta_2$: Coefficient for the pollster, reflecting the impact of
+    different polling organizations on support.
+-   $\beta_3$: Coefficient for the population, accounting for the
+    influence of the demographic context on support levels.
 
-Our results are summarized in @tbl-modelresults.
+### Model Justification
+
+1.  **Use of Weighted Model**: The weighted model is essential for
+    accurately reflecting voter sentiment. By incorporating weights, we
+    adjust for the reliability of the polling data, ensuring that more
+    credible polls have a greater influence on the estimates.
+
+2.  **Calculation of Variables**:
+
+    -   **Combined Weight**: The combined weight is calculated as
+        follows: $$
+        \text{combined\_weight} = \text{recency\_weight} \times \text{sample\_size\_weight} \times \text{poll\_frequency\_weight} \times \text{pollster\_quality\_weight}
+        $$
+
+    -   **Recency Weight**: This weight uses an exponential decay
+        function: $$
+        \text{recency\_weight} = \exp(-\text{Recency}_i \cdot 0.1)
+        $$ This reflects the diminishing influence of older polls, with
+        $\lambda = 0.1$ for the exponential decay.
+
+    -   **Sample Size Weight**: This weight adjusts the significance of
+        each poll based on the number of respondents, capping the
+        weights at a maximum of 2,300 responses to reflect the
+        reliability of larger sample sizes [@nyt_polling_averages].
+
+    -   **Poll Frequency Weight**: This weight considers how often a
+        pollster conducts polls, with higher weights assigned to
+        pollsters with a greater number of recent surveys.
+
+    -   **Pollster Quality Weight**: Based on the historical performance
+        of the pollster, this weight emphasizes the reliability of their
+        polling methods.
+
+### Alternative Models
+
+While this analysis employs linear regression with weighted least
+squares, alternative methods such as Bayesian modeling could provide
+additional insights. However, we opted for the weighted linear
+regression approach to maintain interpretability and ease of
+implementation given the scope and resources of this analysis. The
+Bayesian approach was not chosen primarily due to the complexity
+involved in defining priors and the additional computational
+requirements.
+
+### Weighted Least Squares Estimation
+
+In our analysis, we utilize weighted least squares estimation to account
+for the varying quality of polling data. The weights are crucial in the
+estimation process, leading to the following expression for the
+estimates of the coefficients ($\hat{\beta}$):
+
+$$
+\hat{\beta} = (X^T W X)^{-1} X^T W y
+$$
+
+Where: - $X$ is the design matrix of predictors. - $W$ is the diagonal
+matrix of weights, which incorporates factors such as recency, sample
+size, and pollster quality to enhance the reliability of our estimates.
+
+### Importance of Combined Weights
+
+By incorporating these combined weights, the weighted model offers a
+more nuanced estimation of voter support for both Harris and Trump.
+While the mathematical expression for the models remains consistent, the
+weighted models effectively adjust for variations in data quality and
+recency, leading to more accurate predictions of voter sentiment.
+
+
+# Result
 
 ```{r}
 #| echo: false
@@ -205,10 +241,53 @@ Our results are summarized in @tbl-modelresults.
 #| warning: false
 #| message: false
 
-library(rstanarm)
+#### Load Required Libraries ####
+library(dplyr)
+library(ggplot2)
+library(lubridate)
+harris_data <- harris_data %>%
+  mutate(
+    recency_weight = exp(-recency * 0.1),
+    combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight,
+    predicted_support = predict(model_harris_weighted, newdata = .),
+    candidate = "Harris"
+  )
 
-first_model <-
-  readRDS(file = here::here("models/model_unweighted.rds"))
+trump_data <- trump_data %>%
+  mutate(
+    recency_weight = exp(-recency * 0.1),
+    combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight,
+    predicted_support = predict(model_trump_weighted, newdata = .),
+    candidate = "Trump"
+  )
+
+# Combine both datasets
+combined_data <- bind_rows(harris_data, trump_data)
+
+#### Plot Support Trends by State with Reduced Date Labels ####
+# Define states of interest
+selected_states <- c("Pennsylvania", "Nevada", "North Carolina", "Wisconsin", "Michigan", "Georgia", "Arizona")
+
+# Filter data for selected states
+combined_data <- combined_data %>% filter(state %in% selected_states)
+
+# Create the faceted plot with limited x-axis labels
+ggplot(combined_data, aes(x = as.Date(end_date), y = predicted_support, color = candidate, size = combined_weight)) +
+  geom_point(alpha = 0.6) +
+  scale_color_manual(values = c("Harris" = "#1f77b4", "Trump" = "#d62728")) +  # Blue for Harris, Red for Trump
+  scale_size_continuous(range = c(1, 4)) +  # Control point size range for readability
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 month") +  # Show only the first day of each month
+  labs(title = "Support Trends for Harris and Trump Across States",
+       x = "Date", y = "Support (%)", color = "Candidate") +
+  facet_wrap(~ state, ncol = 2, scales = "free_y") +  # Facet by state with free y-scale
+  theme_minimal(base_size = 12) +
+  theme(
+    legend.position = "top",
+    strip.text = element_text(size = 12, face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 8),  # Slight tilt for x-axis labels
+    panel.grid.major = element_line(size = 0.2, linetype = "dotted", color = "gray80"),
+    panel.grid.minor = element_blank()
+  )
 ```
 
 # Discussion

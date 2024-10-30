@@ -11,8 +11,11 @@
 library(dplyr)
 
 # Load Harris and Trump data
+<<<<<<< HEAD
 harris_data <- read.csv("data/02-analysis_data/analysis_data_Harris.csv")
 trump_data <- read.csv("data/02-analysis_data/analysis_data_Trump.csv")
+=======
+>>>>>>> cce7356b4f7dc558466790ee5c1f91e6d51efaad
 harris_data <- read_parquet("data/02-analysis_data/analysis_data_Harris.parquet")
 trump_data <- read_parquet("data/02-analysis_data/analysis_data_Trump.parquet")
 
@@ -21,7 +24,10 @@ trump_data <- read_parquet("data/02-analysis_data/analysis_data_Trump.parquet")
 harris_data <- harris_data %>%
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
+<<<<<<< HEAD
     pollster_quality_weight = numeric_grade / 4
+=======
+>>>>>>> cce7356b4f7dc558466790ee5c1f91e6d51efaad
     pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
   ) %>%
@@ -31,14 +37,20 @@ harris_data <- harris_data %>%
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
   ) %>%
   ungroup() %>%
+<<<<<<< HEAD
   mutate(combined_weight = recency * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+=======
+>>>>>>> cce7356b4f7dc558466790ee5c1f91e6d51efaad
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 # Calculate weights for Trump data
 trump_data <- trump_data %>%
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
+<<<<<<< HEAD
     pollster_quality_weight = numeric_grade / 4
+=======
+>>>>>>> cce7356b4f7dc558466790ee5c1f91e6d51efaad
     pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
   ) %>%
@@ -48,8 +60,9 @@ trump_data <- trump_data %>%
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
   ) %>%
   ungroup() %>%
-  mutate(combined_weight = recency * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
+<<<<<<< HEAD
 #### Model Preparation ####
 # Define selected states for filtering
 selected_states <- c("Pennsylvania", "Nevada", "North Carolina", "Wisconsin", "Michigan", "Georgia", "Arizona")
@@ -61,6 +74,8 @@ harris_data <- harris_data %>%
 
 trump_data <- trump_data %>%
   filter(state %in% selected_states, !is.na(combined_weight))
+=======
+>>>>>>> cce7356b4f7dc558466790ee5c1f91e6d51efaad
 
 #### Build Models ####
 # 1. Unweighted model for Harris
