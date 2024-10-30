@@ -1,5 +1,6 @@
 ---
-title: "Forecasting 2024 US election using linear regression"
+title: "Based on polling as of 27 October 2024, Harris expects to win on xxx%, leads Trump by xx% in 2024 US election"
+subtitle: "Weighted Linear Regression Analysis of Aggregated Poll Data: Utilizing National Polls indicator, Recency of Polls, Sample Size, Pollster Quality Rate, and Poll Frequency as Predictors."
 author: 
   - Diana Shen
   - Jinyan Wei
@@ -207,7 +208,7 @@ Our results are summarized in @tbl-modelresults.
 library(rstanarm)
 
 first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
+  readRDS(file = here::here("models/model_unweighted.rds"))
 ```
 
 # Discussion
@@ -260,55 +261,51 @@ candidates are saved in CSV format for further modeling and analysis.
 This systematic approach ensures that the data is accurate, complete,
 and ready for insightful analysis.
 
-## Analysis Data Summary Statistics
-
-@tbl-analysisdata presents the summary statistics for each recorded
-incident type for the years 2017 to 2022.
-
 ## Attribution Statement
 
 This work is licensed under a [Creative Commons Attribution 4.0
-International License](https://creativecommons.org/licenses/by/4.0/).
-We are free to share, copy, redistribute, remix, transform, and build
-upon the material for any purpose, even commercially, as long as we
-credit the original creation.
+International License](https://creativecommons.org/licenses/by/4.0/). We
+are free to share, copy, redistribute, remix, transform, and build upon
+the material for any purpose, even commercially, as long as we credit
+the original creation.
 
 # Model details {#sec-model-details}
 
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive
-check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the
-prior. This shows...
+## Model validation
 
 ```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
+# Set seed for reproducibility
+set.seed(123)
 
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
+# Sample indices for training and testing sets
+train_index <- sample(seq_len(nrow(data)), size = 0.8 * nrow(data))
 
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
+# Split the data into training and testing sets
+train_data <- data[train_index, ]
+test_data <- data[-train_index, ]
+
+# Fit the weighted linear regression model
+first_model_test <- lm(pct ~ national_poll + pollster + population, 
+                     data = data, 
+                  data = train_data)
+
+# Predict on test data
+predictions <- predict(first_model_test, newdata = test_data)
+
+# Calculate RMSE using the correct outcome variable
+# Assuming 'pct' is the actual observed outcome variable in test_data
+rmse <- sqrt(mean((predictions - test_data$pct)^2, na.rm = TRUE))
+
+# Print RMSE
+print(paste("RMSE:", rmse))
+
 ```
 
 ## Diagnostics
 
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
+@fig-stanareyouokay-1 is a residual plot of un-weighted model. It shows... This suggests...
 
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
+@fig-stanareyouokay-2 is a Q-Q plot of un-weighted model plot. It shows... This suggests...
 
 ```{r}
 #| echo: false
@@ -319,10 +316,13 @@ posterior_vs_prior(first_model) +
 #| fig-cap: "Checking the convergence of the MCMC algorithm"
 #| fig-subcap: ["Trace plot", "Rhat plot"]
 #| layout-ncol: 2
+#residual plot
+plot(first_model, which = 1,main ="Residual Plot of unweighted linear regression model residualsmodel" )
+# Q-Q plot for the residuals of the model
+qqnorm(residuals(first_model),main= "Q-Q Plot of unweighted linear regression model residuals
+")
+qqline(residuals(first_model), col = "red")
 
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
 ```
 
 # The New York Times/Siena College Polling Methodology {#third-poll}
@@ -1139,11 +1139,20 @@ Section 1: Survey Questions
     | Kamala Harris |                  |             |          |           |                |
     | Donald Trump  |                  |             |          |           |                |
 
-6.  **How certain are you about your candidate choice?**
+6.  **How likely are you going to vote in the 2024 election**
 
-    -   Very certain
-    -   Somewhat certain
-    -   Not certain
+    Definitely not to vote
+
+    -   1
+    -   2
+    -   3
+    -   4
+    -   5
+    -   6
+    -   7
+    -   8
+    -   9
+    -   10 Definitely will vote
 
 7.  **How do you plan to cast your vote?**
 
@@ -1203,32 +1212,32 @@ Section 1: Survey Questions
 14. **How important is the economy in deciding your vote?**
 
     Not important
+
     -   1
     -   2
     -   3
     -   4
-    -   5
-    Very important
+    -   5 Very important
 
 15. **How important is climate change in deciding your vote?**
 
     Not important
+
     -   1
     -   2
     -   3
     -   4
-    -   5
-    Very important
+    -   5 Very important
 
 16. **How important is healthcare in deciding your vote?**
 
     Not important
+
     -   1
     -   2
     -   3
     -   4
-    -   5
-    Very important
+    -   5 Very important
 
 17. **How closely are you following news about the 2024 U.S.
     presidential election?**
