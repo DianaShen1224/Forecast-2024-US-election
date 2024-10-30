@@ -458,6 +458,12 @@ new_data_trump <- data.frame(
 
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| label: fig-support-predicted
+#| fig-cap: Predicted Support Trends for Kamala Harris and Donald Trump using fitted model
 # Predictions for Harris
 new_data_harris <- new_data_harris |>
   mutate(
@@ -492,11 +498,12 @@ ggplot(combined_predictions_filtered, aes(x = end_date, color = candidate)) +
               method = "loess", se = FALSE, size = 1) +  # Unweighted model with smoothing
   geom_smooth(aes(y = predicted_weighted, linetype = "Weighted"), 
               method = "loess", se = FALSE, size = 1) +  # Weighted model with smoothing
-  labs(title = "Predicted Support for Kamala Harris and Donald Trump \n(From August 1, 2024 to October 27, 2024)",
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump in 2024 US Election \n(From August 1, 2024 to October 27, 2024)",
        subtitle = "predicted using multiple linear regression model ",
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
-       color = "Candidate") +
+       color = "Candidate",caption = 
+                   "Weights: recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight\nLinear Regression Model: candidate support percentage =national_poll + pollster + population") +
   scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
   scale_linetype_manual(name = "Linear Model Type", values = c("Unweighted" = "dashed", "Weighted" = "solid")) +
   theme_minimal() +
