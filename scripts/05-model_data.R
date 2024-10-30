@@ -6,95 +6,70 @@
 # License: MIT
 # Pre-requisites: Cleaned data file `cleaned_harris_support.csv` should be available in the `data/02-analysis_data/` directory.
 
-#### Workspace setup ####
+
+#### Load cleaned data ####
 library(dplyr)
-library(ggplot2)
-library(lubridate)
 
-#### Step 1: Load cleaned data ####
-library(dplyr)  # Load dplyr package
+# Load Harris and Trump data
+harris_data <- read.csv("data/02-analysis_data/analysis_data_Harris.csv")
+trump_data <- read.csv("data/02-analysis_data/analysis_data_Trump.csv")
 
-data <- read.csv("data/02-analysis_data/analysis_data_Harris.csv")
-
-# Set end date to October 27, 2024, if it doesn't exist or is NA
-if (!"end_date" %in% names(data) || is.na(data$end_date[1])) {
-  data$end_date <- as.Date("2024-10-27")  # Set the end date to October 27, 2024
-} else {
-  data$end_date <- as.Date(data$end_date)  # Convert existing end_date to Date format
-}
-data <- data %>% filter(!is.na(end_date))  # Filter out rows with NA in end_date
-
-#### Step 2: Calculate weights ####
-# 2.1 Recency Weight
-data <- data %>%
+#### Calculate Weights ####
+# Calculate weights for Harris data
+harris_data <- harris_data %>%
   mutate(
-    # Assuming 'poll_release_date' is a new column you will need to create or add.
-    poll_release_date = as.Date("2024-10-15"),  # Replace with actual poll release date if available
-    days_since_poll = as.numeric(difftime(end_date, poll_release_date, units = "days")),
-    recency_weight = ifelse(days_since_poll < 30, exp(-days_since_poll / 15), exp(-days_since_poll / 30))
-  )
-
-# 2.2 Sample Size Weight (cap at 2,300 responses)
-data <- data %>%
-  mutate(sample_size_weight = pmin(sample_size / 2300, 1))
-
-# 2.3 Poll Frequency by Pollster
-data <- data %>%
+    sample_size_weight = pmin(sample_size / 2300, 1),
+    pollster_quality_weight = numeric_grade / 4
+  ) %>%
   group_by(pollster) %>%
   mutate(
-    recent_poll_count = sum(days_since_poll < 30),
+    recent_poll_count = sum(recency < 30),
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
   ) %>%
-  ungroup()
+  ungroup() %>%
+  mutate(combined_weight = recency * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
-# 2.4 Pollster Quality Weight
-data <- data %>%
-  mutate(pollster_quality_weight = numeric_grade / 4)
+# Calculate weights for Trump data
+trump_data <- trump_data %>%
+  mutate(
+    sample_size_weight = pmin(sample_size / 2300, 1),
+    pollster_quality_weight = numeric_grade / 4
+  ) %>%
+  group_by(pollster) %>%
+  mutate(
+    recent_poll_count = sum(recency < 30),
+    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
+  ) %>%
+  ungroup() %>%
+  mutate(combined_weight = recency * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
-
-# 2.5 Combined Weight
-data <- data %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
-
-# Verify combined weight creation
-if (!"combined_weight" %in% names(data)) {
-  stop("Error: `combined_weight` was not created successfully.")
-}
-
-#### Step 3: Model preparation ####
-# Filter to ensure no missing values in key columns
-data <- data %>% filter(!is.na(pct), !is.na(recency_weight), !is.na(sample_size_weight), !is.na(numeric_grade))
-
-# Select specific states for analysis (modify states as needed)
+#### Model Preparation ####
+# Define selected states for filtering
 selected_states <- c("Pennsylvania", "Nevada", "North Carolina", "Wisconsin", "Michigan", "Georgia", "Arizona")
-data <- data %>% filter(state %in% selected_states)
 
-#### Step 4: Check for Multicollinearity ####
-# Calculate correlation matrix to check for highly correlated predictors
-correlation_matrix <- cor(data %>% select(national_poll, recency_weight, sample_size_weight, numeric_grade, poll_frequency_weight, pollster_quality_weight))
+# Filter Harris and Trump data by selected states
+harris_data <- harris_data %>%
+  filter(state %in% selected_states, !is.na(combined_weight))
 
-# If necessary, remove or modify predictors based on high correlations (0.8 or higher)
+trump_data <- trump_data %>%
+  filter(state %in% selected_states, !is.na(combined_weight))
 
-#### Step 5: Build Models ####
-# 5.1 Unweighted Linear Model
-model_unweighted <- lm(pct ~ national_poll, data = data)
+#### Build Models ####
+# 1. Unweighted model for Harris
+model_harris_unweighted <- lm(pct ~ national_poll + pollster + population, data = harris_data)
 
-# 5.2 Weighted Linear Model
-model_weighted <- lm(pct ~ national_poll + recency_weight + sample_size_weight + numeric_grade, 
-                     data = data, weights = combined_weight)
+# 2. Weighted model for Harris
+model_harris_weighted <- lm(pct ~ national_poll + pollster + population, data = harris_data, weights = combined_weight)
 
-#### Step 6: Generate Predictions ####
-# Predictions for unweighted model
-data$pred_unweighted <- predict(model_unweighted, newdata = data)
+# 3. Unweighted model for Trump
+model_trump_unweighted <- lm(pct ~ national_poll + pollster + population, data = trump_data)
 
-# Predictions for weighted model
-data$pred_weighted <- predict(model_weighted, newdata = data)
+# 4. Weighted model for Trump
+model_trump_weighted <- lm(pct ~ national_poll + pollster + population, data = trump_data, weights = combined_weight)
 
-
-#### Step 7: Save Models ####
-# Save unweighted model
-saveRDS(model_unweighted, file = "models/model_unweighted.rds")
-
-# Save weighted model
-saveRDS(model_weighted, file = "models/model_weighted.rds")
+#### Save Models ####
+saveRDS(model_harris_unweighted, "models/model_harris_unweighted.rds")
+saveRDS(model_harris_weighted, "models/model_harris_weighted.rds")
+saveRDS(model_trump_unweighted, "models/model_trump_unweighted.rds")
+saveRDS(model_trump_weighted, "models/model_trump_weighted.rds")
 
