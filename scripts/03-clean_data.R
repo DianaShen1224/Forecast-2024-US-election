@@ -11,7 +11,7 @@
 library(tidyverse)
 library(janitor)
 library(lubridate)
-
+library(arrow)
 #### Clean data ####
 raw_data <- read_csv("data/01-raw_data/raw_election_24.csv")
 
@@ -46,6 +46,14 @@ just_harris_high_quality <- cleaned_data |>
   ) |>
   # Apply sample size weight, capped at a maximum of 2,300 responses
   mutate(sample_size_weight = pmin(sample_size / 2300, 1))
+just_harris_high_quality <- just_harris_high_quality %>%
+  mutate(
+    pollster = factor(pollster),
+    state = factor(state),
+    candidate_name = factor(candidate_name),
+    population = factor(population),  # Only if appropriate
+    methodology = factor(methodology)
+  )
 
 just_trump_high_quality <- cleaned_data|>
   # Select relevant columns for analysis
@@ -73,6 +81,14 @@ just_trump_high_quality <- cleaned_data|>
   ) |>
   # Apply sample size weight, capped at a maximum of 2,300 responses
   mutate(sample_size_weight = pmin(sample_size / 2300, 1)) 
+just_trump_high_quality <- just_trump_high_quality %>%
+  mutate(
+    pollster = factor(pollster),
+    state = factor(state),
+    candidate_name = factor(candidate_name),
+    population = factor(population),  # Only if appropriate
+    methodology = factor(methodology)
+  )
 #### Save data ####
-write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.csv")
-write_csv(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.csv")
+write_parquet(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.parquet")
+write_parquet(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.parquet")
