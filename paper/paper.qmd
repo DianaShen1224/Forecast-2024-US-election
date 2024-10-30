@@ -24,6 +24,7 @@ editor:
 
 library(tidyverse)
 library(arrow)
+library(dplyr)
 ```
 
 ```{r}
@@ -172,33 +173,33 @@ $$
 #| message: false
 #### Calculate Weights ####
 # Calculate weights for Harris data
-harris_data <- harris_data %>%
+harris_data <- harris_data |>
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
     pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
+  ) |>
+  group_by(pollster) |>
   mutate(
     recent_poll_count = sum(recency < 30),
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
+  ) |>
+  ungroup() |>
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 # Calculate weights for Trump data
-trump_data <- trump_data %>%
+trump_data <- trump_data |>
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
     pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
+  ) |>
+  group_by(pollster) |>
   mutate(
     recent_poll_count = sum(recency < 30),
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
+  ) |>
+  ungroup() |>
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 ```
 
@@ -301,42 +302,42 @@ The recent three-month support trends for Kamala Harris and Donald Trump across 
 library(tidyverse)
 library(ggplot2)
 
-harris_data <- harris_data %>%
+harris_data <- harris_data |>
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
     pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
+  ) |>
+  group_by(pollster) |>
   mutate(
     recent_poll_count = sum(recency < 30),
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
+  ) |>
+  ungroup() |>
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 # Calculate weights for Trump data
-trump_data <- trump_data %>%
+trump_data <- trump_data |>
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
     pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
+  ) |>
+  group_by(pollster) |>
   mutate(
     recent_poll_count = sum(recency < 30),
     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
+  ) |>
+  ungroup() |>
   mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
 
 selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
 
 recent_date_cutoff <- as.Date("2024-08-01")  # Set cutoff for recent data
 
-harris_filtered <- harris_data %>%
+harris_filtered <- harris_data |>
   filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)|>mutate(candidate = "Harris")
-trump_filtered <- trump_data %>%
+trump_filtered <- trump_data |>
   filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)|>mutate(candidate = "Trump")
 
 combined_data <- bind_rows(harris_filtered, trump_filtered)
@@ -351,7 +352,7 @@ ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, siz
   scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
   scale_size_continuous(range = c(0.5, 3), guide = "none") +
   theme_minimal() +
-  theme(
+  theme(theme(panel.spacing = unit(1, "lines"))
     legend.position = "top",
     axis.text.x = element_text(angle = 0, hjust = 0.5),
     panel.grid.major = element_line(size = 0.1, color = "grey80")
@@ -389,6 +390,128 @@ combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date),
 
 ```
 @fig-national-support-trendsillustrates illustrates the polling support trends for Kamala Harris and Donald Trump across the country from August to October. The scatter points represent individual poll results, with blue for Harris and red for Trump, while each dot's size reflects the weight of the poll, accounting for factors like sample size, quality, and recency. Harris’s support trend line generally remains above Trump’s, with an average support level around 49%, compared to Trump’s approximate average of 47% over this period. Toward the end of October, both candidates show a slight increase, with Harris’s support reaching just over 50% and Trump’s approaching 49%. This trend suggests a potential narrowing in support levels as the election approaches, providing a quantitative snapshot of national polling dynamics.
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| include: false
+
+new_data_harris <- data.frame(
+  end_date = seq(
+    min(harris_data$end_date),
+    max(harris_data$end_date),
+    length.out = 1000 
+  ),
+  pollster = factor("YouGov", levels = levels(harris_data$pollster)),  # Ensure it matches training levels
+  national_poll = rep(c(0, 1), length(1000)),  # Create a sequence for national_poll from 0 to 1
+  population = factor("lv", levels = levels(harris_data$population)),  # Use the mean population or any relevant value
+  sample_size = seq(min(0),max(2300),length.out=1000)
+)|>
+  mutate(
+    # Sample size weight (assuming a maximum of 2300 responses)
+    sample_size_weight = pmin(sample_size / 2300, 1),  # Set sample size; adjust accordingly
+    
+    # Pollster quality weight (assuming you want to use a dummy numeric grade, e.g., 2)
+    pollster_quality_weight = 2 / 4,  # Example; replace with actual numeric grade if available
+    
+    # Recency weight (this can be based on the date difference from a certain cutoff, e.g., "2024-11-05")
+    recency = as.numeric(difftime(as.Date("2024-11-05"), as.Date("2024-08-01") + (1:1000), units = "days")),  # Adjust for the sequence
+    recency_weight = exp(-recency * 0.1),  # Adjust decay rate as needed
+    
+    # Poll frequency weight (you can set a condition based on a hypothetical recent poll count)
+    poll_frequency_weight = ifelse(national_poll > 0.5, 1, 0.5),  # Example logic for poll frequency
+    
+    # Combine all weights into a final combined weight
+    combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight
+  )
+
+new_data_trump <- data.frame(
+  end_date = seq(
+    min(harris_data$end_date),
+    max(harris_data$end_date),
+    length.out = 1000
+  ),
+  pollster = factor("YouGov", levels = levels(harris_data$pollster)),  # Ensure it matches training levels
+  national_poll = rep(c(0, 1), length(1000)),  # Create a sequence for national_poll from 0 to 1
+  population = factor("lv", levels = levels(harris_data$population)),  # Use the mean population or any relevant value
+  sample_size = seq(min(0),max(2300),length.out=1000)
+)|>
+  mutate(
+    # Sample size weight (assuming a maximum of 2300 responses)
+    sample_size_weight = pmin(sample_size / 2300, 1),  # Set sample size; adjust accordingly
+    
+    # Pollster quality weight (assuming you want to use a dummy numeric grade, e.g., 2)
+    pollster_quality_weight = 2 / 4,  # Example; replace with actual numeric grade if available
+    
+    # Recency weight (this can be based on the date difference from a certain cutoff, e.g., "2024-11-05")
+    recency = as.numeric(difftime(as.Date("2024-11-05"), as.Date("2024-08-01") + (1:1000), units = "days")),  # Adjust for the sequence
+    recency_weight = exp(-recency * 0.1),  # Adjust decay rate as needed
+    
+    # Poll frequency weight (you can set a condition based on a hypothetical recent poll count)
+    poll_frequency_weight = ifelse(national_poll > 0.5, 1, 0.5),  # Example logic for poll frequency
+    
+    # Combine all weights into a final combined weight
+    combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight
+  )
+```
+
+
+```{r}
+# Predictions for Harris
+new_data_harris <- new_data_harris |>
+  mutate(
+    predicted_unweighted = predict(model_harris_unweighted, newdata = new_data_harris),
+    predicted_weighted = predict(model_harris_weighted, newdata = new_data_harris)
+  )
+
+# Predictions for Trump
+new_data_trump <- new_data_trump |>
+  mutate(
+    predicted_unweighted = predict(model_trump_unweighted, newdata = new_data_trump),
+    predicted_weighted = predict(model_trump_weighted, newdata = new_data_trump)
+  )
+
+# Plot the predictions
+library(dplyr)
+library(ggplot2)
+
+# Define the cutoff date for recent data
+recent_date_cutoff <- as.Date("2024-05-01")
+
+# Filter combined_predictions to include only data from the recent date cutoff onward
+combined_predictions_filtered <- combined_predictions %>%
+  filter(end_date >= recent_date_cutoff)
+
+# Determine the maximum end date for setting the x-axis limit
+max_end_date <- max(combined_predictions_filtered$end_date)
+
+# Plotting with the filtered data
+ggplot(combined_predictions_filtered, aes(x = end_date, color = candidate)) +
+  geom_smooth(aes(y = predicted_unweighted, linetype = "Unweighted"), 
+              method = "loess", se = FALSE, size = 1) +  # Unweighted model with smoothing
+  geom_smooth(aes(y = predicted_weighted, linetype = "Weighted"), 
+              method = "loess", se = FALSE, size = 1) +  # Weighted model with smoothing
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump \n(From August 1, 2024 to October 27, 2024)",
+       subtitle = "predicted using multiple linear regression model ",
+       x = "End Date of the Poll",  # Change x-axis label to End Date
+       y = "Predicted Support (%)",
+       color = "Candidate") +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  scale_linetype_manual(name = "Linear Model Type", values = c("Unweighted" = "dashed", "Weighted" = "solid")) +
+  theme_minimal() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1)) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date))
+
+```
+The predicted support for Kamala Harris and Donald Trump, as derived from multiple linear regression models, is displayed in the graph above. The analysis spans from August 1, 2024, to October 27, 2024, and highlights both unweighted and weighted predictions for each candidate.
+
+For Kamala Harris, the unweighted model predicts her support to remain relatively stable, maintaining an approximate support level of 49%. This trend is visually represented by the blue dashed line, which indicates minimal fluctuations over time. Conversely, the weighted model shows a more pronounced trend, demonstrating a gradual increase in predicted support, suggesting a potential shift in voter sentiment towards Harris as the election date approaches.
+
+In contrast, Donald Trump's predicted support, represented by the red lines, exhibits a downward trend in both unweighted and weighted models. The unweighted model indicates that his support is expected to hover around 48%, while the weighted model predicts a slight decline to approximately 46%. This trend may reflect challenges in maintaining voter enthusiasm in the face of changing public sentiment.
+
+At the end of the polling period, we predict that Kamala Harris leads Donald Trump by 2% in the unweighted model (48% vs. 46%) and by about 2% in the weighted model (49.1% vs. 47.3%). 
 
 # Discussion
 
