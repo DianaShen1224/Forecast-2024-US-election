@@ -236,15 +236,35 @@ this analysis are available in the GitHub Repository `other/sketches`.
 
 ## Data Cleaning
 
-In this data-cleaning process, we focus on refining raw polling data to enhance its quality and relevance for subsequent analysis. The dataset is initially loaded and cleaned using the janitor package to standardize column names, ensuring consistency throughout. We then filter the data to retain only relevant columns and eliminate any rows with missing values in critical fields, including numeric_grade, pct, sample_size, and end_date.
+In this data-cleaning process, we focus on refining raw polling data to
+enhance its quality and relevance for subsequent analysis. The dataset
+is initially loaded and cleaned using the janitor package to standardize
+column names, ensuring consistency throughout. We then filter the data
+to retain only relevant columns and eliminate any rows with missing
+values in critical fields, including numeric_grade, pct, sample_size,
+and end_date.
 
-Specifically, we isolate the polling data for Kamala Harris and Donald Trump, applying a condition to include only high-quality polls with a numeric grade of 2 or higher, given that the mean of the numeric grade is 2.175 and the median is 1.9.
+Specifically, we isolate the polling data for Kamala Harris and Donald
+Trump, applying a condition to include only high-quality polls with a
+numeric grade of 2 or higher, given that the mean of the numeric grade
+is 2.175 and the median is 1.9.
 
-For state-level polls, we handle any placeholder states marked as "--" by converting them to NA. A national poll indicator is generated, assigning a value of 1 for national polls and 0 for state-specific ones. Dates are standardized using the lubridate package to ensure accurate handling in subsequent analyses.
+For state-level polls, we handle any placeholder states marked as "--"
+by converting them to NA. A national poll indicator is generated,
+assigning a value of 1 for national polls and 0 for state-specific ones.
+Dates are standardized using the lubridate package to ensure accurate
+handling in subsequent analyses.
 
-Recency weights are calculated based on the number of days elapsed since the poll ended, utilizing an exponential decay function to give greater weight to more recent polls. Additionally, a sample size weight is implemented, capping the weights at a maximum of 2,300 responses to reflect the reliability of larger sample sizes.
+Recency weights are calculated based on the number of days elapsed since
+the poll ended, utilizing an exponential decay function to give greater
+weight to more recent polls. Additionally, a sample size weight is
+implemented, capping the weights at a maximum of 2,300 responses to
+reflect the reliability of larger sample sizes.
 
-Finally, the cleaned datasets for both candidates are saved in CSV format for further modeling and analysis. This systematic approach guarantees that the data is accurate, complete, and ready for insightful analysis.
+Finally, the cleaned datasets for both candidates are saved in CSV
+format for further modeling and analysis. This systematic approach
+guarantees that the data is accurate, complete, and ready for insightful
+analysis.
 
 ## Attribution Statement
 
@@ -259,38 +279,166 @@ the original creation.
 ## Model validation
 
 ```{r}
-# Set seed for reproducibility
-set.seed(123)
+#| include: false
+#### Calculate Weights ####
+#harris_data <-read.csv("~/2024 US Election Forecast/data/02-analysis_data/analysis_data_Harris.csv")
+#trump_data <- read.csv("~/2024 US Election Forecast/data/02-analysis_data/analysis_data_Trump.csv")
+## if you haven't run the model script, use this code
+# Calculate weights for Harris data
+# harris_data <- harris_data %>%
+#   mutate(
+#     sample_size_weight = pmin(sample_size / 2300, 1),  # Cap weight at 1
+#     pollster_quality_weight = numeric_grade / 4  # Scale numeric grade to [0, 1]
+#   ) %>%
+#   group_by(pollster) %>%
+#   mutate(
+#     recent_poll_count = sum(recency < 30),  # Count recent polls within the last 30 days
+#     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)  # Adjust frequency weight
+#   ) %>%
+#   ungroup() %>%
+#   mutate(combined_weight = recency * sample_size_weight * poll_frequency_weight * pollster_quality_weight)  # Combine weights
 
-# Sample indices for training and testing sets
-train_index <- sample(seq_len(nrow(data)), size = 0.8 * nrow(data))
+# Calculate weights for Trump data (similar to Harris)
+# trump_data <- trump_data %>%
+#   mutate(
+#     sample_size_weight = pmin(sample_size / 2300, 1),  # Cap weight at 1
+#     pollster_quality_weight = numeric_grade / 4  # Scale numeric grade to [0, 1]
+#   ) %>%
+#   group_by(pollster) %>%
+#   mutate(
+#     recent_poll_count = sum(recency < 30),  # Count recent polls within the last 30 days
+#     poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)  # Adjust frequency weight
+#   ) %>%
+#   ungroup() %>%
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#### Set Seed for Reproducibility ####
+set.seed(567)
+
+# Sample indices for training and testing sets for Harris data
+train_index_harris <- sample(seq_len(nrow(harris_data)), size = 0.8 * nrow(harris_data))
 
 # Split the data into training and testing sets
-train_data <- data[train_index, ]
-test_data <- data[-train_index, ]
+train_data_harris <- harris_data[train_index_harris, ]
+test_data_harris <- harris_data[-train_index_harris, ]
 
-# Fit the weighted linear regression model
-first_model_test <- lm(pct ~ national_poll + pollster + population, 
-                     data = data, 
-                  data = train_data)
+# Convert pollster to factor in the training dataset
+train_data_harris$pollster <- factor(train_data_harris$pollster)
 
-# Predict on test data
-predictions <- predict(first_model_test, newdata = test_data)
+# Get levels from the training dataset
+pollster_levels <- levels(train_data_harris$pollster)
 
-# Calculate RMSE using the correct outcome variable
-# Assuming 'pct' is the actual observed outcome variable in test_data
-rmse <- sqrt(mean((predictions - test_data$pct)^2, na.rm = TRUE))
+# Set the same levels for pollster in testing data
+test_data_harris$pollster <- factor(test_data_harris$pollster, levels = pollster_levels)
 
-# Print RMSE
-print(paste("RMSE:", rmse))
+#### Fit the Unweighted Linear Regression Model for Harris ####
+model_harris_unweighted <- lm(pct ~ national_poll + pollster + population, 
+                             data = train_data_harris)
 
+# Predict on test data for unweighted model
+predictions_unweighted <- predict(model_harris_unweighted, newdata = test_data_harris)
+
+# Calculate RMSE for unweighted model
+rmse_unweighted <- sqrt(mean((predictions_unweighted - test_data_harris$pct)^2, na.rm = TRUE))
+cat("Harris Unweighted Model RMSE:", rmse_unweighted, "\n")
+
+#### Fit the Weighted Linear Regression Model for Harris ####
+model_harris_weighted <- lm(pct ~ national_poll + pollster + population, 
+                           data = train_data_harris, weights = combined_weight)
+
+# Predict on test data for weighted model
+predictions_weighted <- predict(model_harris_weighted, newdata = test_data_harris)
+
+# Calculate RMSE for weighted model
+rmse_weighted <- sqrt(mean((predictions_weighted - test_data_harris$pct)^2, na.rm = TRUE))
+cat("Harris Weighted Model RMSE:", rmse_weighted, "\n")
 ```
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#### Set Seed for Reproducibility ####
+set.seed(123)
+
+# Sample indices for training and testing sets for Trump data
+train_index_trump <- sample(seq_len(nrow(trump_data)), size = 0.8 * nrow(trump_data))
+
+# Split the data into training and testing sets
+train_data_trump <- trump_data[train_index_trump, ]
+test_data_trump <- trump_data[-train_index_trump, ]
+
+# Convert pollster to factor in the training dataset
+train_data_trump$pollster <- factor(train_data_trump$pollster)
+
+# Get levels from the training dataset
+pollster_levels <- levels(train_data_trump$pollster)
+
+# Set the same levels for pollster in testing data
+test_data_trump$pollster <- factor(test_data_trump$pollster, levels = pollster_levels)
+
+#### Fit the Unweighted Linear Regression Model for Trump ####
+model_trump_unweighted <- lm(pct ~ national_poll + pollster + population, 
+                             data = train_data_trump)
+
+# Predict on test data for unweighted model
+predictions_unweighted <- predict(model_trump_unweighted, newdata = test_data_trump)
+
+# Calculate RMSE for unweighted model
+rmse_unweighted <- sqrt(mean((predictions_unweighted - test_data_trump$pct)^2, na.rm = TRUE))
+cat("Trump Unweighted Model RMSE:", rmse_unweighted, "\n")
+
+#### Fit the Weighted Linear Regression Model for Trump ####
+model_trump_weighted <- lm(pct ~ national_poll + pollster + population, 
+                           data = train_data_trump, weights = combined_weight)
+
+# Predict on test data for weighted model
+predictions_weighted <- predict(model_trump_weighted, newdata = test_data_trump)
+
+# Calculate RMSE for weighted model
+rmse_weighted <- sqrt(mean((predictions_weighted - test_data_trump$pct)^2, na.rm = TRUE))
+cat("Trump Weighted Model RMSE:", rmse_weighted, "\n")
+```
+
+The RMSE (Root Mean Square Error) values for the models indicate how
+well the models predict the percentage of support for Kamala Harris and
+Donald Trump in the 2024 U.S. presidential election. For the Harris
+models, the unweighted RMSE is approximately 2.24, while the weighted
+model achieves a slightly better performance with an RMSE of about 2.19.
+This improvement in the weighted model suggests that incorporating
+weights—likely reflecting the reliability or relevance of the
+polls—provides a more accurate prediction of Harris's support levels
+compared to the unweighted approach. The smaller RMSE value signifies
+that the predictions made by the weighted model are closer to the actual
+observed percentages, indicating better model performance.
+
+In contrast, the RMSE values for Trump indicate a different scenario.
+The unweighted model for Trump has an RMSE of approximately 2.97, while
+the weighted model has a higher RMSE of about 3.07. This unexpected
+outcome suggests that adding weights to the Trump model may have
+introduced more variability or noise in the predictions rather than
+improving accuracy. The higher RMSE in the weighted model compared to
+the unweighted model indicates that the weighting scheme used might not
+have been effective in capturing the true relationship between the
+predictors and Trump’s support levels, potentially due to factors such
+as multicollinearity or insufficient variation in the data. Overall,
+while the Harris models show consistent improvement with weighting, the
+Trump models demonstrate the need for further investigation into the
+model specifications and the effectiveness of the weighting applied.
 
 ## Diagnostics
 
-@fig-stanareyouokay-1 is a residual plot of un-weighted model. It shows... This suggests...
+@fig-stanareyouokay-1 is a residual plot of un-weighted model. It
+shows... This suggests...
 
-@fig-stanareyouokay-2 is a Q-Q plot of un-weighted model plot. It shows... This suggests...
+@fig-stanareyouokay-2 is a Q-Q plot of un-weighted model plot. It
+shows... This suggests...
 
 ```{r}
 #| echo: false
@@ -298,15 +446,51 @@ print(paste("RMSE:", rmse))
 #| message: false
 #| warning: false
 #| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
+#| fig-cap: "Diagnostics of model using residual vs fitted plot and norm Q-Q plot\n-Support for Harris"
+#| fig-subcap: ["Residual Plot for Unweighted Model", "Q-Q Plot for Unweighted Model", "Residual Plot for Weighted Model", "Q-Q Plot for Weighted Model"]
 #| layout-ncol: 2
-#residual plot
-plot(first_model, which = 1,main ="Residual Plot of unweighted linear regression model residualsmodel" )
-# Q-Q plot for the residuals of the model
-qqnorm(residuals(first_model),main= "Q-Q Plot of unweighted linear regression model residuals
-")
-qqline(residuals(first_model), col = "red")
+
+# Residual plot for unweighted model
+plot(harris_unweighted_model, which = 1, main = "Residual Plot of Unweighted Linear Regression Model")
+
+# Q-Q plot for the residuals of the unweighted model
+qqnorm(residuals(harris_unweighted_model), main = "Q-Q Plot of Unweighted Linear Regression Model Residuals")
+qqline(residuals(harris_unweighted_model), col = "red")
+
+# Residual plot for weighted model
+plot(harris_weighted_model, which = 1, main = "Residual Plot of Weighted Linear Regression Model")
+
+# Q-Q plot for the residuals of the weighted model
+qqnorm(residuals(harris_weighted_model), main = "Q-Q Plot of Weighted Linear Regression Model Residuals")
+qqline(residuals(harris_weighted_model), col = "red")
+
+
+```
+
+```{r}
+#| echo: false
+#| eval: true
+#| message: false
+#| warning: false
+#| label: fig-stanareyouokay
+#| fig-cap: "Diagnostics of model using residual vs fitted plot and norm Q-Q plot\n-Support for Trump"
+#| fig-subcap: ["Residual Plot for Unweighted Model", "Q-Q Plot for Unweighted Model", "Residual Plot for Weighted Model", "Q-Q Plot for Weighted Model"]
+#| layout-ncol: 2
+
+# Residual plot for unweighted model
+plot(trump_unweighted_model, which = 1, main = "Residual Plot of Unweighted Linear Regression Model")
+
+# Q-Q plot for the residuals of the unweighted model
+qqnorm(residuals(trump_unweighted_model), main = "Q-Q Plot of Unweighted Linear Regression Model Residuals")
+qqline(residuals(trump_unweighted_model), col = "red")
+
+# Residual plot for weighted model
+plot(trump_weighted_model, which = 1, main = "Residual Plot of Weighted Linear Regression Model")
+
+# Q-Q plot for the residuals of the weighted model
+qqnorm(residuals(trump_weighted_model), main = "Q-Q Plot of Weighted Linear Regression Model Residuals")
+qqline(residuals(trump_weighted_model), col = "red")
+
 
 ```
 
