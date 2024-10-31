@@ -33,7 +33,7 @@ just_harris_high_quality <- cleaned_data |>
     numeric_grade >= 2 # mean of numeric_gradeis 2.175, median is 1.9 
   ) |>
   mutate(
-    state = if_else(state == "--", NA_character_, state),
+    state = if_else(is.na(state) | state == "--", "National", state),
     national_poll = if_else(is.na(state), 1, 0)  # 1 for national, 0 for state-specific
   ) |> mutate(
     start_date = mdy(start_date),
@@ -68,7 +68,7 @@ just_trump_high_quality <- cleaned_data|>
     numeric_grade >= 2 # mean of numeric_gradeis 2.175, median is 1.9 
   ) |>
   mutate(
-    state = if_else(state == "--", NA_character_, state),
+    state = if_else(is.na(state) | state == "--", "National", state),
     national_poll = if_else(is.na(state), 1, 0)  # 1 for national, 0 for state-specific
   ) |> mutate(
     start_date = mdy(start_date),
@@ -89,6 +89,7 @@ just_trump_high_quality <- just_trump_high_quality %>%
     population = factor(population),  # Only if appropriate
     methodology = factor(methodology)
   )
+high_quality_combined<-bind_rows(just_harris_high_quality,just_trump_high_quality)
 #### Save data ####
 write_parquet(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.parquet")
 write_parquet(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.parquet")
