@@ -287,7 +287,7 @@ recency, leading to more accurate predictions of voter sentiment.
 
 # Result
 
-## Recent 3 Months Support Trends Prediction
+## Recent Three Months Support Trends Prediction
 
 The recent three-month support trends for Kamala Harris and Donald Trump across key battleground states—Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, and Wisconsin—show a highly competitive race. Each state’s panel displays support percentages over time from August to November 2024, with Harris shown in blue and Trump in red. The plot uses point size to represent poll weights, accounting for factors such as recency, pollster quality, and sample size, where larger points indicate higher-weighted polls, emphasizing more reliable data.
 
@@ -349,10 +349,10 @@ combined_data <- bind_rows(harris_filtered, trump_filtered)
 ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
   geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
   geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
-  facet_wrap(~ state) +
+  facet_wrap(~ state,ncol = 2,scales = "free_y") +
   labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Selected States",
        x = "Date", y = "Support (%)") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-31"))) +
+  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-25"))) +
   scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
   scale_size_continuous(range = c(0.5, 3), guide = "none") +
   theme_minimal() +
@@ -372,7 +372,6 @@ ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, siz
 #| eval: true
 #| label: fig-national-support-trends
 #| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
-
 # Combine datasets for plotting with a new column for candidate
 harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
 trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
@@ -392,13 +391,14 @@ combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date),
     axis.text.x = element_text(angle = 0, hjust = 0.5),
     panel.grid.major = element_line(size = 0.1, color = "grey80")
   ) +
-  guides(color = guide_legend(title = "Candidate"))
-
+  guides(color = guide_legend(title = "Candidate")) +  # Vertical line at October 25
+  annotate("text", x = as.Date("2024-10-19"), y = Inf, label = "October 25th", vjust = 1, color = "black", size = 3.5) +
+  geom_vline(xintercept = as.Date("2024-10-25"), linetype = "solid", color = "black", size = 0.8)   # Vertical line at October 25
 
 ```
 @fig-national-support-trends illustrates the polling support trends for Kamala Harris and Donald Trump across the country from August to October. The scatter points represent individual poll results, with blue for Harris and red for Trump, while each dot's size reflects the weight of the poll, accounting for factors like sample size, quality, and recency. Harris’s support trend line generally remains above Trump’s, with an average support level around 49%, compared to Trump’s approximate average of 47% over this period. Toward the end of October, both candidates show a slight increase, with Harris’s support reaching just over 50% and Trump’s approaching 49%. This trend suggests a potential narrowing in support levels as the election approaches, providing a quantitative snapshot of national polling dynamics.
 
-## Recent 3 Months Support Trends Linear Model Prediction
+## Recent Three Months Support Trends Linear Model Prediction
 
 ```{r}
 #| echo: false
@@ -494,7 +494,7 @@ recent_date_cutoff <- as.Date("2024-08-01")
 combined_predictions<- bind_rows(new_data_harris, new_data_trump)
 combined_predictions_filtered<-combined_predictions|>filter(end_date>=recent_date_cutoff)
 # Determine the maximum end date for setting the x-axis limit
-max_end_date <- max(combined_predictions_filtered$end_date)
+max_end_date <- as.Date("2024-10-30")
 
 # Plotting with the filtered data
 ggplot(combined_predictions_filtered, aes(x = end_date, color = candidate)) +
@@ -513,8 +513,12 @@ ggplot(combined_predictions_filtered, aes(x = end_date, color = candidate)) +
   theme_minimal() +
   theme(legend.position = "top",
         axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date))
-
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date))  +
+  geom_vline(xintercept = as.Date("2024-10-25"), linetype = "solid", color = "black", size = 0.8) +  # Vertical line at October 25
+  annotate("text", x = as.Date("2024-10-19"), y = Inf, label = "October 25th", vjust = 1, color = "black", size = 3.5)+  # Vertical line at October 25
+  geom_text(aes(x = as.Date("2024-10-25"), y = 50, label = "49%"), color = "blue", hjust = -0.1, size = 3) +  # Harris label
+  geom_text(aes(x = as.Date("2024-10-25"), y = 48, label = "48%"),color = "red", hjust = -0.1, size = 3)+  # Harris label
+  geom_text(aes(x = as.Date("2024-10-25"), y = 46.5, label = "46.5%"), color = "red",hjust = -0.1, size = 3)  # Trump label
 ```
 
 The predicted support for Kamala Harris and Donald Trump in the upcoming
@@ -539,8 +543,8 @@ trajectory may indicate challenges for Trump in sustaining voter
 enthusiasm amid changing public opinions.
 
 At the conclusion of the polling period, the models suggest that Kamala
-Harris leads Donald Trump by approximately 4% in the un-weighted (50%
-vs. 46%) and 2.5% in weighted models (50% vs. 47.5%).
+Harris leads Donald Trump by approximately 2.5% in the un-weighted (49%
+vs. 46.5%) and 1% in weighted models (49% vs. 48%). Average leading by about 2%.
 
 # Discussion
 
