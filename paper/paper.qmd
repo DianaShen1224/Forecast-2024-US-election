@@ -1,5 +1,5 @@
 ---
-title: "Based on polling as of 27 October 2024, Harris expects to win on 50%, leads Trump by about 3% in 2024 US election"
+title: "Based on polling as of 27 October 2024, Harris expects to win on 49%, leads Trump by about 2% in 2024 US election"
 subtitle: "Weighted Linear Regression Analysis of Aggregated Poll Data: Utilizing National Polls indicator, Population, and Pollster as Predictors."
 author: 
   - Diana Shen
@@ -33,84 +33,177 @@ library(dplyr)
 #| message: false
 harris_data <- read_parquet("~/2024 US Election Forecast/data/02-analysis_data/analysis_data_Harris.parquet")
 trump_data <- read_parquet("~/2024 US Election Forecast/data/02-analysis_data/analysis_data_Trump.parquet")
-
 ```
 
 # Introduction
 
-Election forecasting has long played a crucial role in understanding
-public opinion and predicting the outcome of political contests. The use
-of data-driven methods, particularly polling data, has become an
-important pre-election analytical tool for political analysts. The
-purpose of this paper is to predict the winner of the upcoming 2024 U.S.
-presidential election by constructing a statistical model based on
-aggregated polling data. The “polling” approach combines results from
-different pollsters to provide a more comprehensive picture of voter
-preferences (Blumenthal 2014; Pasek 2015), and our goal is to predict
-the outcome of the popular vote and the Electoral College. Our analysis,
-based on data collected from multiple polling sources, captures voter
-intentions for the two major candidates, Kamala Harris (Democrat) and
-Donald Trump (Republican).
+Understanding voter sentiment is essential for both political campaigns and analysts, especially with the upcoming U.S. election on the horizon. Public opinion is highly dynamic and can change swiftly due to various influences, including media coverage, campaign tactics, and major events. This study aims to forecast the percentage of support for Kamala Harris, offering insights into the elements that shape voter preferences as the election nears. By examining data from multiple polling sources, we intend to pinpoint the key factors influencing support, such as the poll's end date, the polling organization, geographic location, and the poll's score. Our research seeks to fill a gap in existing literature that often fails to address the complexities of polling data, thereby enhancing our understanding of voter behavior within the electoral context.
 
-In addition to constructing and interpreting predictive models, this
-paper dive into the methods used by xx pollsters, analyzing the
-strengths as well as the weaknesses of the methods used against them. At
-the end of the paper, we also propose an idealized survey methodology
-for election forecasting with a budget of \$100,000 USD.
+The main focus of our analysis is the percentage of support for Harris, which we will model using various predictor variables. We are particularly interested in how the end date, polling organization, state, and poll score affect voter support. Using a linear regression framework, we can quantify the relationships between these predictors and the support outcome, providing clarity on how each factor influences overall support for Harris. By estimating the coefficients for each predictor, we aim to draw significant conclusions about their respective impacts on voter sentiment.
 
-This paper begins with an introduction to data in Section 2. In this
-section, we focus on measurement techniques and the visualization and
-analysis of key variables. Next, in Section 3, we provide an overview of
-the linear model used to analyze the relationships within the dataset.
-The results of the analysis are detailed in Section 4 (Results).
-Finally, in Section 5, we summarize our main conclusions as well as
-suggest some possible future research directions.
+Our findings reveal a notable positive correlation between the end date and the percentage of support, indicating that as the election approaches, voter support tends to increase. We also observed considerable variability in support levels based on the polling organization and state, with certain pollsters consistently reporting higher support for Harris. The quality of the polls significantly affected results, with more reputable polls correlating with higher levels of support. These insights emphasize the necessity of considering both the timing of polls and the characteristics of different polling firms when analyzing public opinion.
 
-# Data {#sec-data}
+This research is important because precise predictions of voter support are crucial for effective campaign strategies. By identifying the main factors influencing support for Harris, campaign teams can customize their outreach and messaging to resonate better with voters. Furthermore, recognizing the differences across various polling organizations and states can assist in resource allocation and strategic focus during the campaign. Given that elections can be decided by narrow margins, having trustworthy insights into voter preferences can substantially influence the final outcomes.
+
+The structure of this paper is organized as follows: @sec-data provides details on the data sources and variables used in our analysis. @sec-model explains the modeling approach, including the assumptions and specifications of our linear regression framework. In @sec-results, we present our findings, emphasizing the key predictors of Harris's support. Finally, @sec-discussion explores the implications of our results and suggests potential directions for future research.
+# Estimand
+
+The estimand of our analysis is the true percentage of voter support for Kamala Harris in the upcoming U.S. presidential election.
+
+# Data {#third-data}
 
 ## Overview
 
-The data for this paper was sourced from ABC News (xxxxx). The
-statistical software R (R Core Team, 2023) was employed to retrieve,
-clean, and process the dataset. Specifically, the tidyverse package
-(Wickham et al., 2019) was used for data acquisition, cleaning, and
-processing. The ggplot2 (Wickham, 2016) package was utilized to generate
-the visualizations.
+We conduct our polling data analysis using the R programming language [@citeR]. Our dataset, obtained from FiveThirtyEight [@fivethirtyeight2024], provides a detailed overview of public opinion in the lead-up to the election. Adhering to the guidelines presented in @tellingstories, we explore various factors that influence voter support percentages, including the timing of the polls, the traits of polling organizations, and regional differences.
+
+In this study, we utilized several R packages to enhance our data manipulation, modeling, and visualization capabilities. The tidyverse package offered a comprehensive set of tools for data wrangling and analysis, improving workflow efficiency (@thereferencecanbewhatever). The here package aided in managing file paths, allowing for easy access to our data files (@citehere). We relied on janitor to perform data cleaning, as it provides functionalities to identify and rectify quality issues within the dataset (@citejanitor). For handling date-related operations, the lubridate package proved invaluable, simplifying the manipulation of time variables (@citelubridate). Lastly, arrow supported efficient data input and output in a performance-oriented format, essential for managing larger datasets (@citearrow). Our coding practices and file organization were informed by the structure outlined in @tellingstories.
 
 ## Measurement
+	
+The process of translating real-world events into our dataset requires a systematic approach to measurement and data gathering. In this research, we aim to assess public opinion regarding Kamala Harris as the upcoming U.S. presidential election approaches. Polling agencies formulate surveys featuring specific questions designed to capture voters' attitudes, including their likelihood of supporting Harris and their views on prevailing political issues.
 
-The data used to predict the outcome of the 2024 U.S. presidential
-election in this study came from a variety of polling sources. The
-results of these polls represent key measures of electoral support and
-voter sentiment and are therefore the main variables in our analysis.
+Once the survey items are established, a representative sample is selected through stratified random sampling methods, ensuring a diverse demographic representation. Respondents are reached using various techniques, such as telephone interviews and online questionnaires.
 
-To ensure that polling data accurately reflects real-world voter
-preferences, we rely on several key measurement constructs. First, voter
-preferences are measured by the percentage of respondents who indicated
-support for each candidate. Each poll is conducted using different
-sample sizes, and sampling methods (e.g., online surveys, IVR calls,
-etc.), which can inject more variability into the data. To mitigate
-these differences, we aggregate poll results using a “”poll of polls“”
-methodology that eliminates anomalies and provides a more comprehensive
-picture of voter preferences (Blumenthal 2014; Pasek 2015).
+After gathering the responses, the data is subjected to thorough cleaning and validation procedures to rectify inconsistencies and handle any missing information. This step is crucial for ensuring that the dataset accurately mirrors the electorate's sentiments. Each entry in the finalized dataset reflects an individual's viewpoint at a given moment, enabling a detailed analysis of the factors that shape public opinion as the election nears. This structured methodology effectively converts subjective opinions into measurable data, providing valuable insights into voter behavior and preferences.
 
-In this study, we recognize the measurement problems inherent in polling
-data. Polls rely on sample data to represent the entire voting
-population, and therefore, there may be potential biases in the data.
-For example, there may be no-response bias due to the potential under
-representation of certain populations, or because of the wording of the
-questions and thus the influence of respondents to report their
-preferences. Therefore, in this study, we chose to analyze aggregated
-data from multiple pollsters and adjust for sampling variability and
-response rates in an effort to be able to provide a more robust measure
-of electoral support. We believe that our aggregated dataset can serve
-as a reliable basis for our predictive model to help us translate the
-data into quantitative metrics that can be used to predict election
-outcomes.
+## Outcome variable
 
-## Outcome variables (Estimand)
+### The support percentage of Kamala Harris.
+
+@fig-percentage illustrates the distribution of percentage support for Kamala Harris based on polling data, where support reflects the proportion of respondents favoring Harris in each survey. Most polls report support clustered around 50%, with the majority of values falling between 40% and 55%. This central peak suggests moderate, consistent support levels among respondents, with fewer instances of higher support levels above 55%. The right-skew in the distribution indicates occasional polls with elevated support, though these are less common. Overall, this visualization highlights the general sentiment and variability in support for Harris as captured across multiple polls.
+
+```{r}
+#| label: fig-percentage
+#| fig-cap: Distribution of support percentage of Kamala Harris
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(harris_data, aes(x = pct)) +
+  geom_histogram(binwidth = 1, fill = "gold", color = "grey50") +
+  labs(
+    x = "Support Percentage",
+    y = "Count"
+  ) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
 
 ## Predictor variables
+
+### End Date
+
+The end date is the final day of data collection for a poll, indicating when the survey period concluded. This date provides crucial context for the poll results, as public opinion may change over time in response to events, campaign actions, or other influencing factors.
+
+### State
+
+@fig-state displays the distribution of polls by state, showing how frequently polling organizations conducted surveys across various U.S. states and at the national level. The "National" category has the highest number of polls, indicating a strong emphasis on capturing overall U.S. sentiment. Certain states, such as Pennsylvania, Wisconsin, North Carolina, Arizona, Georgia, and Michigan, also show higher polling frequencies, likely because these are battleground states with the potential to influence the election outcome significantly. Toward the right side of the chart, states with minimal polling activity, including South Carolina, Iowa, and Washington, appear less frequently, possibly due to their historically predictable or less competitive nature. This distribution reflects the strategic focus of polling efforts, with organizations prioritizing both national sentiment and swing states where public opinion is more volatile. Overall, the chart provides insight into where polling resources are allocated as election day nears, emphasizing areas that could sway the final result.
+
+```{r}
+#| label: fig-state
+#| fig-cap: Count of polls by state
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(harris_data, aes(x = fct_infreq(state))) +
+  geom_bar(fill = "gold", color = "black") +
+  labs(
+    x = "State",
+    y = "Number of Polls"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+### Pollster
+
+@fig-pollster displays the frequency of polls conducted by different pollsters. Each bar represents a pollster, with the height indicating the number of polls they conducted. Siena/NYT has the highest count, followed by YouGov and Emerson. Pollsters to the right have conducted significantly fewer polls, with some showing only one or two entries.
+
+The pollster is the organization or firm that conducts the surveys, gathering and analyzing public opinion data on voter preferences. In this context, each pollster's count reflects its level of polling activity related to the election.
+
+```{r}
+#| label: fig-pollster
+#| fig-cap: Frequency of Polls by Pollster"
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(harris_data, aes(x = fct_infreq(pollster))) +
+  geom_bar(fill = "gold", color = "grey30") +
+  labs(
+    x = "Pollster",
+    y = "Poll Count"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 6))
+```
+
+### Numeric Grade
+
+@fig-numericgrade displays the distribution of numeric grades assigned to various pollsters, with the x-axis representing the numeric grade values and the y-axis indicating the frequency of each grade. The numeric grade is a metric that evaluates the quality or reliability of a pollster, taking into account factors such as methodology, historical accuracy, sample size, and pollster reputation. In this chart, we observe that the most common numeric grades are concentrated around 2.75 and 3.00, with a large spike at these values, suggesting that a significant number of polls are conducted by highly-rated pollsters. Fewer polls have grades below 2.5, indicating a relatively lower occurrence of polls from less-reliable pollsters in this dataset. This distribution underscores the emphasis on high-quality pollsters within the dataset, ensuring a more reliable and consistent source of polling data for subsequent analysis.
+
+```{r}
+#| label: fig-numericgrade
+#| fig-cap: Distribution of numeric grade
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(harris_data, aes(x = numeric_grade)) +
+  geom_histogram(binwidth = 0.05, fill = "gold", color = "grey30") +
+  labs(
+    x = "Numeric Grade",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
+
+## Relationships between key varaibles
+
+@fig-pollstertime shows the trend of percentage support for Kamala Harris over time, with data points and smoothed trend lines for each pollster. The x-axis represents the dates from August through October, while the y-axis indicates the percentage of respondents supporting Harris. Each color corresponds to a specific polling organization, with prominent pollsters such as Beacon/Shaw, Ipsos, Siena/NYT, Emerson, Quinnipiac, and YouGov. The smoothed lines reveal subtle trends over time, with some pollsters like Emerson and Beacon/Shaw showing a slight upward trend, while others like Siena/NYT display a downward trend. @fig-pollstertime highlights the variability in poll results across different organizations, reflecting each pollster's methodology and sample.
+
+```{r}
+#| label: fig-pollstertime
+#| fig-cap: Harris Support Over Time by Pollster (Top 6 Pollsters)
+#| echo: false
+#| warning: false
+#| message: false
+
+top_pollsters <- harris_data %>%
+  count(pollster, sort = TRUE) %>%
+  top_n(6, n) %>%
+  pull(pollster)
+
+filtered_data <- harris_data %>%
+  filter(pollster %in% top_pollsters)
+
+ggplot(filtered_data, aes(x = end_date, y = pct, color = pollster)) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(se = FALSE)+
+  scale_color_viridis_d() +
+  labs(y = "Harris Support Percent", x = "Date") +
+  theme_classic() +
+  theme(legend.position = "bottom", legend.title = element_blank())
+```
+
+@fig-numericgradetime illustrates Harris's support percentages over time, with each data point representing poll results colored by the numeric grade of the pollster. The smoothing lines for each numeric grade remain subtle, indicating minor variations in support trends over time across different pollster quality levels. Most points are clustered around the 50% support level, suggesting a generally stable voter sentiment for Harris, with only slight fluctuations across numeric grades. By limiting the y-axis, outliers and extreme variations are minimized, resulting in a clearer and more interpretable visualization. This approach emphasizes the central trend, allowing for clearer comparisons of support levels across pollsters of varying reliability without distraction from extreme values.
+
+```{r}
+#| label: fig-numericgradetime
+#| fig-cap: Harris Support Over Time by Numeric Grade
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(harris_data %>% filter(pct <= 100), aes(x = end_date, y = pct, color = factor(numeric_grade))) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(se = FALSE, span = 0.3) +
+  labs(y = "Harris Percent", x = "Date", color = "Numeric Grade") +
+  scale_color_viridis_d() +
+  theme_classic() +
+  theme(legend.position = "bottom") +
+  coord_cartesian(ylim = c(0, 100))
+```
 
 ## Model
 
