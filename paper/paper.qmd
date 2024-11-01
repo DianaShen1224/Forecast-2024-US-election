@@ -467,7 +467,7 @@ Where:
 
 - **Sample Size Weight**: Calculated as the sample size divided by 2300, capped at 1. This emphasizes larger, more reliable polls while preventing extremely large samples from disproportionately impacting the analysis.
 
-- **Recency Weight**: Applied through an exponential decay function, `exp(-recency * 0.1)`, where "recency" represents the days since the poll was conducted. This ensures that more recent data carries more weight, while older polls have reduced influence.
+- **Recency Weight**: Applied through an exponential decay function, exp(-recency * 0.1), where "recency" represents the days since the poll was conducted. This ensures that more recent data carries more weight, while older polls have reduced influence.
 
 - **Combined Weight**: The final weight is the product of all individual weights: $$
 \text{Combined Weight} =\text{Recency Weight} \times \text{Sample Size Weight}
@@ -531,12 +531,21 @@ that the predictions are reliable across different polling scenarios.
 ## Predicted Voting Outcomes
 
 ```{r}
-modelsummary::msummary(list(
-  "Harris Unweighted" = harris_unweighted_model, 
-  "Harris Weighted" = harris_weighted_model,
-  "Trump Unweighted" = trump_unweighted_model,
-  "Trump Weighted" = trump_weighted_model))
-
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| tbl-colwidths: [45,15]
+#| tbl-cap: "Summary of the Linear Regression Model for Predicting Polling Outcomes"
+#| layout-ncol: 2
+#| label: tbl-summary
+modelsummary::msummary(
+  list(
+    "Harris Unweighted" = harris_unweighted_model, 
+    "Harris Weighted" = harris_weighted_model,
+    "Trump Unweighted" = trump_unweighted_model,
+    "Trump Weighted" = trump_weighted_model
+  ))
 ```
 
 ## Recent Three Months Support Trends Linear Model Prediction
@@ -1166,21 +1175,9 @@ be beneficial for improved prediction accuracy.
 
 # The New York Times/Siena College Polling Methodology {#appendix-c}
 
-This appendix provides a comprehensive overview of the methodology
-employed by the Siena College Polling Institute in conducting its
-surveys.Siena College is renowned for its methodologically rigorous
-approach to political polling, focusing on accurately capturing voter
-sentiment during elections. Siena College has conducted polls in three
-key states: Michigan, Wisconsin, and Ohio.
+This appendix outlines the methodology used by the Siena College Polling Institute for conducting its surveys. Known for its methodological rigor, Siena College focuses on accurately capturing voter sentiment during elections and has conducted polls in key states such as Michigan, Wisconsin, and Ohio.
 
-In this section, we will delve into the key components of Siena's
-polling methodology, including the target population, sampling frame,
-recruitment processes, and the sampling strategies used. We will also
-address how non-response is managed and evaluate the strengths and
-weaknesses of the questionnaire design. By exploring these elements,
-this appendix aims to clarify how Siena College ensures the reliability
-and validity of its polling results, contributing valuable insights to
-the understanding of voter behavior and election outcomes.
+In this section, we examine the main components of Siena's polling methodology, including the target population, sampling frame, recruitment processes, and sampling strategies. Additionally, we discuss how Siena addresses non-response and review the strengths and weaknesses of its questionnaire design. By detailing these elements, this appendix clarifies how Siena College ensures the reliability and validity of its polling results, offering valuable insights into voter behavior and election dynamics.
 
 ## Pollster Overview
 
@@ -1373,7 +1370,7 @@ validity.
 # Idealized Methodology for US Presidential Election Forecast {#appendix-d}
 
 This appendix details the methodology and design for conducting a U.S.
-presidential election forecast survey with a budget of \$100,000. The
+presidential election forecast survey with a budget of $\$100,000$. The
 objective is to generate an accurate and reliable prediction of the
 election outcome while ensuring data quality through meticulous
 sampling, recruitment, validation, and aggregation of results.\
@@ -1485,7 +1482,7 @@ sourced from U.S. Census data available through IPUMS USA
 ## Target Population
 
 Our target population is all U.S. citizens eligible to vote in the 2024
-U.S. presidential election (age\>=18).
+U.S. presidential election (age>=18).
 
 ## Sample frame
 
@@ -1648,7 +1645,7 @@ the likelihood of respondents defaulting to extreme or middle answers.
 
 Mitigating Response Order Bias: For nominal questions, we randomize
 response options, and for ordinal questions, we vary the order.
-Open-ended formats and pauses (e.g., "Who would you vote for? \[pause\]
+Open-ended formats and pauses (e.g., "Who would you vote for? [pause]
 Candidate A or Candidate B?") further minimize order effects.
 
 Minimizing Social Desirability Bias (SDB): Our online survey format and
@@ -1665,23 +1662,23 @@ a full range of views.
 
 ## Budget Breakdown
 
-Budget Breakdown With a total budget of \$100,000, the allocation for
+Budget Breakdown With a total budget of $\$100,000$, the allocation for
 various components of the survey implementation and data collection is
 as follows:
 
-Survey Design and Development: \$2,000 Covers question formatting,
+Survey Design and Development: $\$2,000$ Covers question formatting,
 testing, and online integration (e.g., Qualtrics) to ensure
 user-friendly and relevant survey design.
 
-Online Panel Providers (Qualtrics, YouGov): \$80,000 200 respondents
-recruited at \$400 each, leveraging verified voter panels for
+Online Panel Providers (Qualtrics, YouGov): $\$80,000$ 200 respondents
+recruited at $\$400$ each, leveraging verified voter panels for
 high-quality data.
 
-Social Media Recruitment (Facebook, Instagram): \$12,000 400 respondents
-recruited via targeted ads (\$30 each). Anticipating a 50% invalid rate,
+Social Media Recruitment (Facebook, Instagram): $\$12,000$ 400 respondents
+recruited via targeted ads ($\$30$ each). Anticipating a 50% invalid rate,
 allowing for 200 valid responses after validation.
 
-Data Validation and Quality Control: \$6,000 Includes voter registration
+Data Validation and Quality Control: $\$6,000$ Includes voter registration
 checks, attention filters, and post-collection quality review,
 especially for social media responses, to ensure data integrity.
 
