@@ -17,7 +17,6 @@ raw_data <- read_csv("data/01-raw_data/raw_election_24.csv")
 
 cleaned_data <- raw_data |>
   clean_names()
-summary(cleaned_data)##check summary statistics of raw cleaned data
 
 # Filter data to Harris estimates based on high-quality polls after she declared
 just_harris_high_quality <- cleaned_data |>
@@ -25,12 +24,12 @@ just_harris_high_quality <- cleaned_data |>
   select(
     pollster, numeric_grade, state, candidate_name, pct, sample_size, 
     population, methodology, start_date, end_date
-  )|>
+  )|>filter(population %in% c("lv", "rv"))|>
   # Drop rows with missing values in essential columns
   drop_na(numeric_grade, pct, sample_size, end_date)|>
   filter(
     candidate_name == "Kamala Harris",
-    numeric_grade >= 2 # mean of numeric_gradeis 2.175, median is 1.9 
+    numeric_grade >= 2 # mean of numeric_grade is 2.175, median is 1.9 
   ) |>
   mutate(
     state = if_else(is.na(state) | state == "--", "National", state),
@@ -39,14 +38,9 @@ just_harris_high_quality <- cleaned_data |>
     start_date = mdy(start_date),
     end_date = mdy(end_date)
   )|>
-  # Calculate recency weight using exponential decay (more recent polls get higher weight)
   mutate(
-    recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
-    recency_weight = exp(-recency*0.1)  # Adjust decay rate as needed
+    recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days"))
   ) |>
-  # Apply sample size weight, capped at a maximum of 2,300 responses
-  mutate(sample_size_weight = pmin(sample_size / 2300, 1))
-just_harris_high_quality <- just_harris_high_quality %>%
   mutate(
     pollster = factor(pollster),
     state = factor(state),
