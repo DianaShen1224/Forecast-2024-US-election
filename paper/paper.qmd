@@ -1694,14 +1694,14 @@ eligible voters.
 ## Handling Non-response bias
 
 Nonresponse bias occurs when participants are unwilling or unable to
-answer certain questions or complete the survey. Given that our survey
+answer certain questions or complete the survey. Handling non-response bias matters because it can skew survey results, leading to inaccurate conclusions that do not accurately represent the entire population's views or characteristics. Given that our survey
 takes approximately 15 minutes to complete, there is a risk of
-nonresponse bias. To mitigate this,as highlighted by @surveymonkey, we
+nonresponse bias. To mitigate this, as highlighted by @surveymonkey, we
 set clear expectations about the survey's purpose and estimated
 completion time, encouraging participants to stay engaged. Additionally,
 we apply post-stratification, adjusting survey weights to ensure that
 our respondent group aligns closely with the actual population
-characteristics, reducing bias and improving representativeness
+characteristics, reducing bias, and improving representativeness
 [@surveylab].
 
 ## Respondent Validation
@@ -1766,7 +1766,7 @@ desirability bias (SDB). Our survey primarily focuses on strategies to
 reduce moderacy bias, extreme response bias, ordering bias, SDB, and
 acquiescence bias.
 
-### Defination of the response bias
+### Definition of the response bias
 
 We have defined the bias we want to solve in [Appendix C](#third-poll).
 
