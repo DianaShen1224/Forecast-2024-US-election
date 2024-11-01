@@ -88,12 +88,9 @@ particularly interested in how the end date, polling organization,
 state, and poll score affect voter support. Using a linear regression
 framework, we can quantify the relationships between these predictors
 and the support outcome, providing clarity on how each factor influences
-overall support for Harris. As Silver (2012) argues, leveraging aggregated
-data from multiple reputable sources and adjusting for sample quality
-and methodology is crucial for achieving accurate predictions.
-By estimating the coefficients for each predictor, we aim to draw
-significant conclusions about their respective impacts on voter
-sentiment.
+overall support for Harris. By estimating the coefficients for each 
+predictor, we aim to drawn significant conclusions about their respective
+impacts on voter sentiment.
 
 Our findings reveal a notable positive correlation between the end date
 and the percentage of support, indicating that as the election
