@@ -1,6 +1,6 @@
 ---
-title: "Based on polling as of 27 October 2024, Harris expects to win on 49%, leads Trump by about 2% in 2024 US election"
-subtitle: "Weighted Linear Regression Analysis of Aggregated Poll Data: Utilizing National Polls indicator, Population, and Pollster as Predictors."
+title: "Forecasting the 2024 U.S. Presidential Election Using a Model-Based Approach"
+subtitle: "Harris expects to win on 49%, leads Trump by about 2% in 2024 US election"
 author: 
   - Diana Shen
   - Jinyan Wei
@@ -31,46 +31,135 @@ library(dplyr)
 #| include: false
 #| warning: false
 #| message: false
-harris_data <- read_parquet("~/2024 US Election Forecast/data/02-analysis_data/analysis_data_Harris.parquet")
-trump_data <- read_parquet("~/2024 US Election Forecast/data/02-analysis_data/analysis_data_Trump.parquet")
+harris_data <- read_parquet(here::here("data", "02-analysis_data", "analysis_data_Harris.parquet"))
+trump_data <- read_parquet(here::here("data", "02-analysis_data", "analysis_data_Trump.parquet"))
 ```
 
 # Introduction
 
-Understanding voter sentiment is essential for both political campaigns and analysts, especially with the upcoming U.S. election on the horizon. Public opinion is highly dynamic and can change swiftly due to various influences, including media coverage, campaign tactics, and major events. This study aims to forecast the percentage of support for Kamala Harris, offering insights into the elements that shape voter preferences as the election nears. By examining data from multiple polling sources, we intend to pinpoint the key factors influencing support, such as the poll's end date, the polling organization, geographic location, and the poll's score. Our research seeks to fill a gap in existing literature that often fails to address the complexities of polling data, thereby enhancing our understanding of voter behavior within the electoral context.
+Understanding voter sentiment is essential for both political campaigns
+and analysts, especially with the upcoming U.S. election on the horizon.
+Public opinion is highly dynamic and can change swiftly due to various
+influences, including media coverage, campaign tactics, and major
+events. This study aims to forecast the percentage of support for Kamala
+Harris, offering insights into the elements that shape voter preferences
+as the election nears. By examining data from multiple polling sources,
+we intend to pinpoint the key factors influencing support, such as the
+poll's end date, the polling organization, geographic location, and the
+poll's score. Our research seeks to fill a gap in existing literature
+that often fails to address the complexities of polling data, thereby
+enhancing our understanding of voter behavior within the electoral
+context.
 
-The main focus of our analysis is the percentage of support for Harris, which we will model using various predictor variables. We are particularly interested in how the end date, polling organization, state, and poll score affect voter support. Using a linear regression framework, we can quantify the relationships between these predictors and the support outcome, providing clarity on how each factor influences overall support for Harris. By estimating the coefficients for each predictor, we aim to draw significant conclusions about their respective impacts on voter sentiment.
+The estimand of our analysis is the true percentage of voter support for
+Kamala Harris in the upcoming U.S. presidential election.
 
-Our findings reveal a notable positive correlation between the end date and the percentage of support, indicating that as the election approaches, voter support tends to increase. We also observed considerable variability in support levels based on the polling organization and state, with certain pollsters consistently reporting higher support for Harris. The quality of the polls significantly affected results, with more reputable polls correlating with higher levels of support. These insights emphasize the necessity of considering both the timing of polls and the characteristics of different polling firms when analyzing public opinion.
+The main focus of our analysis is the percentage of support for Harris,
+which we will model using various predictor variables. We are
+particularly interested in how the end date, polling organization,
+state, and poll score affect voter support. Using a linear regression
+framework, we can quantify the relationships between these predictors
+and the support outcome, providing clarity on how each factor influences
+overall support for Harris. By estimating the coefficients for each
+predictor, we aim to draw significant conclusions about their respective
+impacts on voter sentiment.
 
-This research is important because precise predictions of voter support are crucial for effective campaign strategies. By identifying the main factors influencing support for Harris, campaign teams can customize their outreach and messaging to resonate better with voters. Furthermore, recognizing the differences across various polling organizations and states can assist in resource allocation and strategic focus during the campaign. Given that elections can be decided by narrow margins, having trustworthy insights into voter preferences can substantially influence the final outcomes.
+Our findings reveal a notable positive correlation between the end date
+and the percentage of support, indicating that as the election
+approaches, voter support tends to increase. We also observed
+considerable variability in support levels based on the polling
+organization and state, with certain pollsters consistently reporting
+higher support for Harris. The quality of the polls significantly
+affected results, with more reputable polls correlating with higher
+levels of support. These insights emphasize the necessity of considering
+both the timing of polls and the characteristics of different polling
+firms when analyzing public opinion.
 
-The structure of this paper is organized as follows: @sec-data provides details on the data sources and variables used in our analysis. @sec-model explains the modeling approach, including the assumptions and specifications of our linear regression framework. In @sec-results, we present our findings, emphasizing the key predictors of Harris's support. Finally, @sec-discussion explores the implications of our results and suggests potential directions for future research.
-# Estimand
+This research is important because precise predictions of voter support
+are crucial for effective campaign strategies. By identifying the main
+factors influencing support for Harris, campaign teams can customize
+their outreach and messaging to resonate better with voters.
+Furthermore, recognizing the differences across various polling
+organizations and states can assist in resource allocation and strategic
+focus during the campaign. Given that elections can be decided by narrow
+margins, having trustworthy insights into voter preferences can
+substantially influence the final outcomes.
 
-The estimand of our analysis is the true percentage of voter support for Kamala Harris in the upcoming U.S. presidential election.
+The structure of this paper is organized as follows: @third-data provides
+details on the data sources and variables used in our analysis.
+@forth-model explains the modeling approach, including the assumptions and
+specifications of our linear regression framework. In @fifth-results, we
+present our findings, emphasizing the key predictors of Harris's
+support. Finally, @sixth-discussion explores the implications of our
+results and suggests potential directions for future research. @appendix-a provide external data detail, @appendix-b provide model detail, @appendix-c provide a exploration for pollster methodology, @appendix-d provide a idealized methodology.
 
 # Data {#third-data}
 
 ## Overview
 
-We conduct our polling data analysis using the R programming language [@citeR]. Our dataset, obtained from FiveThirtyEight [@fivethirtyeight2024],based on polling as of 27 October 2024, provides a detailed overview of public opinion in the lead-up to the election. Adhering to the guidelines presented in @tellingstories, we explore various factors that influence voter support percentages, including the timing of the polls, the traits of polling organizations, and regional differences.
+We conduct our polling data analysis using the R programming language
+[@citeR]. Our dataset, obtained from FiveThirtyEight
+[@fivethirtyeight2024],based on polling as of 27 October 2024, provides
+a detailed overview of public opinion in the lead-up to the election.
+Adhering to the guidelines presented in @tellingstories, we explore
+various factors that influence voter support percentages, including the
+timing of the polls, the traits of polling organizations, and regional
+differences.
 
-In this study, we utilized several R packages to enhance our data manipulation, modeling, and visualization capabilities. The tidyverse package offered a comprehensive set of tools for data wrangling and analysis, improving workflow efficiency (@thereferencecanbewhatever). The here package aided in managing file paths, allowing for easy access to our data files (@citehere). We relied on janitor to perform data cleaning, as it provides functionalities to identify and rectify quality issues within the dataset (@citejanitor). For handling date-related operations, the lubridate package proved invaluable, simplifying the manipulation of time variables (@citelubridate). Lastly, arrow supported efficient data input and output in a performance-oriented format, essential for managing larger datasets (@citearrow). Our coding practices and file organization were informed by the structure outlined in @tellingstories.
+In this study, we utilized several R packages to enhance our data
+manipulation, modeling, and visualization capabilities. The tidyverse
+package offered a comprehensive set of tools for data wrangling and
+analysis, improving workflow efficiency [@thereferencecanbewhatever].
+The here package aided in managing file paths, allowing for easy access
+to our data files [@citehere]. We relied on janitor to perform data
+cleaning, as it provides functionalities to identify and rectify quality
+issues within the dataset [@citejanitor]. For handling date-related
+operations, the lubridate package proved invaluable, simplifying the
+manipulation of time variables [@citelubridate]. Lastly, arrow supported
+efficient data input and output in a performance-oriented format,
+essential for managing larger datasets [@citearrow]. Our coding
+practices and file organization were informed by the structure outlined
+in @tellingstories.
 
 ## Measurement
-	
-The process of translating real-world events into our dataset requires a systematic approach to measurement and data gathering. In this research, we aim to assess public opinion regarding Kamala Harris as the upcoming U.S. presidential election approaches. Polling agencies formulate surveys featuring specific questions designed to capture voters' attitudes, including their likelihood of supporting Harris and their views on prevailing political issues.
 
-Once the survey items are established, a representative sample is selected through stratified random sampling methods, ensuring a diverse demographic representation. Respondents are reached using various techniques, such as telephone interviews and online questionnaires.
+The process of translating real-world events into our dataset requires a
+systematic approach to measurement and data gathering. In this research,
+we aim to assess public opinion regarding Kamala Harris as the upcoming
+U.S. presidential election approaches. Polling agencies formulate
+surveys featuring specific questions designed to capture voters'
+attitudes, including their likelihood of supporting Harris and their
+views on prevailing political issues.
 
-After gathering the responses, the data is subjected to thorough cleaning and validation procedures to rectify inconsistencies and handle any missing information. This step is crucial for ensuring that the dataset accurately mirrors the electorate's sentiments. Each entry in the finalized dataset reflects an individual's viewpoint at a given moment, enabling a detailed analysis of the factors that shape public opinion as the election nears. This structured methodology effectively converts subjective opinions into measurable data, providing valuable insights into voter behavior and preferences.
+Once the survey items are established, a representative sample is
+selected through stratified random sampling methods, ensuring a diverse
+demographic representation. Respondents are reached using various
+techniques, such as telephone interviews and online questionnaires.
+
+After gathering the responses, the data is subjected to thorough
+cleaning and validation procedures to rectify inconsistencies and handle
+any missing information. This step is crucial for ensuring that the
+dataset accurately mirrors the electorate's sentiments. Each entry in
+the finalized dataset reflects an individual's viewpoint at a given
+moment, enabling a detailed analysis of the factors that shape public
+opinion as the election nears. This structured methodology effectively
+converts subjective opinions into measurable data, providing valuable
+insights into voter behavior and preferences.
 
 ## Outcome variable
 
 ### The support percentage of Kamala Harris.
 
-@fig-percentage illustrates the distribution of percentage support for Kamala Harris based on polling data, where support reflects the proportion of respondents favoring Harris in each survey. Most polls report support clustered around 50%, with the majority of values falling between 40% and 55%. This central peak suggests moderate, consistent support levels among respondents, with fewer instances of higher support levels above 55%. The right-skew in the distribution indicates occasional polls with elevated support, though these are less common. Overall, this visualization highlights the general sentiment and variability in support for Harris as captured across multiple polls.
+@fig-percentage illustrates the distribution of percentage support for
+Kamala Harris based on polling data, where support reflects the
+proportion of respondents favoring Harris in each survey. Most polls
+report support clustered around 50%, with the majority of values falling
+between 40% and 55%. This central peak suggests moderate, consistent
+support levels among respondents, with fewer instances of higher support
+levels above 55%. The right-skew in the distribution indicates
+occasional polls with elevated support, though these are less common.
+Overall, this visualization highlights the general sentiment and
+variability in support for Harris as captured across multiple polls.
 
 ```{r}
 #| label: fig-percentage
@@ -92,11 +181,29 @@ ggplot(harris_data, aes(x = pct)) +
 
 ### End Date
 
-The end date is the final day of data collection for a poll, indicating when the survey period concluded. This date provides crucial context for the poll results, as public opinion may change over time in response to events, campaign actions, or other influencing factors.
+The end date is the final day of data collection for a poll, indicating
+when the survey period concluded. This date provides crucial context for
+the poll results, as public opinion may change over time in response to
+events, campaign actions, or other influencing factors.
 
 ### State
 
-@fig-state displays the distribution of polls by state, showing how frequently polling organizations conducted surveys across various U.S. states and at the national level. The "National" category has the highest number of polls, indicating a strong emphasis on capturing overall U.S. sentiment. Certain states, such as Pennsylvania, Wisconsin, North Carolina, Arizona, Georgia, and Michigan, also show higher polling frequencies, likely because these are battleground states with the potential to influence the election outcome significantly. Toward the right side of the chart, states with minimal polling activity, including South Carolina, Iowa, and Washington, appear less frequently, possibly due to their historically predictable or less competitive nature. This distribution reflects the strategic focus of polling efforts, with organizations prioritizing both national sentiment and swing states where public opinion is more volatile. Overall, the chart provides insight into where polling resources are allocated as election day nears, emphasizing areas that could sway the final result.
+@fig-state displays the distribution of polls by state, showing how
+frequently polling organizations conducted surveys across various U.S.
+states and at the national level. The "National" category has the
+highest number of polls, indicating a strong emphasis on capturing
+overall U.S. sentiment. Certain states, such as Pennsylvania, Wisconsin,
+North Carolina, Arizona, Georgia, and Michigan, also show higher polling
+frequencies, likely because these are battleground states with the
+potential to influence the election outcome significantly. Toward the
+right side of the chart, states with minimal polling activity, including
+South Carolina, Iowa, and Washington, appear less frequently, possibly
+due to their historically predictable or less competitive nature. This
+distribution reflects the strategic focus of polling efforts, with
+organizations prioritizing both national sentiment and swing states
+where public opinion is more volatile. Overall, the chart provides
+insight into where polling resources are allocated as election day
+nears, emphasizing areas that could sway the final result.
 
 ```{r}
 #| label: fig-state
@@ -117,9 +224,16 @@ ggplot(harris_data, aes(x = fct_infreq(state))) +
 
 ### Pollster
 
-@fig-pollster displays the frequency of polls conducted by different pollsters. Each bar represents a pollster, with the height indicating the number of polls they conducted. Siena/NYT has the highest count, followed by YouGov and Emerson. Pollsters to the right have conducted significantly fewer polls, with some showing only one or two entries.
+@fig-pollster displays the frequency of polls conducted by different
+pollsters. Each bar represents a pollster, with the height indicating
+the number of polls they conducted. Siena/NYT has the highest count,
+followed by YouGov and Emerson. Pollsters to the right have conducted
+significantly fewer polls, with some showing only one or two entries.
 
-The pollster is the organization or firm that conducts the surveys, gathering and analyzing public opinion data on voter preferences. In this context, each pollster's count reflects its level of polling activity related to the election.
+The pollster is the organization or firm that conducts the surveys,
+gathering and analyzing public opinion data on voter preferences. In
+this context, each pollster's count reflects its level of polling
+activity related to the election.
 
 ```{r}
 #| label: fig-pollster
@@ -140,7 +254,20 @@ ggplot(harris_data, aes(x = fct_infreq(pollster))) +
 
 ### Numeric Grade
 
-@fig-numericgrade displays the distribution of numeric grades assigned to various pollsters, with the x-axis representing the numeric grade values and the y-axis indicating the frequency of each grade. The numeric grade is a metric that evaluates the quality or reliability of a pollster, taking into account factors such as methodology, historical accuracy, sample size, and pollster reputation. In this chart, we observe that the most common numeric grades are concentrated around 2.75 and 3.00, with a large spike at these values, suggesting that a significant number of polls are conducted by highly-rated pollsters. Fewer polls have grades below 2.5, indicating a relatively lower occurrence of polls from less-reliable pollsters in this dataset. This distribution underscores the emphasis on high-quality pollsters within the dataset, ensuring a more reliable and consistent source of polling data for subsequent analysis.
+@fig-numericgrade displays the distribution of numeric grades assigned
+to various pollsters, with the x-axis representing the numeric grade
+values and the y-axis indicating the frequency of each grade. The
+numeric grade is a metric that evaluates the quality or reliability of a
+pollster, taking into account factors such as methodology, historical
+accuracy, sample size, and pollster reputation. In this chart, we
+observe that the most common numeric grades are concentrated around 2.75
+and 3.00, with a large spike at these values, suggesting that a
+significant number of polls are conducted by highly-rated pollsters.
+Fewer polls have grades below 2.5, indicating a relatively lower
+occurrence of polls from less-reliable pollsters in this dataset. This
+distribution underscores the emphasis on high-quality pollsters within
+the dataset, ensuring a more reliable and consistent source of polling
+data for subsequent analysis.
 
 ```{r}
 #| label: fig-numericgrade
@@ -160,7 +287,18 @@ ggplot(harris_data, aes(x = numeric_grade)) +
 
 ## Relationships between key varaibles
 
-@fig-pollstertime shows the trend of percentage support for Kamala Harris over time, with data points and smoothed trend lines for each pollster. The x-axis represents the dates from August through October, while the y-axis indicates the percentage of respondents supporting Harris. Each color corresponds to a specific polling organization, with prominent pollsters such as Beacon/Shaw, Ipsos, Siena/NYT, Emerson, Quinnipiac, and YouGov. The smoothed lines reveal subtle trends over time, with some pollsters like Emerson and Beacon/Shaw showing a slight upward trend, while others like Siena/NYT display a downward trend. @fig-pollstertime highlights the variability in poll results across different organizations, reflecting each pollster's methodology and sample.
+@fig-pollstertime shows the trend of percentage support for Kamala
+Harris over time, with data points and smoothed trend lines for each
+pollster. The x-axis represents the dates from August through October,
+while the y-axis indicates the percentage of respondents supporting
+Harris. Each color corresponds to a specific polling organization, with
+prominent pollsters such as Beacon/Shaw, Ipsos, Siena/NYT, Emerson,
+Quinnipiac, and YouGov. The smoothed lines reveal subtle trends over
+time, with some pollsters like Emerson and Beacon/Shaw showing a slight
+upward trend, while others like Siena/NYT display a downward trend.
+@fig-pollstertime highlights the variability in poll results across
+different organizations, reflecting each pollster's methodology and
+sample.
 
 ```{r}
 #| label: fig-pollstertime
@@ -186,7 +324,18 @@ ggplot(filtered_data, aes(x = end_date, y = pct, color = pollster)) +
   theme(legend.position = "bottom", legend.title = element_blank())
 ```
 
-@fig-numericgradetime illustrates Harris's support percentages over time, with each data point representing poll results colored by the numeric grade of the pollster. The smoothing lines for each numeric grade remain subtle, indicating minor variations in support trends over time across different pollster quality levels. Most points are clustered around the 50% support level, suggesting a generally stable voter sentiment for Harris, with only slight fluctuations across numeric grades. By limiting the y-axis, outliers and extreme variations are minimized, resulting in a clearer and more interpretable visualization. This approach emphasizes the central trend, allowing for clearer comparisons of support levels across pollsters of varying reliability without distraction from extreme values.
+@fig-numericgradetime illustrates Harris's support percentages over
+time, with each data point representing poll results colored by the
+numeric grade of the pollster. The smoothing lines for each numeric
+grade remain subtle, indicating minor variations in support trends over
+time across different pollster quality levels. Most points are clustered
+around the 50% support level, suggesting a generally stable voter
+sentiment for Harris, with only slight fluctuations across numeric
+grades. By limiting the y-axis, outliers and extreme variations are
+minimized, resulting in a clearer and more interpretable visualization.
+This approach emphasizes the central trend, allowing for clearer
+comparisons of support levels across pollsters of varying reliability
+without distraction from extreme values.
 
 ```{r}
 #| label: fig-numericgradetime
@@ -205,7 +354,7 @@ ggplot(harris_data %>% filter(pct <= 100), aes(x = end_date, y = pct, color = fa
   coord_cartesian(ylim = c(0, 100))
 ```
 
-## Model
+## Model{#forth-model}
 
 We conducted a regression analysis to predict support for Kamala Harris
 and Donald Trump in the 2024 U.S. presidential election, including
@@ -237,11 +386,10 @@ expression format:
 #| include: false
 #| warning: false
 #| message: false
-harris_unweighted_model <-readRDS(file = "~/2024 US Election Forecast/models/model_harris_unweighted.rds")
-harris_weighted_model <-readRDS(file = "~/2024 US Election Forecast/models/model_harris_weighted.rds")
-trump_unweighted_model <-readRDS(file = "~/2024 US Election Forecast/models/model_trump_unweighted.rds")
-trump_weighted_model <-readRDS(file = "~/2024 US Election Forecast/models/model_trump_weighted.rds")
-
+harris_unweighted_model <- readRDS(here::here("models", "model_harris_unweighted.rds"))
+harris_weighted_model <- readRDS(here::here("models", "model_harris_weighted.rds"))
+trump_unweighted_model <- readRDS(here::here("models", "model_trump_unweighted.rds"))
+trump_weighted_model <- readRDS(here::here("models", "model_trump_weighted.rds"))
 ```
 
 #### Unweighted Model
@@ -380,118 +528,16 @@ recency, leading to more accurate predictions of voter sentiment.
 
 # Result
 
-## Recent Three Months Support Trends Prediction
-
-The recent three-month support trends for Kamala Harris and Donald Trump across key battleground states—Arizona, Georgia, Michigan, Nevada, North Carolina, Pennsylvania, and Wisconsin—show a highly competitive race. Each state’s panel displays support percentages over time from August to November 2024, with Harris shown in blue and Trump in red. The plot uses point size to represent poll weights, accounting for factors such as recency, pollster quality, and sample size, where larger points indicate higher-weighted polls, emphasizing more reliable data.
+## Predicted Voting Outcomes 
 
 ```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| eval: true
-#| label: fig-support-trends-by-state
-#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
-
-harris_data <- harris_data %>%
-  mutate(
-    sample_size_weight = pmin(sample_size / 2300, 1),
-    pollster_quality_weight = numeric_grade / 4,
-    recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
-  mutate(
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
-
-# Calculate weights for Trump data
-trump_data <- trump_data %>%
-  mutate(
-    sample_size_weight = pmin(sample_size / 2300, 1),
-    pollster_quality_weight = numeric_grade / 4,
-    recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
-  mutate(
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
-
-harris_data <- harris_data %>% mutate(candidate = "Harris")
-trump_data <- trump_data %>% mutate(candidate = "Trump")
-combined_data_total <- bind_rows(harris_data, trump_data)
-
-selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
-recent_date_cutoff <- as.Date("2024-08-01")  # Set cutoff for recent data
-
-harris_filtered <- harris_data %>%
-  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
-
-trump_filtered <- trump_data %>%
-  filter(state %in% selected_states, as.Date(end_date) >= recent_date_cutoff)
-
-# Combine datasets for plotting with a new column for candidate
-harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
-trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
-combined_data <- bind_rows(harris_filtered, trump_filtered)
-# Plot with recent data, specific axis formatting, and smoother trend lines
-ggplot(combined_data, aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
-  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
-  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
-  facet_wrap(~ state,ncol = 2,scales = "free_y") +
-  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Selected States",
-       x = "Date", y = "Support (%)") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-25"))) +
-  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
-  scale_size_continuous(range = c(0.5, 3), guide = "none") +
-  theme_minimal() +
-  theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 0, hjust = 0.5),
-    panel.grid.major = element_line(size = 0.1, color = "grey80")
-  ) +
-  guides(color = guide_legend(title = "Candidate"))
-```
-@fig-support-trends-by-state illustrates the recent support trends for Kamala Harris and Donald Trump across selected battleground states from August to November 2024. Each subplot represents a different state, with support percentages for each candidate displayed over time. Key features include Harris shown in blue and Trump in red, with smoothed trend lines to capture changes over time. The plot's y-axis spans from approximately 30% to 50% support, while the x-axis highlights monthly intervals from August to November. For example, in Arizona, Trump maintains a slight lead with support fluctuating around 50% in October, compared to Harris around 48%. In Georgia, Trump's support reached just above 49% in late September, whereas Harris hovers closer to 47%. In Wisconsin, both candidates show tightly aligned trends near 48%, highlighting a close race. Each point's size reflects the poll weight—calculated using recency, pollster quality, and sample size—indicating the relative importance of each poll. This visualization emphasizes recent trends in candidate support across key battleground states.
-
-```{r}
-#| echo: false
-#| warning: false
-#| message: false
-#| eval: true
-#| label: fig-national-support-trends
-#| fig-cap: Support Trends for Kamala Harris and Donald Trump Across Selected States
-# Combine datasets for plotting with a new column for candidate
-harris_filtered <- harris_filtered %>% mutate(candidate = "Harris")
-trump_filtered <- trump_filtered %>% mutate(candidate = "Trump")
-combined_data <- bind_rows(harris_filtered, trump_filtered)
-
-combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date), y = pct, color = candidate, size = combined_weight)) +
-  geom_point(alpha = 0.7) + # Adds points with transparency for overlapping data
-  geom_smooth(aes(group = candidate), method = "loess", span = 0.2, se = FALSE, size = 1) + # Smoothed trend line
-  labs(title = "Recent Support Trends for Kamala Harris and Donald Trump Across Country",
-       x = "Date", y = "Support (%)") +
-  scale_x_date(date_labels = "%b", date_breaks = "1 month", limits = as.Date(c("2024-08-01", "2024-10-27"))) +
-  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
-  scale_size_continuous(range = c(0.5, 3), guide = "none") +
-  theme_minimal() +
-  theme(
-    legend.position = "top",
-    axis.text.x = element_text(angle = 0, hjust = 0.5),
-    panel.grid.major = element_line(size = 0.1, color = "grey80")
-  ) +
-  guides(color = guide_legend(title = "Candidate")) +  # Vertical line at October 25
-  annotate("text", x = as.Date("2024-10-19"), y = Inf, label = "October 25th", vjust = 1, color = "black", size = 3.5) +
-  geom_vline(xintercept = as.Date("2024-10-25"), linetype = "solid", color = "black", size = 0.8)   # Vertical line at October 25
+modelsummary::msummary(list(
+  "Harris Unweighted" = harris_unweighted_model, 
+  "Harris Weighted" = harris_weighted_model,
+  "Trump Unweighted" = trump_unweighted_model,
+  "Trump Weighted" = trump_weighted_model))
 
 ```
-@fig-national-support-trends illustrates the polling support trends for Kamala Harris and Donald Trump across the country from August to October. The scatter points represent individual poll results, with blue for Harris and red for Trump, while each dot's size reflects the weight of the poll, accounting for factors like sample size, quality, and recency. Harris’s support trend line generally remains above Trump’s, with an average support level around 49%, compared to Trump’s approximate average of 47% over this period. Toward the end of October, both candidates show a slight increase, with Harris’s support reaching just over 50% and Trump’s approaching 49%. This trend suggests a potential narrowing in support levels as the election approaches, providing a quantitative snapshot of national polling dynamics.
-
-## Recent Three Months Support Trends Linear Model Prediction
 
 ```{r}
 #| echo: false
@@ -499,73 +545,61 @@ combined_data_total|>filter(national_poll==1)|>ggplot(aes(x = as.Date(end_date),
 #| message: false
 #| include: false
 set.seed(233)
+
 new_data_harris <- data.frame(
   end_date = seq(
     min(harris_data$end_date),
     max(harris_data$end_date),
-    length.out = 1000 
+    length.out = 2000
   ),
-  national_poll = rep(c(0, 1), length(1000)),
-  pollster = factor(sample(levels(harris_data$pollster), size = 1000, replace = TRUE), 
-                    levels = levels(harris_data$pollster)),  
-  population = factor(sample(c("lv","rv"), size = 1000, replace = TRUE)),
-  sample_size = sample(1:2300, size = 1000, replace = TRUE),
-  pollster_quality= sample(2:4, size = 1000, replace = TRUE)
+  state = factor(sample( c("National","Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"), size = 2000, replace = TRUE)), 
+  pollster = factor(sample(levels(harris_data$pollster), size = 2000, replace = TRUE), 
+                    levels = levels(harris_data$pollster)), 
+  population = factor(sample(levels(harris_data$population), size = 2000, replace = TRUE), 
+                    levels = levels(harris_data$population)),
+  sample_size = sample(1:2300, size = 2000, replace = TRUE)
 )|>
-  group_by(pollster)|>
-  mutate(recency = as.numeric(difftime( as.Date("2024-11-05"),as.Date(end_date), units = "days")),
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) |>ungroup()|>
   mutate(
-    # Sample size weight (assuming a maximum of 2300 responses)
-    sample_size_weight = pmin(sample_size / 2300, 1),  # Set sample size; adjust accordingly
-    
-    # Pollster quality weight (assuming you want to use a dummy numeric grade, e.g., 2)
-    pollster_quality_weight = pollster_quality / 4,  
-  
-    recency_weight = exp(-recency * 0.1),  # Adjust decay rate as needed
-    # Combine all weights into a final combined weight
-    combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight,
+    national_poll = if_else(state == "National", 1, 0),
+    recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
+    sample_size_weight = pmin(sample_size / 2300, 1),
+    recency_weight = exp(-recency * 0.1),
+    combined_weight = recency_weight * sample_size_weight,
     candidate="Harris"
   )
-#######
+
+####### Prediction for Trump ######
 new_data_trump <- data.frame(
   end_date = seq(
     min(trump_data$end_date),
     max(trump_data$end_date),
-    length.out = 1000
+    length.out = 2000
   ),
-  pollster = factor(sample(levels(trump_data$pollster), size = 1000, replace = TRUE), 
-                    levels = levels(trump_data$pollster)),  
-  population = factor(sample(c("lv","rv"), size = 1000, replace = TRUE)),
-   national_poll = rep(c(0, 1), length(1000)),  
-  sample_size =sample(1:2300, size = 1000, replace = TRUE),
-  pollster_quality= sample(2:4, size = 1000, replace = TRUE)
+  pollster = factor(sample(levels(trump_data$pollster), size = 2000, replace = TRUE), 
+                    levels = levels(trump_data$pollster)),
+ population= factor(sample(levels(trump_data$population), size = 2000, replace = TRUE), 
+                    levels = levels(trump_data$population)),
+   state = factor(sample( c("National","Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"), size = 2000, replace = TRUE), 
+                    levels = levels(trump_data$state)),  
+  sample_size =sample(1:2300, size = 2000, replace = TRUE),
+  pollster_quality= sample(2:4, size = 2000, replace = TRUE)
 )|>
-  group_by(pollster)|>
-  mutate(recency = as.numeric(difftime( as.Date("2024-11-05"),as.Date(end_date), units = "days")),
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) |>
-  ungroup() |>
   mutate(
-    # Sample size weight (assuming a maximum of 2300 responses)
-    sample_size_weight = pmin(sample_size / 2300, 1), 
-    pollster_quality_weight = pollster_quality / 4,  
+   national_poll = if_else(state == "National", 1, 0),
+      recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
+    sample_size_weight = pmin(sample_size / 2300, 1),
     recency_weight = exp(-recency * 0.1),  
-    combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight,
+    combined_weight = recency_weight * sample_size_weight,
     candidate="Trump"
   )
 ```
+
 
 ```{r}
 #| echo: false
 #| warning: false
 #| message: false
-#| eval: true
-#| label: fig-support-predicted
-#| fig-cap: Predicted Support Trends for Kamala Harris and Donald Trump using Fitted Linear Model
+#| include: false
 # Predictions for Harris
 new_data_harris <- new_data_harris |>
   mutate(
@@ -587,31 +621,176 @@ recent_date_cutoff <- as.Date("2024-08-01")
 combined_predictions<- bind_rows(new_data_harris, new_data_trump)
 combined_predictions_filtered<-combined_predictions|>filter(end_date>=recent_date_cutoff)
 # Determine the maximum end date for setting the x-axis limit
-max_end_date <- as.Date("2024-10-30")
+max_end_date <- as.Date("2024-10-26")
+```
 
-# Plotting with the filtered data
-ggplot(combined_predictions_filtered, aes(x = end_date, color = candidate)) +
-  geom_smooth(aes(y = predicted_unweighted, linetype = "Unweighted"), 
-              method = "loess", se = TRUE, size = 1) +  # Unweighted model with smoothing
-  geom_smooth(aes(y = predicted_weighted, linetype = "Weighted"), 
-              method = "loess", se = TRUE, size = 1) +
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| fig-cap: "Predicted Support Trends for Kamala Harris and Donald Trump using Fitted Linear Model"
+#| fig-subcap: ["Predicted Support by Unweighetd Model","Predicted Support by Weighetd Model"]
+#| layout-ncol: 2
+#| label: fig-support-trend
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
+  geom_point(alpha = 0.7,color="grey")+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 1)+ # Smoothed trend line
+  facet_wrap(~ candidate,ncol = 2) +
   labs(title = "Predicted Support for Kamala Harris and Donald Trump in 2024 US Election \n(From August 1, 2024 to October 27, 2024)",
-       subtitle = "predicted using multiple linear regression model ",
+       subtitle = "predicted using unweighted multiple linear regression model ",
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",caption = 
-                   "Weights: recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight\nLinear Regression Model: candidate support percentage =national_poll + pollster + population") +
+                   "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
   scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
-  scale_linetype_manual(name = "Linear Model Type", values = c("Unweighted" = "dashed", "Weighted" = "solid")) +
-  theme_minimal() +
+  theme_classic() +
   theme(legend.position = "top",
-        axis.text.x = element_text(angle = 45, hjust = 1)) +
-  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date))  +
-  geom_vline(xintercept = as.Date("2024-10-25"), linetype = "solid", color = "black", size = 0.8) +  # Vertical line at October 25
-  annotate("text", x = as.Date("2024-10-19"), y = Inf, label = "October 25th", vjust = 1, color = "black", size = 3.5)+  # Vertical line at October 25
-  geom_text(aes(x = as.Date("2024-10-25"), y = 50, label = "49%"), color = "blue", hjust = -0.1, size = 3) +  # Harris label
-  geom_text(aes(x = as.Date("2024-10-25"), y = 48, label = "48%"),color = "red", hjust = -0.1, size = 3)+  # Harris label
-  geom_text(aes(x = as.Date("2024-10-25"), y = 46.5, label = "46.5%"), color = "red",hjust = -0.1, size = 3)  # Trump label
+        axis.text.x = element_text(angle = 45, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
+
+# Plotting with the filtered data
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
+  geom_point(alpha = 0.7,color="grey")+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted), size = 1)+ # Smoothed trend line
+  facet_wrap(~ candidate,ncol = 2) +
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump in 2024 US Election \n(From August 1, 2024 to October 27, 2024)",
+       subtitle = "predicted using weighted multiple linear regression model ",
+       x = "End Date of the Poll",  # Change x-axis label to End Date
+       y = "Predicted Support (%)",
+       color = "Candidate",
+       size="Weight",
+       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red"))  +
+  theme_classic() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date))
+```
+## Predicted Voting Outcomes for Recent Three Months by Respondent Group
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| fig-cap: "Predicted Support Trends for Kamala Harris and Donald Trump by respondent group using Fitted Linear Model"
+#| fig-subcap: ["Predicted Support by Unweighetd Model","Predicted Support by Weighetd Model"]
+#| layout-ncol: 2
+#| label: fig-support-respondent
+custom_labels <- c("lv" = "Likely Voters", "rv" = "Registered Voters")
+### unweighted
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
+  geom_point(alpha = 0.7,color="grey")+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 1)+ # Smoothed trend line
+  facet_wrap(~ population,ncol = 2, labeller = labeller(population = custom_labels)) +
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump by respondent group \n in 2024 US Election (From August 1, 2024 to October 27, 2024)",
+       subtitle = "predicted using unweighted multiple linear regression model ",
+       x = "End Date of the Poll",  # Change x-axis label to End Date
+       y = "Predicted Support (%)",
+       color = "Candidate",
+       size="Weight",
+       caption = "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  theme_classic() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
+### weighted
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
+  geom_point(alpha = 0.7,color="grey")+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted), size = 1)+ # Smoothed trend line
+  facet_wrap(~ population,ncol = 2, labeller = labeller(population = custom_labels)) +
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump by respondent group \n in 2024 US Election (From August 1, 2024 to October 27, 2024)",
+       subtitle = "predicted using weighted multiple linear regression model ",
+       x = "End Date of the Poll",  # Change x-axis label to End Date
+       y = "Predicted Support (%)",
+       color = "Candidate",
+       size="Weight",
+       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  theme_classic() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 45, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
+```
+## Predicted Voting Outcomes for Recent Three Months by State
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+#| eval: true
+#| fig-cap: "Predicted Support Trends for Kamala Harris and Donald Trump by State using Fitted Linear Model"
+#| fig-subcap: ["Predicted Support by Unweighetd Model","Predicted Support by Weighetd Model"]
+#| layout-ncol: 2
+#| label: fig-support-respondent
+## unweighted
+selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+combined_data_total<-combined_data_total|>filter(state %in% selected_states)
+combined_predictions_filtered<-combined_predictions_filtered|>filter(state %in% selected_states)
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
+  geom_point(alpha = 0.7,color="grey")+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 1)+ # Smoothed trend line
+  facet_wrap(~ state,ncol = 4) +
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump by State \n in 2024 US Election (From August 1, 2024 to October 27, 2024)",
+       subtitle = "predicted using unweighted multiple linear regression model ",
+       x = "End Date of the Poll",  # Change x-axis label to End Date
+       y = "Predicted Support (%)",
+       color = "Candidate",
+       caption = "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  theme_classic() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 90, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
+## weighetd
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
+  geom_point(alpha = 0.7,color="grey")+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted), size = 1)+ # Smoothed trend line
+  facet_wrap(~ state,ncol = 4) +
+  labs(title = "Predicted Support for Kamala Harris and Donald Trump by State \n in 2024 US Election (From August 1, 2024 to October 27, 2024)",
+       subtitle = "predicted using weighted multiple linear regression model ",
+       x = "End Date of the Poll",  # Change x-axis label to End Date
+       y = "Predicted Support (%)",
+       color = "Candidate",
+       size="Weight",
+       caption = "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+  scale_color_manual(values = c("Harris" = "blue", "Trump" = "red")) +
+  theme_classic() +
+  theme(legend.position = "top",
+        axis.text.x = element_text(angle = 90, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
+```
+
+
+```{r}
+# Load necessary package
+library(knitr)
+library(kableExtra)
+
+# Example: Assume `predicted_results` is your data frame
+# Ensure column names match this format
+# Example structure:
+# predicted_results <- data.frame(
+#   State = c("Arizona", "California", ...),
+#   Trump_Predicted_Percentage = c(48.94, 33.80, ...),
+#   Electoral_Votes = c(11, 55, ...),
+#   Winner = c("Harris", "Harris", ...)
+# )
+
+# Rename columns to match the desired table format
+colnames(predicted_results) <- c("State", "Harris Predicted %", "Vote Share", "Winner")
+
+# Generate table
+predicted_results %>%
+  kbl(caption = "Prediction Vote share for Trump and Harris", format = "html") %>%
+  kable_styling(full_width = FALSE, position = "center") %>%
+  column_spec(2, width = "5em") %>%
+  column_spec(3, width = "5em") %>%
+  column_spec(4, width = "5em") %>%
+  add_header_above(c(" " = 1, "Trump Predicted %" = 1, "Electoral Votes" = 1, "Winner" = 1))
+
 ```
 
 The predicted support for Kamala Harris and Donald Trump in the upcoming
@@ -637,7 +816,8 @@ enthusiasm amid changing public opinions.
 
 At the conclusion of the polling period, the models suggest that Kamala
 Harris leads Donald Trump by approximately 2.5% in the un-weighted (49%
-vs. 46.5%) and 1% in weighted models (49% vs. 48%). Average leading by about 2%.
+vs. 46.5%) and 1% in weighted models (49% vs. 48%). Average leading by
+about 2%.
 
 # Discussion
 
@@ -699,7 +879,7 @@ some states matter just a bit more than others.
 
 # Appendix {.unnumbered}
 
-# Additional data details {#first-model-details}
+# Additional data details {#appendix-a}
 
 ## Dataset and Graph Sketches
 
@@ -708,20 +888,35 @@ this analysis are available in the GitHub Repository `other/sketches`.
 
 ## Data Cleaning
 
-In this data-cleaning process, we focus on refining raw polling data for Kamala Harris and Donald Trump to enhance its quality and relevance for analysis. The process begins by loading the dataset and using the janitor package to standardize column names, ensuring consistent naming conventions throughout. We then filter the data to retain only essential columns and remove rows with missing values in key fields, including numeric_grade, pct, sample_size, and end_date.
+In this data-cleaning process, we focus on refining raw polling data for
+Kamala Harris and Donald Trump to enhance its quality and relevance for
+analysis. The process begins by loading the dataset and using the
+janitor package to standardize column names, ensuring consistent naming
+conventions throughout. We then filter the data to retain only essential
+columns and remove rows with missing values in key fields, including
+numeric_grade, pct, sample_size, and end_date.
 
-For each candidate, we isolate polls specifically for Kamala Harris and Donald Trump, retaining only high-quality polls with a numeric_grade of 2 or higher—given that the average numeric_grade is approximately 2.175, with a median of 1.9. We also handle placeholder values in state information by setting entries marked as "--" to NA, and create a national_poll indicator, assigning a value of 1 for national polls and 0 for state-specific ones. Dates are standardized using the lubridate package to facilitate accurate time-based analysis.
+For each candidate, we isolate polls specifically for Kamala Harris and
+Donald Trump, retaining only high-quality polls with a numeric_grade of
+2 or higher—given that the average numeric_grade is approximately 2.175,
+with a median of 1.9. We also handle placeholder values in state
+information by setting entries marked as "--" to NA, and create a
+national_poll indicator, assigning a value of 1 for national polls and 0
+for state-specific ones. Dates are standardized using the lubridate
+package to facilitate accurate time-based analysis.
 
-Recency weights are calculated based on the days elapsed since the poll's end date, applying an exponential decay function to prioritize more recent polls. Weights based on sample size are capped at a maximum of 2,300 responses to maintain balanced representation. Additionally, categorical variables, including pollster, state, candidate_name, population, and methodology, are converted to factors to prepare for analysis.
+Recency weights are calculated based on the days elapsed since the
+poll's end date, applying an exponential decay function to prioritize
+more recent polls. Weights based on sample size are capped at a maximum
+of 2,300 responses to maintain balanced representation. Additionally,
+categorical variables, including pollster, state, candidate_name,
+population, and methodology, are converted to factors to prepare for
+analysis.
 
-The cleaned datasets for both candidates are then saved as Parquet files for efficient storage and access in further modeling and analysis. This structured approach ensures that the data is accurate, complete, and optimized for insightful statistical analysis.
-
-
-
-
-
-
-
+The cleaned datasets for both candidates are then saved as Parquet files
+for efficient storage and access in further modeling and analysis. This
+structured approach ensures that the data is accurate, complete, and
+optimized for insightful statistical analysis.
 
 ## Attribution Statement
 
@@ -731,7 +926,7 @@ are free to share, copy, redistribute, remix, transform, and build upon
 the material for any purpose, even commercially, as long as we credit
 the original creation.
 
-# Model details {#sec-model-details}
+# Model details {#appendix-b}
 
 ## Model validation: K-Fold Cross-Validation
 
@@ -797,16 +992,16 @@ metrics, which breaks down here:
 RMSE (Root Mean Square Error): Measures the average magnitude of
 prediction errors (lower is better).
 
-Harris model: RMSE of 3.44, indicating an average prediction error of
+Harris model: RMSE of 3.42, indicating an average prediction error of
 around 3.44 percentage points.\
-Trump model: RMSE of 4.40, showing a slightly higher prediction error on
+Trump model: RMSE of 4.30, showing a slightly higher prediction error on
 average.\
 
 R-squared: Represents the proportion of the variance in the response
 variable explained by the model (higher is better).\
-Harris model: R-squared of 0.34, meaning the model explains about 34.6%
+Harris model: R-squared of 0.33, meaning the model explains about 34.6%
 of the variance in Harris's polling data.\
-Trump model: R-squared of 0.34 as well, indicating similar explanatory
+Trump model: R-squared of 0.27 as well, indicating similar explanatory
 power for Trump's polling data.
 
 MAE (Mean Absolute Error): Shows the average absolute difference between
@@ -819,8 +1014,9 @@ compared to the Harris model.\
 Interpretation Summary Predictive Accuracy: The Harris model has
 slightly better predictive accuracy than the Trump model, as reflected
 by its lower RMSE and MAE values.\
-Model Fit: Both models explain roughly 34% of the variance in their
-respective datasets. This suggests that other factors not included in
+Model Fit: Harris' model explain roughly 33% of the variance in their
+respective datasets. Trump's models explain roughly 33% of the variance in their
+respective datasets.This suggests that other factors not included in
 the model may play a significant role in explaining the remaining
 variance.\
 This summary indicates the models are moderately predictive, with room
@@ -981,7 +1177,7 @@ values. Despite this, both models show minor deviations from normality
 and some notable outliers, suggesting that further model adjustments may
 be beneficial for improved prediction accuracy.
 
-# The New York Times/Siena College Polling Methodology {#third-poll}
+# The New York Times/Siena College Polling Methodology {#appendix-c}
 
 This appendix provides a comprehensive overview of the methodology
 employed by the Siena College Polling Institute in conducting its
@@ -1004,39 +1200,13 @@ the understanding of voter behavior and election outcomes.
 Siena College Polling Institute is a prominent pollster known for its
 comprehensive and methodologically rigorous surveys. It specializes in
 political polling and is particularly recognized for its work in
-understanding voter sentiment during elections.
-
-Established in 1980 at Siena College in New York's Capital District, the
-Siena College Research Institute (SCRI) conducts surveys at regional,
-state, and national levels on various topics, including business,
-economics, politics, voter behavior, social issues, academics, and
-history. The institute carries out both expert and public opinion polls.
-
-Students from Siena and other colleges participate in every survey,
-gaining hands-on experience in fields such as political science,
-computing, communications, sociology, and psychology. SCRI also hires
-interns for special projects involving event planning, in-depth
-research, report writing, and analysis. The results of SCRI's surveys
-are featured in major regional and national publications, including The
-Wall Street Journal and The New York Times, as well as in academic
-journals, books, and encyclopedias, both in print and online. Their
-findings are regularly highlighted in local and national television and
-radio broadcasts. SCRI conducts the Siena New York Poll, a monthly
-survey that captures the opinions of registered voters across New York
-State on current political issues, along with the New York State Index
-of Consumer Sentiment, which offers a quarterly assessment of New
-Yorkers' spending intentions. SCRI adheres to the American Association
-of Public Opinion Research (AAPOR) Code of Professional Ethics and
-Practices. The institute is often commissioned to carry out surveys for
-various organizations, businesses, and local and state government
-agencies. [@aboutsiena]
+understanding voter sentiment during elections. Established in 1980 at
+Siena College in New York's Capital District, the institute carries out
+both expert and public opinion polls. [@aboutsiena].
 
 ## Population, Frame and sample
 
-In essence, statistics is about collecting data and making informed
-conclusions, even though we can never access every piece of
-information.\
-From @tellingstories, we defined three key terms as:\
+Refer from @tellingstories, we defined three key terms as:\
 Target population : The collection of all items about which we would
 like to speak/ the entire group about which we want to draw.
 conclusions\
@@ -1045,53 +1215,33 @@ we could get data about.\
 Sample : The items from the sampling frame that we get data about.\
 
 The target population for Siena’s polls includes registered voters
-eligible to vote in Michigan, Wisconsin, and Ohio. The sampling frame
-consists of a comprehensive list of registered voters, which includes
-demographic information for each voter. This enables the pollsters to
-ensure an appropriate representation of voters across various parties,
-races, and regions [@poll]. The sample of registered voters sourced from
-the voter file maintained by L2, a nonpartisan vendor, and supplemented
-with additional cellular phone numbers matched from Marketing Systems
-Group. The sample for the poll totals 2,055 likely voters, with 688 from
-Michigan, 687 from Ohio, and 680 from Wisconsin, surveyed from September
-21 to 26, 2024.\
+eligible to vote in Michigan, Wisconsin, and Ohio.
+
+The sampling frame is a comprehensive list of registered voters, which
+includes demographic information for each voter. This enables the
+pollsters to ensure an appropriate representation of voters across
+various parties, races, and regions [@poll].
+
+The sample of registered voters sourced from the voter file maintained
+by L2, a nonpartisan vendor, and supplemented with additional cellular
+phone numbers matched from Marketing Systems Group. The sample for the
+poll totals 2,055 likely voters, with 688 from Michigan, 687 from Ohio,
+and 680 from Wisconsin, surveyed from September 21 to 26, 2024.
 
 ## Sample Recruitment
 
-Siena use phone poll to recruit sample. Telephone polling is a common
-method for gathering public opinion and assessing voter sentiment by
-contacting individuals via landlines and mobile phones. This approach
-uses live interviewers to enhance data quality, allowing for
-clarification and nuanced responses. By utilizing random digit dialing
-or national voter registration databases, researchers can ensure a
-representative sample across various demographics. Despite its
-effectiveness in reaching diverse audiences quickly, telephone polling
-must address potential biases, such as nonresponse and shifts in
-communication habits, to maintain the reliability of its findings.[^1]
+Siena use phone poll to recruit sample. Telephone polling is a way to
+gather public opinion by contacting individuals via landlines and mobile
+phones, using live interviewers to improve data quality and capture
+nuanced responses. Through random digit dialing or voter registration
+databases, researchers achieve a representative sample across
+demographics.
 
-[^1]: Phone polls, once considered the gold standard in survey research,
-    now compete with methods like online panels and text messaging.
-    Their advantages have diminished due to declining response rates,
-    which increase costs and may affect representativeness, raising
-    concerns about their future viability. However, they still
-    effectively reach a random selection of voters quickly, as there is
-    no national email database and postal mail can be slow. Other
-    methods, such as recruiting panelists by mail, risk attracting only
-    the most politically engaged individuals. Recent elections have
-    shown that telephone polls, including The Times/Siena Poll, continue
-    to perform well due to the reliability of voter registration files
-    in balancing party representation.
-
-According to @freqqa, the polls are conducted by live interviewers at
-call centers located in Florida, New York, South Carolina, Texas, and
-Virginia. The respondents are randomly selected from a national database
-of registered voters and are contacted via both landlines and
-cellphones.
-
-Siena polls are conducted over the phone in both English and Spanish.
-For these polls, interviewers made nearly 260,000 calls to just over
-140,000 voters. Overall, about 97 percent of respondents were contacted
-on a cellphone for these polls.
+According to @freqqa, the polls are conducted in both English and
+Spanish by live interviewers at call centers located in Florida, New
+York, South Carolina, Texas, and Virginia. The respondents are randomly
+selected from a national database of registered voters and are contacted
+via both landlines and cellphones.
 
 ## Sampling Approach
 
@@ -1110,63 +1260,27 @@ being divided into states, provinces, counties, or statistical districts
 to a university comprising faculties and departments or even demographic
 characteristics groups among individuals. A stratified structure allows
 us to categorize the population into mutually exclusive and collectively
-exhaustive sub-populations known as "strata".
-
-Stratification is employed to enhance sampling efficiency and ensure
-balance within the survey. For example, the population of the United
-States is approximately 335 million, with around 40 million residents in
-California and roughly half a million in Wyoming. In a survey with
-10,000 responses, we would expect to receive only about 15 responses
-from Wyoming, which could complicate any inferences about that state. By
-implementing stratification, we could ensure, for instance, that there
-are 200 responses from each state. Within each state, we could then use
-random sampling to select individuals for data collection
-[@tellingstories].
+exhaustive sub-populations known as "strata"[@tellingstories].
 
 In this scenario, we want to collect the polls from all strata of our
 target population to balance our poll result. The sample was stratified
 by political party, race, and region, and screened by M.S.G. to ensure
-that the cellular phone numbers were active. The Siena College Research
-Institute conducted the survey, with additional support from various
-institutions, including ReconMR, the Public Opinion Research Laboratory
-at the University of North Florida, the Institute for Policy and Opinion
-Research at Roanoke College, the Center for Public Opinion and Policy
-Research at Winthrop University in South Carolina, and the Survey Center
-at the University of New Hampshire. Interviewers sought to speak with
-the individuals listed on the voter file and would terminate the
-interview if those persons were unavailable. Overall, 97 percent of
-respondents across all four samples were reached via cellular phones.
+that the cellular phone numbers were active.
 
-The survey instrument was translated into Spanish by ReconMR, and
-bilingual interviewers began in English, following the respondent's
-preference for either language. Among self-reported Hispanics, 11
-percent of interviews were conducted in Spanish, with this percentage
-rising to 15 percent in the weighted sample of registered voters. An
-interview was considered complete for inclusion in the voting questions
-if the respondent did not drop out after answering the two self-reported
-variables used for weighting—age and education—and responded to at least
-one question related to age, education, or presidential candidate
-preference.
+### Strength and Weakness
 
-Stratified sampling enhances the representativeness of the sample by
-ensuring that smaller subgroups, which might otherwise be
-underrepresented, are adequately included. A significant advantage of
-this method is that it allows for more efficient resource allocation,
-enabling researchers to target specific groups and gather more
-insightful data. However, this focus can lead to **higher overall
-costs**, particularly due to the comprehensive data collection and
-analysis required when sampling large states or countries. Additionally,
-while stratified sampling provides richer insights into the
-characteristics and opinions of different subgroups, it introduces
-**complexity in data analysis**, necessitating advanced statistical
-techniques to interpret the results accurately. Consequently,
-researchers must have sufficient evidence to determine how to weight
-each stratum appropriately. Lastly, if the strata are not well-defined
-or if there is an imbalance in sampling, it could still result in
-sampling bias. Overall, while stratified sampling offers substantial
-benefits in terms of representation and analytical depth, it also
-presents challenges related to complexity, cost, and potential bias if
-not executed carefully.
+Stratified sampling enhances sample representativeness by ensuring that
+smaller subgroups are adequately included, allowing researchers to
+allocate resources more efficiently and gain deeper insights into
+specific groups. However, this method can lead to **higher costs** due
+to the extensive data collection and analysis needed, especially when
+sampling large regions. Stratified sampling also introduces **complexity
+in data analysis**, requiring advanced techniques to accurately
+interpret subgroup data and appropriate weighting for each stratum.
+Additionally, poorly defined strata or imbalanced sampling can lead to
+sampling bias. While stratified sampling provides strong representation
+and analytical depth, it also brings challenges related to cost,
+complexity, and potential bias if not executed with care.
 
 ## Non-response Bias
 
@@ -1185,34 +1299,14 @@ answer depending on how likely people are to skip the survey
 
 Siena use several steps to address nonresponse bias and ensure the
 reliability of the results. The weighting process was conducted by The
-Times using the R survey package and involved multiple adjustments.
-Initially, the samples were adjusted for the unequal probability of
-selection by stratum. Subsequently, the first-stage weight was modified
-to account for the likelihood that a registrant would vote in the 2024
-election, based on a model derived from turnout data in the 2020
-election.
-
-To create a composition that reflects the likely electorate, the sample
-was further weighted to match specific targets. These targets were
-developed by aggregating individual-level turnout estimates from the L2
-voter file, with categories aligning with those used for registered
-voters. Additionally, the initial likely electorate weight was adjusted
-to incorporate self-reported voting intentions. In this final
-adjustment, four-fifths of the probability that a registrant would vote
-in the 2024 election was based on their ex ante modeled turnout score,
-while one-fifth relied on their self-reported intentions, adjusted for
-the tendency of survey respondents to have higher turnout rates than
-nonrespondents.
-
-The final likely electorate weight was calculated by multiplying the
-modeled electorate rake weight by the final turnout probability and then
-dividing by the ex ante modeled turnout probability. This comprehensive
-approach to weighting helps mitigate nonresponse bias by ensuring that
-the sample reflects both the characteristics of the general population
-and the expected behavior of likely voters. As a result, the sample of
-respondents who completed all questions in the survey was adjusted to
-accurately represent the likely electorate, enhancing the overall
-validity of the findings.
+New York Times using the R survey package and involved multiple
+adjustments. Siena’s weighting process involved adjusting samples for
+unequal selection probabilities and turnout likelihood, based on 2020
+data. Further adjustments aligned the sample with likely electorate
+targets from the L2 voter file. The final weight combined modeled
+turnout (80%) and self-reported intentions (20%), mitigating nonresponse
+bias and ensuring the sample accurately reflected the characteristics
+and behaviors of likely voters, thereby enhancing result validity.
 
 ## Questionnaire Design
 
@@ -1256,81 +1350,40 @@ may occur when running the questionnaire.
 
 **Strengths**:
 
-The questionnaire is crafted to be concise and straightforward,
-effectively minimizing respondent fatigue and maximizing clarity in
-question phrasing. This design is essential for maintaining participant
-engagement, especially in surveys that may include a wide array of
-questions. Additionally, the use of a mix of closed and open-ended
-formats allows for a comprehensive analysis of voter sentiment.
-Closed-ended questions yield quantifiable data, enabling researchers to
-identify trends and patterns, while open-ended questions provide rich
-qualitative insights that contextualize these trends.
-
-The careful structuring of questions also plays a crucial role in
-reducing moderacy bias, where respondents might lean towards neutral
-options when unsure. By providing clear response categories, the
-questionnaire encourages participants to express their opinions more
-decisively. For each of the degree question, Siena designed at least 4
-options to help the respondents not only choose extreme or moderate
-answer in the question.
-
-Furthermore, the inclusion of diverse question types can mitigate
-acquiescence bias, which occurs when respondents habitually agree with
-statements instead of reflecting their true feelings. By framing
-questions in a balanced manner and avoiding leading language, the design
-helps ensure that participants feel comfortable expressing varied
-opinions.
+The questionnaire is concise and straightforward, reducing respondent
+fatigue and enhancing clarity, which is crucial for maintaining
+engagement. By incorporating both closed- and open-ended questions, it
+allows for both quantifiable data and rich qualitative insights. Clear
+response categories help reduce moderacy bias, encouraging participants
+to choose decisively rather than defaulting to neutral answers.
+Additionally, varied question types help mitigate acquiescence bias by
+encouraging honest responses and avoiding leading language.
 
 **Weaknesses**:
 
-However, the questionnaire is not without its weaknesses. Critics
-highlight that the reliance on agree-disagree, yes-no formats can lead
-to acquiescence bias, where respondents might select favorable options
-rather than accurately expressing their true opinions. This tendency
-skews the results, potentially misrepresenting genuine voter sentiment
-and leading to misleading conclusions.
+However, the questionnaire has some limitations. Its reliance on
+agree-disagree and yes-no formats may increase acquiescence bias, as
+respondents may lean toward favorable answers. Furthermore, some
+demographic nuances may be inadequately addressed, potentially leading
+to nonresponse bias from underrepresented groups. The risk of response
+order bias is also present, especially if randomization of options is
+not implemented, increasing the chance of recency effects in
+verbally-administered surveys.
 
-Moreover, the questionnaire may not adequately address the nuances that
-are important to specific demographic groups, resulting in potential
-gaps in understanding voter motivations. For instance, certain groups
-may have distinct issues or concerns that are not adequately captured by
-the survey's questions. This limitation can contribute to nonresponse
-bias, where individuals from underrepresented groups choose not to
-participate or drop out of the survey, further skewing the results.
+Additionally, the absence of assured anonymity could lead to social
+desirability bias, where respondents alter answers to project a
+favorable image. Lastly, with over 50 questions, the length of the
+survey may increase dropout rates, especially in time-intensive formats
+like telephone surveys, thereby raising nonresponse bias.
 
-Additionally, since we don’t know whether they use randomization when
-interviewers ask the respondents, there might be response order bias
-with the occurrence of recency effect, in which respondents choose one
-of the last items presented to them ( as telephone survey is orally
-presented surveys). This bias can be exacerbated by the order of
-response options in a list or a rating scale influences the response
-chosen [@survey].
+In summary, while the questionnaire is clear and well-structured, it
+faces challenges from potential biases including acquiescence,
+nonresponse, social desirability, and order effects. Future improvements
+should focus on diversifying question types, ensuring demographic
+inclusivity, and refining question phrasing to reduce bias and enhance
+validity.
 
-Furthermore, as the questionnaire hasn't been provided, we haven't found
-an assured of complete anonymity in the survey landing and consent page
-(record of interviewers' words) in the posted questionnaire. This might
-cause social desirability bias, which typically stems from the desire of
-respondents to avoid embarrassment and project a favorable image to
-others, resulting in respondents not revealing their actual attitudes.
-Thus Siena cannot get the true polls from their sample.
-
-Finally, we noticed that the questionnaire is quite long, with more than
-50 questions. It will significantly increase the attribution rate of the
-questionnaires, especially in a telephone survey which takes more time
-than the online panel. This will increase the possibility of the
-occurrence of non-response bias.
-
-In summary, the questionnaire exhibits strengths such as clarity and a
-mixed-format approach that promotes engagement and nuanced responses.
-However, it faces significant challenges related to biases including
-acquiescence, nonresponse, social desirability, and ordering effects. To
-enhance its effectiveness, future iterations should incorporate a
-broader range of question types, ensure demographic representation, and
-carefully consider question order and phrasing. Addressing these issues
-is crucial for minimizing bias and improving the overall validity of the
-findings.
-
-# Idealized Methodology for US Presidential Election Forecast
+# Idealized Methodology for US Presidential Election Forecast {#appendix-d}
 
 This appendix details the methodology and design for conducting a U.S.
 presidential election forecast survey with a budget of \$100,000. The
@@ -1341,7 +1394,7 @@ sampling, recruitment, validation, and aggregation of results.\
 ## Sampling Approach
 
 To ensure a representative sample of likely voters, I will employ a
-Composite Measure sampling method based on past voter turnout data from
+Composite Measure sampling method based on past ballots cast data from
 the 2020 U.S. elections. After determining the sample size for each
 state, I will use stratified sampling based on demographics, dividing
 the population into subgroups and taking random samples from each
@@ -1355,16 +1408,16 @@ turnout rates.
 To illustrate this Composite Measure of size, consider two states with
 similar populations. For instance, although State A and State B both
 have 1 million eligible voters, State B consistently shows a higher
-voter turnout in past elections. Therefore, we will increase the
+ballots cast in past elections. Therefore, we will increase the
 proportion of polls conducted in State B. In this scenario, State A has
 a historical turnout rate of 50%, while State B has a turnout rate of
 70%. In a purely population-based sampling approach, both states would
 have an equal chance of being selected for polls: 50% for State A and
-50% for State B. However, by incorporating voter turnout, we modify
-these probabilities to increase the likelihood of selecting State B due
-to its higher historical turnout.
+50% for State B. However, by incorporating ballots cast, we modify these
+probabilities to increase the likelihood of selecting State B due to its
+higher historical turnout.
 
-In the subsequent steps, we will detail how to utilize **voter turnout**
+In the subsequent steps, we will detail how to utilize **ballots cast**
 as a crucial factor in creating a **composite measure of size** for
 sampling U.S. election polls. Rather than relying solely on population
 size, we will adjust the sample allocation based on historical voter
@@ -1373,95 +1426,76 @@ prominently represented in our polling data.
 
 ### Step 1: Define the Sampling Data
 
-We begin by collecting the **eligible voter population** and
-**historical voter turnout rates** for different states. In this
-simplified example, we will focus on two states: **State A** and **State
-B**.
+We begin by gathering data on the **eligible voter population** and
+**historical ballots cast** for different states. For simplicity, we'll
+focus on two states: **State A** and **State B**.
 
-| State   | Eligible Voters | Turnout Rate |
+| State   | Eligible Voters | Ballots Cast |
 |---------|-----------------|--------------|
-| State A | 1,000,000       | 50%          |
-| State B | 1,000,000       | 70%          |
+| State A | 1,000,000       | 500,000      |
+| State B | 1,000,000       | 700,000      |
 
-### Step 2: Calculate Actual Voters
+### Step 2: Calculate Total Ballots Cast
 
-Next, we calculate the **number of actual voters** in each state by
-multiplying the eligible voters by the turnout rate:
-$$\text{Actual Voters} = \text{Eligible Voters} \times \text{Turnout Rate}$$\
-Actual voters in State A:
-$\text{Actual Voters}_A = 1,000,000 \times 0.50 = 500,000$\
-Actual voters in State B:
-$\text{Actual Voters}_B = 1,000,000 \times 0.70 = 700,000$\
-Total actual voters:
-$\text{Actual Voters}_A+\text{Actual Voters}_B= 500,000 + 700,000 = 1,200,000$\
+The **total ballots cast** across both states is the sum of ballots cast
+in each state:
+
+Total Ballots Cast = $Ballots Cast_A$ + $Ballots Cast_B$
+
+Total Ballots Cast= 500,000 + 700,000 = 1,200,000
 
 ### Step 3: Calculate Composite Measure of Size
 
-We now calculate the **total number of voters** across both states and
-determine the **proportion** of each state's turnout relative to the
-total. This forms the basis of the composite measure of size, which we
-will use to adjust the sampling weights.
+Using the total ballots cast across both states, we calculate the
+**proportion** of each state’s ballots relative to the total. This
+proportion serves as the composite measure of size, which will guide our
+sample allocation.
 
-The total voters in two states are 1,200,000. Therefore, the sampling
-proportion for State A is:
-$\text{Sampling Proportion}_A = \frac{500,000}{1,200,000} \approx 0.417$,
-and for State B is:
-$\text{Sampling Proportion}_B = \frac{700,000}{1,200,000} \approx 0.583$
+For State A:
 
-### Step 4: Allocate Sample Based on Turnout
+$\text{Sampling Proportion_A}$ =
+$\frac{500,000}{1,200,000} \approx0.417$
 
-Finally, we allocate the sample size according to the calculated
-sampling proportions. For instance, if we are conducting 1,000 polls, we
-would allocate State A with
-$\text{Polls for State A} = 1,000 \times 0.417 \approx 417 \text{polls}$
-and State B with
-$\text{Polls for State B} = 1,000 \times 0.583 \approx 583 \text{polls}$
+For State B:
 
-By using historical voter turnout to adjust our polling sample, we
-ensure that regions with higher voter engagement have a greater
-influence on the polling results. This composite measure of size ensures
-that our polling sample better reflects the actual voting patterns and
-preferences in different regions. Consequently, we can produce more
-accurate and representative poll outcomes that account for the varying
-levels of voter participation across the country.
+$\text{Sampling Proportion_B}$ =
+$\frac{700,000}{1,200,000} \approx0.583$
+
+### Step 4: Allocate Sample Based on Ballots Cast
+
+Finally, we allocate the sample size according to these calculated
+sampling proportions. For example, if conducting 1,000 surveys, the
+allocation would be:
+
+-   **Polls for State A**:
+
+\$ \text{Polls for State A} = 1,000 \times 0.417 \approx 417\$
+
+-   **Polls for State B**:
+
+$\text{Polls for State B} = 1,000 \times 0.583 \approx 583$
+
+By using the number of ballots cast, we ensure that the sample
+allocation reflects historical voting participation, giving each state
+an influence proportional to its voter turnout in previous elections.
+
+By using historical ballots cast to adjust our polling sample, we ensure
+that regions with higher voter engagement have a greater influence on
+the polling results. Consequently, we can produce more accurate and
+representative poll outcomes that account for the varying levels of
+voter participation across the country.
 
 ### Stratification Variables
 
-After determining the number of respondents to be sampled from each
-region, stratified sampling will be employed across key demographic
-categories, including age, gender, race/ethnicity, and education level.
-This approach ensures that the final sample accurately reflects the
-diversity of the U.S. voting population by proportionally representing
-each subgroup within every region. To mitigate potential non-response
-bias, post-stratification weighting\[\^2\] will be applied, correcting
-for any imbalances caused by variations in response rates among
-different demographic groups. The sample will be stratified based on
-several critical demographic and geographic variables to guarantee
-proportional representation of the U.S. voting population. Strata
-information will be sourced from U.S. census data obtained through IPUMS
-USA [@ruggles2024ipums].
-
-\[\^2\]: Post-stratification weighting adjusts survey data by applying
-weights to under- or over-represented demographic groups in the sample,
-ensuring the final results align with the true population distribution
-and reducing biases such as non-response bias.
-
-These variables include age, with categories such as 18-24 (12%), 25-34
-(17%), 35-44 (16%), 45-54 (16%), 55-64 (16%), and 65+ (23%); gender,
-split into male (48%), female (52%), and non-binary/other (less than
-1%); and race/ethnicity, covering groups like White/Caucasian (67%),
-Black/African American (13%), Hispanic/Latino (13%), Asian/Pacific
-Islander (5%), Native American/Alaskan Native (1%), and Other/Mixed Race
-(1%). Additionally, education level will be stratified into high school
-diploma or less (36%), some college, no degree (17%), Associate’s degree
-(9%), Bachelor’s degree (23%), and graduate or professional degree
-(15%). Geographic region will also be a key factor, ensuring
-representation from the Midwest (21%), Northeast (17%), South (38%), and
-West (24%). For each variable, U.S. Census or voter turnout data will be
-used to proportionally allocate respondents, ensuring that the final
-sample closely mirrors the demographic and regional composition of the
-actual voting population. Post-stratification weighting will be applied
-to adjust for any imbalances that may occur during data collection.
+After determining the sample size for each region, we will use
+stratified sampling across key demographic categories, such as age,
+gender, race/ethnicity, and education level. This method ensures that
+our final sample proportionally represents each subgroup within every
+region, accurately reflecting the diversity of the U.S. voting
+population. To achieve this, the sample will be stratified according to
+critical demographic and geographic variables, with strata information
+sourced from U.S. Census data available through IPUMS USA
+[@ruggles2024ipums].
 
 ## Target Population
 
@@ -1477,147 +1511,122 @@ media platforms like Facebook and Instagram.
 
 ## Sample
 
-We plan to survey 300 respondents, which will provide a margin of error
-of approximately ±1.7 percentage points, ensuring a high level of
-confidence in the results. Given the limited sample size and to enhance
-the effectiveness of stratified sampling, the states will be grouped
-into four regions: Midwest, Northeast, South, and West. The sample size
-for each region will be allocated based on the proportion of total
-ballots cast in each region during the 2020 election. The regional
-grouping of states is shown in @tbl-region.
+We plan to survey 400 respondents. To optimize the limited sample size
+and enhance the stratified sampling approach, we will group states into
+four regions: Midwest, Northeast, South, and West. Sample sizes for each
+region will be allocated according to the proportion of total ballots
+cast in each region during the 2020 election. This regional allocation
+ensures representative sampling while aligning with past voting
+patterns, as outlined in @tbl-region.
 
-| **Region**    | **States**                                                                                                                                                 |
+| **Region** | **States**                                                                                                                                                 |
 |--------------------------|----------------------------------------------|
-| **MIDWEST**   | Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, North Dakota, Ohio, South Dakota, Wisconsin                                      |
-| **NORTHEAST** | Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont      |
-| **SOUTH**     | Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Virginia, West Virginia |
-| **WEST**      | Alaska, Arizona, California, Colorado, Hawaii, Idaho, Montana, Nevada, New Mexico, Oregon, Utah, Washington, Wyoming                                       |
+| Midwest    | Illinois, Indiana, Iowa, Kansas, Michigan, Minnesota, Missouri, Nebraska, North Dakota, Ohio, South Dakota, Wisconsin                                      |
+| Northeast  | Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont      |
+| South      | Alabama, Arkansas, Florida, Georgia, Kentucky, Louisiana, Mississippi, North Carolina, Oklahoma, South Carolina, Tennessee, Texas, Virginia, West Virginia |
+| West       | Alaska, Arizona, California, Colorado, Hawaii, Idaho, Montana, Nevada, New Mexico, Oregon, Utah, Washington, Wyoming                                       |
 
 : Regional Grouping of States in the USA {#tbl-region}
 
-| **Region**    | **Voter Turnout (%)** | **Total Ballots Cast** | **VEP**    | **Composite Measure Sampling Proportion** | **Sample Size** |
-|------------|------------|------------|------------|------------|------------|
-| **MIDWEST**   | 69%                   | 35,134,960             | 50,932,439 | 0.214805579                               | 86              |
-| **NORTHEAST** | 68%                   | 32,262,303             | 47,473,317 | 0.200216867                               | 80              |
-| **SOUTH**     | 65%                   | 54,746,770             | 84,563,831 | 0.356644666                               | 143             |
-| **WEST**      | 69%                   | 37,594,304             | 54,139,892 | 0.228332888                               | 91              |
+| **Region** | **Total Ballots Cast** | **VEP**    | **Composite Measure Sampling Proportion** | **Sample Size** |
+|---------------|---------------|---------------|---------------|---------------|
+| Midwest    | 35,134,960             | 50,932,439 | 0.214805579                               | 86              |
+| Northeast  | 32,262,303             | 47,473,317 | 0.200216867                               | 80              |
+| South      | 54,746,770             | 84,563,831 | 0.356644666                               | 143             |
+| West       | 37,594,304             | 54,139,892 | 0.228332888                               | 91              |
 
 : Regional Voting Data and Sample Size Allocation calculated using
 Composite Measure Sampling Proportion based on 2020 US Election regional
-voter turnout (%) {#tbl-samplesize}
+ballots cast {#tbl-samplesize}
 
 @tbl-samplesize shows the regional breakdown of the 2020 election data,
-sourced from [@wikivote], including voter turnout, total ballots cast,
-and Voting Eligible Population (VEP). The sample size for each region
-shown in @tbl-samplesize was determined based on the **Composite Measure
-Sampling Proportion**.
+sourced from [@wikivote], including total ballots cast, and Voting
+Eligible Population (VEP). The sample size for each region shown in
+@tbl-samplesize was determined based on the **Composite Measure Sampling
+Proportion**.
 
 ## Recruitment of Respondents
 
-Due to budget constraints, we will focus on online recruitment methods,
-which offer a cost-effective and efficient way to reach a diverse and
-representative sample of voters across the country.
+To maximize our budget, we will concentrate on online recruitment
+methods, which provide a cost-effective and efficient means of reaching
+a diverse and representative sample of voters nationwide.
 
-Online Recruitment: With the objective of surveying 400 respondents, we
-will focus our resources on implementing the survey and ensuring
-high-quality data collection. The survey will be developed in-house, and
-respondents will be recruited using online survey platforms. The
-recruitment approach is as follows:
+Online Recruitment Strategy: Aiming for a total of 400 respondents, we
+will focus our resources on survey implementation and high-quality data
+collection, developing the survey in-house and recruiting participants
+through online survey platforms.
 
-Sample Size Distribution Across Platforms
+Online Panel Providers (Qualtrics, YouGov): We will recruit 200
+respondents via reputable panel providers like Qualtrics and YouGov.
+These platforms ensure high-quality samples by verifying voter
+registration, offering a solid foundation of reliable data due to their
+strict participant verification protocols.
 
-Online Panel Providers (Qualtrics, YouGov): 200 respondents will be
-recruited through reputable online panel providers like Qualtrics and
-YouGov, known for high-quality samples with verified voter registration
-status. This recruitment source provides a strong base of quality data,
-given the stringent participant verification process in place.
-
-Social Media Recruitment: We plan to recruit 400 respondents through
-targeted social media panels on platforms such as Facebook and
-Instagram. Given the typically lower data quality from social media
-recruitment, we anticipate that 50% of responses may be invalid. To
-compensate, we will oversample from this group, aiming to gather a
-sufficient number of valid and high-quality responses. To attract
-participants, each respondent will receive a small monetary reward (such
-as a gift card) for completing the survey. Targeted ads and eligibility
-screening will be used to reach respondents who meet key criteria, such
-as age and U.S. voter registration status. This approach helps ensure
-that those recruited are likely to be eligible voters.
+Social Media Recruitment: An additional 400 respondents will be
+recruited through targeted ads on platforms like Facebook and Instagram.
+Given the typically lower data quality from social media sources, we
+anticipate that about 50% of responses may be invalid, and we will
+oversample accordingly to secure a sufficient number of valid responses.
+To incentivize participation, respondents will receive a small monetary
+reward, such as a gift card, upon survey completion. We will also use
+targeted ads and eligibility screening (e.g., age and U.S. voter
+registration status) to ensure that respondents are likely to be
+eligible voters.
 
 ## Handling Non-response bias
 
 Nonresponse bias occurs when participants are unwilling or unable to
-respond to specific questions or complete the entire survey. For
-example, since our survey takes about 15 minutes to finish, there is a
-potential for nonresponse bias to arise. To address this concern, as
-highlighted by @surveymonkey, we strive to establish clear expectations
-regarding the survey's objectives and the estimated time required for
-completion. Furthermore, we utilize post-stratification, which changes
-the survey weights to make sure the group that answered fits well with
-the actual population characteristics [@surveylab].
+answer certain questions or complete the survey. Given that our survey
+takes approximately 15 minutes to complete, there is a risk of
+nonresponse bias. To mitigate this,as highlighted by @surveymonkey, we
+set clear expectations about the survey's purpose and estimated
+completion time, encouraging participants to stay engaged. Additionally,
+we apply post-stratification, adjusting survey weights to ensure that
+our respondent group aligns closely with the actual population
+characteristics, reducing bias and improving representativeness
+[@surveylab].
 
 ## Respondent Validation
 
-To ensure high data quality and accuracy, respondent validation will be
-conducted through multiple checks and verification processes. This
-process ensures that only eligible and relevant participants are
-included in the survey, maintaining the integrity of the sample.
-
-Voter Registration Verification:
-
-Respondents will be required to confirm their voter registration status,
-with a portion of the sample cross-referenced against voter registration
-databases or verified through reputable online panel providers like
-Qualtrics or YouGov. This step ensures that the survey includes only
-registered and likely voters, crucial for representing the target
-population accurately. Screening and Eligibility Questions:
-
-Respondents will complete a set of screening questions to verify
-eligibility criteria, such as age (18 or older) and U.S. citizenship.
-Only those meeting these criteria will be allowed to proceed with the
-survey. Attention Checks:
-
-To detect and filter out inattentive or disengaged participants,
-attention-check questions will be embedded throughout the survey (e.g.,
-asking respondents to select a specific answer to verify attentiveness).
-Respondents who fail these checks may be excluded from the final sample.
-Duplicate Prevention:
-
-Unique identifiers such as IP addresses and email addresses will be
-tracked to prevent multiple submissions from the same individual,
-ensuring that each response represents a unique participant. Post-Survey
-Data Cleaning:
-
-After data collection, responses will be reviewed for consistency and
-completeness. Inconsistent responses or incomplete surveys will be
-removed, maintaining the quality and reliability of the dataset. By
-implementing these respondent validation steps, the survey methodology
-ensures that data collected reflects only eligible, registered, and
-attentive respondents, thereby enhancing the validity and accuracy of
-the survey results.
+To ensure high data quality and accuracy, we will conduct rigorous
+respondent validation through several verification steps, ensuring only
+eligible and relevant participants are included. Respondents will
+confirm their voter registration status, with a portion cross-referenced
+against voter databases or verified via reliable panel providers like
+Qualtrics and YouGov, thus focusing the survey on registered and likely
+voters. Eligibility will also be confirmed through screening questions
+verifying age (18+) and U.S. citizenship, allowing only those who meet
+these criteria to proceed. Attention-check questions embedded throughout
+the survey will filter out inattentive participants, with non-compliant
+responses excluded from the final sample. Additionally, unique
+identifiers such as IP and email addresses will be tracked to prevent
+duplicate submissions, ensuring each response is unique. Finally,
+post-survey data cleaning will address any inconsistent or incomplete
+responses to maintain dataset reliability. These validation steps are
+essential for producing data that accurately reflects the opinions of
+eligible, registered, and attentive respondents, thereby enhancing the
+survey's overall validity.
 
 ## Poll Aggregation
 
-After getting the survey response, we will aggregate polls from two
-recruitment sources: online panel providers and social media
-platforms.To weight the two panels effectively, we will first identify
-key demographic variables for stratification, such as age, gender,
-race/ethnicity, and education level, and establish population
-proportions using U.S. Census data or other reliable sources. For the
-online panel (200 respondents), we will compare the demographic
-distribution of respondents to these population benchmarks, calculating
-weights based on the degree of under- or over-representation. Similarly,
-we will perform this analysis for the social media panel (400
-respondents) to determine its weights. Once we have calculated weights
-for each panel, we will combine them into a single weighting scheme that
-reflects the overall demographic composition of the target population.
-During data analysis, we will apply these weights to the responses,
-ensuring that underrepresented groups have a greater influence on the
-results while adjusting for those that are overrepresented. Finally, we
-will conduct post-stratification adjustments to confirm that the
-combined sample accurately mirrors the true characteristics of the U.S.
-voting population, providing reliable insights into voter preferences
-and behaviors.
+After collecting survey responses, we will aggregate data from our two
+recruitment sources: online panel providers and social media platforms.
+To weight these panels accurately, we’ll first identify key demographic
+variables (e.g., age, gender, race/ethnicity, education level) and
+establish population benchmarks using U.S. Census data
+[@ruggles2024ipums]. For the online panel (200 respondents) and social
+media panel (400 respondents), we will calculate weights by comparing
+each panel's demographic distribution to these benchmarks, adjusting for
+under- and over-represented groups.
+
+Once individual weights are calculated for each panel, we will integrate
+them into a single weighting scheme that aligns with the target
+population's demographic makeup. These weights will then be applied
+during data analysis, allowing underrepresented groups to have an
+appropriate influence on the results. Finally, we’ll conduct
+post-stratification adjustments to ensure that the combined sample
+accurately reflects the U.S. voting population, yielding reliable
+insights into voter preferences and behaviors.
 
 ## Survey Design
 
@@ -1648,52 +1657,26 @@ We have defined the bias we want to solve in [Appendix C](#third-poll).
 To mitigate bias, we enhance our survey in the following ways, drawing
 on recommendations from @survey:
 
-Addressing Extreme/Moderacy Bias: We customize the scale and response
-options with differentiated alternatives. Three-point answer scales can
-lead to extreme response bias or moderacy bias due to insufficient
-options. Therefore, for every scale question, we designed at least five
-response options, which reduces the likelihood of respondents choosing
-the middle answers because of a lack of alternatives.
+Addressing Extreme/Moderacy Bias: We use a minimum of five response
+options for scale questions to provide more nuanced choices, reducing
+the likelihood of respondents defaulting to extreme or middle answers.
 
-Mitigating Response Order Bias: We implement a solution involving
-seemingly open-ended questions and randomizing the order of response
-options for unordered (nominal) questions. For ordinal questions, we
-invert the order. For example, instead of asking, "Will you choose
-candidate A or candidate B?" we ask, "Who would you vote for? \[pause\]
-Candidate A or Candidate B?" Additionally, using Google Forms, we
-randomize the order of options for all unordered questions to further
-reduce response order bias.
+Mitigating Response Order Bias: For nominal questions, we randomize
+response options, and for ordinal questions, we vary the order.
+Open-ended formats and pauses (e.g., "Who would you vote for? \[pause\]
+Candidate A or Candidate B?") further minimize order effects.
 
-Minimizing Social Desirability Bias (SDB): Given that our survey is
-conducted online, we employ a minimized SDB format. A recommended
-strategy for recruiting respondents is to provide only basic information
-about the survey's purpose at the outset, which engages participants
-without overwhelming them. Therefore, in the introduction, we state that
-the survey aims for academic research in Statistics, omitting details
-about our affiliations or the specific use of the data. We simply inform
-participants that, "This survey is for nonpartisan researchers in
-academic research in Statistics." At the end of the survey, we include a
-feedback section to gauge attitudes toward the surveyor or entity.
+Minimizing Social Desirability Bias (SDB): Our online survey format and
+minimal introductory information (only stating it’s for academic
+research in Statistics) reduce SDB. We guarantee respondent anonymity on
+the survey landing page and before sensitive questions, reminding
+participants that all answers are confidential. Additionally, a feedback
+section at the end allows respondents to express any concerns.
 
-Ensuring Anonymity (Minimizing SDB): The complete anonymity of
-respondents is a crucial aspect of our survey. We guarantee this
-anonymity as stated on the survey landing and consent page. Before
-sensitive questions, we will reinforce that all answers are confidential
-and anonymous, reminding participants of their privacy. We will
-strategically place sensitive items within the survey to minimize the
-risk of social desirability bias (SDB).
-
-Reducing Acquiescence Bias: To tackle acquiescence bias, we avoid
-agree-disagree, true-false, and yes-no question formats. Instead of
-using agree-disagree questions, we formulate inquiries that utilize
-direct, item-specific scales tailored to the question. For instance,
-when asking for respondents' views on candidates, we use options like
-"very unfavorable, unfavorable, moderate, favorable, very favorable"
-instead of simple yes or no. Furthermore, we ensure that our questions
-offer answer options that encompass all possible views. For example, in
-the question "Do you approve or disapprove of the job Joe Biden is doing
-as President?", we provide the options "Approve, Disapprove, Neutral or
-no opinion" rather than just yes or no.
+Reducing Acquiescence Bias: We avoid agree-disagree formats, instead
+using direct scales (e.g., "very unfavorable" to "very favorable") and
+item-specific options (e.g., "Approve, Disapprove, Neutral") to capture
+a full range of views.
 
 ## Budget Breakdown
 
@@ -1701,30 +1684,21 @@ Budget Breakdown With a total budget of \$100,000, the allocation for
 various components of the survey implementation and data collection is
 as follows:
 
-Survey Design and Development: \$2,000 This portion covers the design
-and development of the survey, including question formatting, testing,
-and integration with online platforms like Qualtrics and social media
-platforms. Ensuring the survey is user-friendly and addresses key
-research questions is essential for high-quality data collection. Online
-Panel Providers (Qualtrics, YouGov): \$80,000 (200 respondents at \$400
-per respondent) We will recruit 100 respondents via reputable online
-panel providers like Qualtrics and YouGov. These platforms ensure
-high-quality responses through verified voter registration, but they
-come at a higher cost per respondent due to their validation processes.
+Survey Design and Development: \$2,000 Covers question formatting,
+testing, and online integration (e.g., Qualtrics) to ensure
+user-friendly and relevant survey design.
 
-Social Media Recruitment (Facebook, Instagram): \$12,000 (400
-respondents at \$30 per respondent) 400 respondents will be recruited
-using targeted social media ads. Since we expect 50% of responses to be
-invalid, oversampling will allow us to achieve a final valid sample of
-200 respondents. The cost per respondent is lower than online panel
-providers, but rigorous validation and filtering are required to ensure
-data quality.
+Online Panel Providers (Qualtrics, YouGov): \$80,000 200 respondents
+recruited at \$400 each, leveraging verified voter panels for
+high-quality data.
 
-Data Validation and Quality Control: \$6,000 This covers voter
-registration verification, attention checks within the survey, and
-extensive post-collection filtering, particularly for social media
-responses. Ensuring the integrity and accuracy of the data is crucial to
-minimize biases and errors.
+Social Media Recruitment (Facebook, Instagram): \$12,000 400 respondents
+recruited via targeted ads (\$30 each). Anticipating a 50% invalid rate,
+allowing for 200 valid responses after validation.
+
+Data Validation and Quality Control: \$6,000 Includes voter registration
+checks, attention filters, and post-collection quality review,
+especially for social media responses, to ensure data integrity.
 
 ## Copy of U.S. Presidential Election Polls Survey
 
@@ -1757,22 +1731,17 @@ ensure transparency and trust.
 
 Section 1: Survey Questions
 
-1.  **Do you approve or disapprove of the job Joe Biden is doing as
-    President?**
+## Survey Questions
 
-    -   Approve
-    -   Disapprove
-    -   Neutral or no opinion
-
-2.  **What is your party registration or affiliation?**
+1.  **What is your party registration or affiliation?**
 
     -   Democrat
     -   Republican
-    -   Independent/ Other
+    -   Independent/Other
     -   Prefer not to say
     -   Other: \_\_\_\_\_\_\_\_\_\_
 
-3.  **If the Presidential Election were held today, would you vote for
+2.  **If the Presidential Election were held today, would you vote for
     Kamala Harris or Donald Trump?**
 
     -   Kamala Harris
@@ -1781,23 +1750,21 @@ Section 1: Survey Questions
     -   Undecided
     -   Prefer not to say
 
-4.  **Although you are undecided, which candidate do you lean
-    toward?**(Jump to this question only if responders choose undecided
-    in Question 3)
+3.  **Although you are undecided, which candidate do you lean toward?**
+    (Only answer if you chose "Undecided" in Question 2)
 
     -   Kamala Harris
     -   Donald Trump
 
-5.  **How favorable are you towards the following candidates?**
+4.  **How favorable are you towards the following candidates?**
 
     |               | Very unfavorable | Unfavorable | Moderate | Favorable | Very favorable |
     |------------|------------|------------|------------|------------|------------|
     | Kamala Harris |                  |             |          |           |                |
     | Donald Trump  |                  |             |          |           |                |
 
-6.  **How likely are you going to vote in the 2024 election**
-
-    Definitely not to vote
+5.  **How likely are you going to vote in the 2024 election?** (1 = Definitely
+    not to vote, 10 = Definitely will vote)
 
     -   1
     -   2
@@ -1808,46 +1775,38 @@ Section 1: Survey Questions
     -   7
     -   8
     -   9
-    -   10 Definitely will vote
+    -   10
 
-7.  **How do you plan to cast your vote?**
+6.  **How do you plan to cast your vote?**
 
     -   In-person on election day
     -   Early voting in-person
     -   By mail
     -   Unsure
 
-8.  **Did you vote in the 2020 U.S. presidential election?**
+7.  **Did you vote in the 2020 U.S. presidential election?**
 
     -   Yes
     -   No
     -   Prefer not to say
 
-9.  **If you voted in 2020, who did you vote for?**
+8.  **If you voted in 2020, who did you vote for?**
 
     -   Joe Biden
     -   Donald Trump
     -   Other
     -   Prefer not to say
 
-10. **Imagine the following candidates: Candidate A favors cutting taxes
+9.  **Imagine the following candidates: Candidate A favors cutting taxes
     but has a weak stance on climate change, and Candidate B focuses on
-    healthcare but supports increased military spending.Who would you
-    vote for? Candidate A or Candidate B?**
+    healthcare but supports increased military spending. Who would you
+    vote for?**
 
     -   Candidate A
     -   Candidate B
 
-11. **Imagine two candidates: Candidate A supports education reform but
-    plans to cut social security, and Candidate B focuses on green
-    energy but raises taxes. Who would you vote for? Candidate A or
-    Candidate B?**
-
-    -   Candidate A
-    -   Candidate B
-
-12. **What do you think is the most important issue facing the United
-    States?**
+10. **What do you think is the most important issue facing the United
+    States?** [Select at most 3]
 
     -   Economy
     -   Healthcare
@@ -1858,51 +1817,14 @@ Section 1: Survey Questions
     -   Social Security
     -   Other: \_\_\_\_\_\_\_\_\_\_
 
-13. **Select option 3 from the list below:**
+11. **Select option 3 from the list below:**
 
     -   Option 1
     -   Option 2
     -   Option 3
     -   Option 4
 
-14. **How important is the economy in deciding your vote?**
-
-    Not important
-
-    -   1
-    -   2
-    -   3
-    -   4
-    -   5 Very important
-
-15. **How important is climate change in deciding your vote?**
-
-    Not important
-
-    -   1
-    -   2
-    -   3
-    -   4
-    -   5 Very important
-
-16. **How important is healthcare in deciding your vote?**
-
-    Not important
-
-    -   1
-    -   2
-    -   3
-    -   4
-    -   5 Very important
-
-17. **How closely are you following news about the 2024 U.S.
-    presidential election?**
-
-    -   Very closely
-    -   Somewhat closely
-    -   Not closely
-
-18. **Which social media platforms do you use to get political news?**
+12. **Which social media platforms do you use to get political news?**
     (Select all that apply)
 
     -   Facebook
@@ -1951,11 +1873,6 @@ honest participation are important to us.
     -   Some college
     -   Bachelor’s degree
     -   Graduate degree
-6.  **What is your household annual income level?**
-    -   Less than \$50,000
-    -   \$50,000 - \$100,000
-    -   Over \$100,000
-    -   Prefer not to say
 
 ------------------------------------------------------------------------
 
