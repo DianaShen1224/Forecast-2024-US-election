@@ -170,12 +170,19 @@ techniques, such as telephone interviews and online questionnaires.
 After gathering the responses, the data is subjected to thorough
 cleaning and validation procedures to rectify inconsistencies and handle
 any missing information. This step is crucial for ensuring that the
-dataset accurately mirrors the electorate's sentiments. Each entry in
-the finalized dataset reflects an individual's viewpoint at a given
-moment, enabling a detailed analysis of the factors that shape public
-opinion as the election nears. This structured methodology effectively
-converts subjective opinions into measurable data, providing valuable
-insights into voter behavior and preferences.
+dataset accurately mirrors the electorate's sentiments. Following data
+cleaning, polling results are aggregated to smooth out individual poll
+biases and mitigate random error. This aggregation process leverages
+weighting based on poll quality, sample size, recency, and the historical
+accuracy of each polling agency, as seen in FiveThirtyEight’s approach
+(Silver, 2018; Jackman, 2005). By combining multiple polls, the aggregation
+method produces a more reliable picture of public opinion trends over time.
+
+Each entry in the finalized dataset reflects an individual's viewpoint
+at a given moment, enabling a detailed analysis of the factors that
+shape public opinion as the election nears. This structured methodology
+effectively converts subjective opinions into measurable data, providing
+valuable insights into voter behavior and preferences.
 
 ## Outcome variable
 
