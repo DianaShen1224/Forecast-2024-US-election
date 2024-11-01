@@ -67,10 +67,17 @@ Harris, offering insights into the elements that shape voter preferences
 as the election nears. By examining data from multiple polling sources,
 we intend to pinpoint the key factors influencing support, such as the
 poll's end date, the polling organization, geographic location, and the
-poll's score. Our research seeks to fill a gap in existing literature
-that often fails to address the complexities of polling data, thereby
-enhancing our understanding of voter behavior within the electoral
-context.
+poll's score. 
+
+Research by Gelman and King (1993) underscores that while polls can exhibit
+variability over a campaign period, they can provide reliable predictions 
+when adjusted for temporal changes and fundamental factors. Additionally,
+Erikson and Wlezien (2008) highlight the importance of timing in polling,
+showing that data closer to election day tends to stabilize and therefore
+becomes more predictive. Our research seeks to fill a gap in existing
+literature that often fails to address the complexities of polling
+data, thereby enhancing our understanding of voter behavior within the
+electoral context.
 
 The estimand of our analysis is the true percentage of voter support for
 Kamala Harris in the upcoming U.S. presidential election.
