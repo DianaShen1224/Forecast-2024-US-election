@@ -20,45 +20,31 @@ trump_data <- read_parquet("data/02-analysis_data/analysis_data_Trump.parquet")
 harris_data <- harris_data %>%
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
-    pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
-  ) %>%
-  group_by(pollster) %>%
-  mutate(
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+  )  %>%
+  mutate(combined_weight = recency_weight * sample_size_weight)
 
 # Calculate weights for Trump data
 trump_data <- trump_data %>%
   mutate(
     sample_size_weight = pmin(sample_size / 2300, 1),
-    pollster_quality_weight = numeric_grade / 4,
     recency_weight = exp(-recency * 0.1)
   ) %>%
-  group_by(pollster) %>%
-  mutate(
-    recent_poll_count = sum(recency < 30),
-    poll_frequency_weight = ifelse(recent_poll_count > 4, 4 / recent_poll_count, 1)
-  ) %>%
-  ungroup() %>%
-  mutate(combined_weight = recency_weight * sample_size_weight * poll_frequency_weight * pollster_quality_weight)
+  mutate(combined_weight = recency_weight * sample_size_weight)
 
 
 #### Build Models ####
 # 1. Unweighted model for Harris
-model_harris_unweighted <- lm(pct ~ national_poll + pollster + population, data = harris_data)
+model_harris_unweighted <- lm(pct ~ national_poll + pollster + population+state, data = harris_data)
 
 # 2. Weighted model for Harris
-model_harris_weighted <- lm(pct ~ national_poll + pollster + population, data = harris_data, weights = combined_weight)
+model_harris_weighted <- lm(pct ~ national_poll + pollster + population+state, data = harris_data, weights = combined_weight)
 
 # 3. Unweighted model for Trump
-model_trump_unweighted <- lm(pct ~ national_poll + pollster + population, data = trump_data)
+model_trump_unweighted <- lm(pct ~ national_poll + pollster + population+state, data = trump_data)
 
 # 4. Weighted model for Trump
-model_trump_weighted <- lm(pct ~ national_poll + pollster + population, data = trump_data, weights = combined_weight)
+model_trump_weighted <- lm(pct ~ national_poll + pollster + population+state, data = trump_data, weights = combined_weight)
 
 
 #### Save Models ####
