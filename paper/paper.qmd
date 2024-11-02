@@ -10,6 +10,10 @@ date: today
 date-format: long
 abstract: "This paper predicts the outcome of the 2024 U.S. presidential election using a statistical model based on aggregated polling data for Kamala Harris and Donald Trump. We employ multi-level regression with post-stratification (MRP) using demographic predictors to estimate voter support. The analysis addresses polling biases and proposes an idealized survey methodology with a $100,000 budget. Our results offer insights into voter behavior and suggest improvements for future election forecasting models."
 format: pdf
+header-includes:
+- \usepackage{caption}
+- \usepackage{longtable}
+- \usepackage{booktabs}
 number-sections: true
 bibliography: references.bib
 editor: 
@@ -26,6 +30,7 @@ library(tidyverse)
 library(arrow)
 library(dplyr)
 library(ggplot2)
+library(modelsummary)
 ```
 
 ```{r}
@@ -551,12 +556,14 @@ that the predictions are reliable across different polling scenarios.
 #| eval: true
 #| tbl-cap: "Summary of the Linear Regression Model for Predicting Harris' Voting Outcomes by polling results"
 #| label: tbl-summary1
-modelsummary::msummary(
+
+msummary(
   list(
-    "Harris Unweighted" = harris_unweighted_model, 
-    "Harris Weighted" = harris_weighted_model
-  ), 
+    "Unweighted" = harris_unweighted_model,
+    "Weighted" = harris_weighted_model
+  ), fmt = fmt_significant(4),
   options = list("longtable" = TRUE))
+
 ```
 
 ```{r}
@@ -568,8 +575,8 @@ modelsummary::msummary(
 #| label: tbl-summary2
 modelsummary::msummary(
   list(
-    "Trump Unweighted" = trump_unweighted_model,
-    "Trump Weighted" = trump_weighted_model
+    "Unweighted" = trump_unweighted_model,
+    "Weighted" = trump_weighted_model
   ), 
   options = list("longtable" = TRUE))
 ```
@@ -676,7 +683,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",caption = 
-                   "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+                   "Linear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "top",
@@ -701,7 +708,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red"))  +
   theme_classic() +
   theme(legend.position = "top",
@@ -730,7 +737,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+       caption = "Linear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "top",
@@ -757,7 +764,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "top",
@@ -787,7 +794,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",
-       caption = "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+       caption = "Linear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "top",
@@ -814,7 +821,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Linear Regression Model: Candidate Support Percentage =national_poll + pollster + population") +
+       caption = "Linear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "top",
@@ -855,7 +862,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
     y = "Predicted Support (%)",
     size = "Weight",
     fill = "Pollster",
-    caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population"
+    caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state"
   ) +
   scale_fill_manual(values = c(setNames(rep("grey", length(unique(combined_data_total$pollster_group))), "Other"),
                                setNames(rainbow(10), top_pollsters))) + # Assign colors to top pollsters and grey to others
@@ -898,7 +905,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
     y = "Predicted Support (%)",
     size = "Weight",
     fill = "Pollster",
-    caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population"
+    caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state"
   ) +
   scale_fill_manual(values = c(setNames(rep("grey", length(unique(combined_data_total$pollster_group))), "Other"),
                                setNames(rainbow(10), top_pollsters))) + # Assign colors to top pollsters and grey to others
@@ -945,7 +952,7 @@ Harris leads Donald Trump by approximately 2.5% in the un-weighted (49%
 vs. 46.5%) and 1% in weighted models (49% vs. 48%). Average leading by
 about 2%.
 
-@fig-national-support-trendsillustrates illustrates the polling support
+ illustrates the polling support
 trends for Kamala Harris and Donald Trump across the country from August
 to October. The scatter points represent individual poll results, with
 blue for Harris and red for Trump, while each dot's size reflects the
@@ -1080,7 +1087,7 @@ library(caret)   # For cross-validation
 # Set up 10-fold cross-validation
 train_control <- trainControl(method = "cv", number = 10)
 # Train the model
-model_formula <- pct ~ national_poll + pollster + population
+model_formula <- pct ~ national_poll + pollster + population + state
 model_harris_cv <- train(model_formula, data = harris_data, method = "lm", trControl = train_control)
 # Set up 10-fold cross-validation
 train_control <- trainControl(method = "cv", number = 10)
