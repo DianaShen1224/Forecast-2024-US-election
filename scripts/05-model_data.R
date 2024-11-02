@@ -35,16 +35,16 @@ trump_data <- trump_data %>%
 
 #### Build Models ####
 # 1. Unweighted model for Harris
-model_harris_unweighted <- lm(pct ~ national_poll + pollster + population+state, data = harris_data)
+model_harris_unweighted <- lm(pct ~ national_poll + pollster + population + state, data = harris_data)
 
 # 2. Weighted model for Harris
-model_harris_weighted <- lm(pct ~ national_poll + pollster + population+state, data = harris_data, weights = combined_weight)
+model_harris_weighted <- lm(pct ~ national_poll + pollster + population + state, data = harris_data, weights = combined_weight)
 
 # 3. Unweighted model for Trump
-model_trump_unweighted <- lm(pct ~ national_poll + pollster + population+state, data = trump_data)
+model_trump_unweighted <- lm(pct ~ national_poll + pollster + population + state, data = trump_data)
 
 # 4. Weighted model for Trump
-model_trump_weighted <- lm(pct ~ national_poll + pollster + population+state, data = trump_data, weights = combined_weight)
+model_trump_weighted <- lm(pct ~ national_poll + pollster + population + state, data = trump_data, weights = combined_weight)
 
 
 #### Save Models ####
