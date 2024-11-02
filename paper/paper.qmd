@@ -80,7 +80,7 @@ data, thereby enhancing our understanding of voter behavior within the
 electoral context.
 
 The estimand of our analysis is the true percentage of voter support for
-Kamala Harris in the upcoming U.S. presidential election.
+Kamala Harris in the upcoming U.S. presidential election. The object of the estimation is forecasting the percentage of Kamala’s vote share based on an aggregated polling data using a multiple linear regression model. Our goal is to track shifts in public opinion over time, offering a clearer pattern of voter’s choice and potential election outcomes.
 
 The main focus of our analysis is the percentage of support for Harris,
 which we will model using various predictor variables. We are
