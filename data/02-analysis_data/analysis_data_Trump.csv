@@ -1,0 +1,931 @@
+pollster,numeric_grade,state,candidate_name,pct,sample_size,pollscore,population,end_date,national_poll,recency
+MassINC Polling Group,2.8,Massachusetts,Donald Trump,31,582,-0.8,lv,2024-11-01,0,4
+AtlasIntel,2.7,National,Donald Trump,49.1,3490,-0.8,lv,2024-10-31,1,5
+AtlasIntel,2.7,National,Donald Trump,49.6,3490,-0.8,lv,2024-10-31,1,5
+AtlasIntel,2.7,North Carolina,Donald Trump,50.7,1373,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,North Carolina,Donald Trump,50.7,1373,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Arizona,Donald Trump,50.8,1005,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Arizona,Donald Trump,51,1005,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Georgia,Donald Trump,48.8,1212,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Georgia,Donald Trump,50.1,1212,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Michigan,Donald Trump,49.2,1136,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Michigan,Donald Trump,49.3,1136,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Nevada,Donald Trump,50.5,845,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Nevada,Donald Trump,50.6,845,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Pennsylvania,Donald Trump,48.5,1738,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Pennsylvania,Donald Trump,49.4,1738,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Wisconsin,Donald Trump,48.5,673,-0.8,lv,2024-10-31,0,5
+AtlasIntel,2.7,Wisconsin,Donald Trump,48.8,673,-0.8,lv,2024-10-31,0,5
+Emerson,2.9,Nevada,Donald Trump,48.3,700,-1.1,lv,2024-10-31,0,5
+SurveyUSA,2.8,New Mexico,Donald Trump,44,632,-1.3,lv,2024-10-31,0,5
+Susquehanna,2.3,Nevada,Donald Trump,50.2,400,-0.3,lv,2024-10-31,0,5
+Echelon Insights,2.7,National,Donald Trump,47,1328,-0.8,lv,2024-10-31,1,5
+Echelon Insights,2.7,National,Donald Trump,48,1328,-0.8,lv,2024-10-31,1,5
+Noble Predictive Insights,2.4,Nevada,Donald Trump,48,593,-0.4,lv,2024-10-31,0,5
+YouGov,3,Arizona,Donald Trump,48,880,-1.1,rv,2024-10-31,0,5
+YouGov,3,Arizona,Donald Trump,48,856,-1.1,lv,2024-10-31,0,5
+YouGov,3,Arizona,Donald Trump,50,880,-1.1,rv,2024-10-31,0,5
+YouGov,3,Arizona,Donald Trump,50,856,-1.1,lv,2024-10-31,0,5
+YouGov,3,Georgia,Donald Trump,48,984,-1.1,rv,2024-10-31,0,5
+YouGov,3,Georgia,Donald Trump,48,939,-1.1,lv,2024-10-31,0,5
+YouGov,3,Georgia,Donald Trump,50,984,-1.1,rv,2024-10-31,0,5
+YouGov,3,Georgia,Donald Trump,50,939,-1.1,lv,2024-10-31,0,5
+YouGov,3,Michigan,Donald Trump,45,985,-1.1,rv,2024-10-31,0,5
+YouGov,3,Michigan,Donald Trump,45,942,-1.1,lv,2024-10-31,0,5
+YouGov,3,Michigan,Donald Trump,46,985,-1.1,rv,2024-10-31,0,5
+YouGov,3,Michigan,Donald Trump,47,942,-1.1,lv,2024-10-31,0,5
+YouGov,3,Nevada,Donald Trump,47,790,-1.1,rv,2024-10-31,0,5
+YouGov,3,Nevada,Donald Trump,47,773,-1.1,lv,2024-10-31,0,5
+YouGov,3,Nevada,Donald Trump,49,790,-1.1,rv,2024-10-31,0,5
+YouGov,3,Nevada,Donald Trump,49,773,-1.1,lv,2024-10-31,0,5
+YouGov,3,North Carolina,Donald Trump,48,987,-1.1,rv,2024-10-31,0,5
+YouGov,3,North Carolina,Donald Trump,49,949,-1.1,lv,2024-10-31,0,5
+YouGov,3,North Carolina,Donald Trump,49,987,-1.1,rv,2024-10-31,0,5
+YouGov,3,North Carolina,Donald Trump,50,949,-1.1,lv,2024-10-31,0,5
+YouGov,3,Pennsylvania,Donald Trump,46,982,-1.1,rv,2024-10-31,0,5
+YouGov,3,Pennsylvania,Donald Trump,46,956,-1.1,lv,2024-10-31,0,5
+YouGov,3,Pennsylvania,Donald Trump,48,982,-1.1,rv,2024-10-31,0,5
+YouGov,3,Pennsylvania,Donald Trump,48,956,-1.1,lv,2024-10-31,0,5
+YouGov,3,Wisconsin,Donald Trump,45,889,-1.1,rv,2024-10-31,0,5
+YouGov,3,Wisconsin,Donald Trump,45,867,-1.1,lv,2024-10-31,0,5
+YouGov,3,Wisconsin,Donald Trump,47,889,-1.1,rv,2024-10-31,0,5
+YouGov,3,Wisconsin,Donald Trump,47,867,-1.1,lv,2024-10-31,0,5
+Data for Progress,2.6,Pennsylvania,Donald Trump,48,908,-1.2,lv,2024-10-31,0,5
+Data for Progress,2.6,Georgia,Donald Trump,48,972,-1.2,lv,2024-10-31,0,5
+Noble Predictive Insights,2.4,Arizona,Donald Trump,48,775,-0.4,lv,2024-10-30,0,6
+Echelon Insights,2.7,Wisconsin,Donald Trump,48,600,-0.8,lv,2024-10-30,0,6
+Echelon Insights,2.7,Wisconsin,Donald Trump,49,600,-0.8,lv,2024-10-30,0,6
+Echelon Insights,2.7,Michigan,Donald Trump,47,600,-0.8,lv,2024-10-30,0,6
+Echelon Insights,2.7,Michigan,Donald Trump,48,600,-0.8,lv,2024-10-30,0,6
+Echelon Insights,2.7,Pennsylvania,Donald Trump,51,600,-0.8,lv,2024-10-30,0,6
+Echelon Insights,2.7,Pennsylvania,Donald Trump,52,600,-0.8,lv,2024-10-30,0,6
+Suffolk,2.9,Pennsylvania,Donald Trump,48.6,500,-1,lv,2024-10-30,0,6
+Marist,2.9,Wisconsin,Donald Trump,48,1444,-0.9,rv,2024-10-30,0,6
+Marist,2.9,Wisconsin,Donald Trump,48,1330,-0.9,lv,2024-10-30,0,6
+Marist,2.9,Pennsylvania,Donald Trump,47,1558,-0.9,rv,2024-10-30,0,6
+Marist,2.9,Pennsylvania,Donald Trump,48,1400,-0.9,lv,2024-10-30,0,6
+Marist,2.9,Michigan,Donald Trump,48,1356,-0.9,rv,2024-10-30,0,6
+Marist,2.9,Michigan,Donald Trump,48,1214,-0.9,lv,2024-10-30,0,6
+Cygnal,2.1,California,Donald Trump,30.9,611,-1.1,lv,2024-10-30,0,6
+The Washington Post,3,Pennsylvania,Donald Trump,47,1204,-1.2,lv,2024-10-30,0,6
+The Washington Post,3,Pennsylvania,Donald Trump,47,1204,-1.2,rv,2024-10-30,0,6
+Data for Progress,2.6,Arizona,Donald Trump,48,1079,-1.2,lv,2024-10-30,0,6
+Data for Progress,2.6,Nevada,Donald Trump,47,721,-1.2,lv,2024-10-30,0,6
+St. Anselm,2.4,New Hampshire,Donald Trump,46,2791,-0.5,lv,2024-10-29,0,7
+Cygnal,2.1,Virginia,Donald Trump,42.7,600,-1.1,lv,2024-10-29,0,7
+YouGov,3,National,Donald Trump,46,1446,-1.1,rv,2024-10-29,1,7
+YouGov,3,National,Donald Trump,47,1310,-1.1,lv,2024-10-29,1,7
+AtlasIntel,2.7,National,Donald Trump,49.5,3032,-0.8,lv,2024-10-29,1,7
+AtlasIntel,2.7,National,Donald Trump,49.8,3032,-0.8,lv,2024-10-29,1,7
+AtlasIntel,2.7,Arizona,Donald Trump,50.6,1458,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Arizona,Donald Trump,50.8,1458,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Georgia,Donald Trump,50.2,1429,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Georgia,Donald Trump,50.9,1429,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Michigan,Donald Trump,49.2,983,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Michigan,Donald Trump,49.3,983,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Nevada,Donald Trump,48.4,1083,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Nevada,Donald Trump,48.5,1083,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,North Carolina,Donald Trump,48.4,1665,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,North Carolina,Donald Trump,48.4,1665,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Pennsylvania,Donald Trump,48.7,1299,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Pennsylvania,Donald Trump,49.6,1299,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Wisconsin,Donald Trump,48.7,1470,-0.8,lv,2024-10-29,0,7
+AtlasIntel,2.7,Wisconsin,Donald Trump,49,1470,-0.8,lv,2024-10-29,0,7
+Roanoke College,2.6,Virginia,Donald Trump,41,851,-0.4,lv,2024-10-29,0,7
+SurveyUSA,2.8,Maine,Donald Trump,43,1079,-1.3,lv,2024-10-29,0,7
+SurveyUSA,2.8,Maine CD-1,Donald Trump,37,482,-1.3,lv,2024-10-29,0,7
+SurveyUSA,2.8,Maine CD-2,Donald Trump,49,484,-1.3,lv,2024-10-29,0,7
+UC Berkeley,2.5,California,Donald Trump,35,4341,-0.2,lv,2024-10-29,0,7
+Data Orbital,2.9,Arizona,Donald Trump,49.7,550,-0.9,lv,2024-10-28,0,8
+Cygnal,2.1,Texas,Donald Trump,51,600,-1.1,lv,2024-10-28,0,8
+Cygnal,2.1,Florida,Donald Trump,48.2,600,-1.1,lv,2024-10-28,0,8
+Cygnal,2.1,Wyoming,Donald Trump,69,600,-1.1,lv,2024-10-28,0,8
+Noble Predictive Insights,2.4,Utah,Donald Trump,54,695,-0.4,lv,2024-10-28,0,8
+SurveyUSA,2.8,Minnesota,Donald Trump,43,728,-1.3,lv,2024-10-28,0,8
+Monmouth,2.9,Pennsylvania,Donald Trump,47,824,-0.9,rv,2024-10-28,0,8
+Quinnipiac,2.8,Pennsylvania,Donald Trump,47,2186,-0.5,lv,2024-10-28,0,8
+Quinnipiac,2.8,Pennsylvania,Donald Trump,49,2186,-0.5,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,46,1310,-1.1,rv,2024-10-28,0,8
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,48,1057,-1.1,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,48,1310,-1.1,rv,2024-10-28,0,8
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,50,1057,-1.1,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,Michigan,Donald Trump,46,988,-1.1,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,Michigan,Donald Trump,45,1275,-1.1,rv,2024-10-28,0,8
+Beacon/Shaw,2.8,Michigan,Donald Trump,49,988,-1.1,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,Michigan,Donald Trump,48,1275,-1.1,rv,2024-10-28,0,8
+Beacon/Shaw,2.8,North Carolina,Donald Trump,49,872,-1.1,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,North Carolina,Donald Trump,47,1113,-1.1,rv,2024-10-28,0,8
+Beacon/Shaw,2.8,North Carolina,Donald Trump,50,872,-1.1,lv,2024-10-28,0,8
+Beacon/Shaw,2.8,North Carolina,Donald Trump,49,1113,-1.1,rv,2024-10-28,0,8
+The Washington Post,3,Michigan,Donald Trump,46,1003,-1.2,lv,2024-10-28,0,8
+The Washington Post,3,Michigan,Donald Trump,47,1003,-1.2,rv,2024-10-28,0,8
+CNN/SSRS,2.8,Michigan,Donald Trump,43,726,-0.6,lv,2024-10-28,0,8
+CNN/SSRS,2.8,Pennsylvania,Donald Trump,48,819,-0.6,lv,2024-10-28,0,8
+CNN/SSRS,2.8,Wisconsin,Donald Trump,45,736,-0.6,lv,2024-10-28,0,8
+CNN/SSRS,2.8,Georgia,Donald Trump,48,732,-0.6,lv,2024-10-28,0,8
+CNN/SSRS,2.8,North Carolina,Donald Trump,47,750,-0.6,lv,2024-10-28,0,8
+YouGov,3,Pennsylvania,Donald Trump,49,1273,-1.1,lv,2024-10-28,0,8
+YouGov,3,Nebraska,Donald Trump,55,1206,-1.1,lv,2024-10-28,0,8
+YouGov,3,Nebraska CD-1,Donald Trump,51,408,-1.1,lv,2024-10-28,0,8
+YouGov,3,Nebraska CD-2,Donald Trump,44,393,-1.1,lv,2024-10-28,0,8
+YouGov,3,Nebraska CD-3,Donald Trump,70,404,-1.1,lv,2024-10-28,0,8
+InsiderAdvantage,2,Pennsylvania,Donald Trump,48.4,800,-0.3,lv,2024-10-27,0,9
+InsiderAdvantage,2,Michigan,Donald Trump,48.5,800,-0.3,lv,2024-10-27,0,9
+Cygnal,2.1,New York,Donald Trump,39,600,-1.1,lv,2024-10-27,0,9
+InsiderAdvantage,2,Wisconsin,Donald Trump,49,800,-0.3,lv,2024-10-27,0,9
+Emerson,2.9,Michigan,Donald Trump,49.8,1000,-1.1,lv,2024-10-27,0,9
+Ipsos,2.8,National,Donald Trump,43,975,-0.9,rv,2024-10-27,1,9
+Ipsos,2.8,National,Donald Trump,46,850,-0.9,lv,2024-10-27,1,9
+Suffolk,2.9,Michigan,Donald Trump,47.4,500,-1,lv,2024-10-27,0,9
+Angus Reid,2,National,Donald Trump,47,1928,-0.1,rv,2024-10-27,1,9
+Susquehanna,2.3,Michigan,Donald Trump,46.6,400,-0.3,lv,2024-10-27,0,9
+Noble Predictive Insights,2.4,National,Donald Trump,46,707,-0.4,lv,2024-10-27,1,9
+Praecones Analytica,2,New Hampshire,Donald Trump,50.2,622,0,rv,2024-10-26,0,10
+Emerson,2.9,Massachusetts,Donald Trump,37.2,1000,-1.1,lv,2024-10-26,0,10
+Cygnal,2.1,National,Donald Trump,45,1507,-1.1,lv,2024-10-26,1,10
+Cygnal,2.1,National,Donald Trump,46.9,1507,-1.1,lv,2024-10-26,1,10
+Siena/NYT,3,Texas,Donald Trump,52,1180,-1.5,rv,2024-10-26,0,10
+Siena/NYT,3,Texas,Donald Trump,50,1180,-1.5,rv,2024-10-26,0,10
+Siena/NYT,3,Texas,Donald Trump,52,1180,-1.5,lv,2024-10-26,0,10
+Siena/NYT,3,Texas,Donald Trump,51,1180,-1.5,lv,2024-10-26,0,10
+Siena/NYT,3,Nebraska,Donald Trump,55,1194,-1.5,rv,2024-10-26,0,10
+Siena/NYT,3,Nebraska,Donald Trump,53,1194,-1.5,rv,2024-10-26,0,10
+Siena/NYT,3,Nebraska,Donald Trump,55,1194,-1.5,lv,2024-10-26,0,10
+Siena/NYT,3,Nebraska,Donald Trump,53,1194,-1.5,lv,2024-10-26,0,10
+Siena/NYT,3,Nebraska CD-2,Donald Trump,42,500,-1.5,lv,2024-10-26,0,10
+Siena/NYT,3,Nebraska CD-2,Donald Trump,41,500,-1.5,lv,2024-10-26,0,10
+SurveyUSA,2.8,North Carolina,Donald Trump,47,853,-1.3,lv,2024-10-26,0,10
+CNN/SSRS,2.8,Arizona,Donald Trump,47,781,-0.6,lv,2024-10-26,0,10
+CNN/SSRS,2.8,Nevada,Donald Trump,48,683,-0.6,lv,2024-10-26,0,10
+YouGov,3,National,Donald Trump,49,2154,-1.1,lv,2024-10-25,1,11
+Emerson,2.9,Montana,Donald Trump,58.6,1000,-1.1,lv,2024-10-25,0,11
+St. Pete Polls,2.4,Florida,Donald Trump,50.3,1227,-0.3,lv,2024-10-25,0,11
+CES / YouGov,3,National,Donald Trump,47,48732,-1.1,lv,2024-10-25,1,11
+CES / YouGov,3,Arizona,Donald Trump,51,2066,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Florida,Donald Trump,52,5916,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Georgia,Donald Trump,51,2663,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Michigan,Donald Trump,46,2336,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Minnesota,Donald Trump,43,1275,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Nevada,Donald Trump,47,933,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,New Hampshire,Donald Trump,45,375,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,North Carolina,Donald Trump,50,2308,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Ohio,Donald Trump,52,3091,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Pennsylvania,Donald Trump,48,3685,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Texas,Donald Trump,51,6473,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Virginia,Donald Trump,44,2015,-1.1,lv,2024-10-25,0,11
+CES / YouGov,3,Wisconsin,Donald Trump,47,1542,-1.1,lv,2024-10-25,0,11
+Emerson,2.9,National,Donald Trump,49.3,1000,-1.1,lv,2024-10-24,1,12
+Cygnal,2.1,New Jersey,Donald Trump,40.3,600,-1.1,lv,2024-10-24,0,12
+Cygnal,2.1,New Jersey,Donald Trump,40.3,600,-1.1,lv,2024-10-24,0,12
+Marquette Law School,3,Wisconsin,Donald Trump,49,753,-1.1,lv,2024-10-24,0,12
+Marquette Law School,3,Wisconsin,Donald Trump,44,753,-1.1,lv,2024-10-24,0,12
+Marquette Law School,3,Wisconsin,Donald Trump,49,834,-1.1,rv,2024-10-24,0,12
+Marquette Law School,3,Wisconsin,Donald Trump,43,834,-1.1,rv,2024-10-24,0,12
+University of Massachusetts Lowell/YouGov,2.9,Michigan,Donald Trump,45,600,-1,lv,2024-10-24,0,12
+Emerson,2.9,New Hampshire,Donald Trump,47.2,915,-1.1,lv,2024-10-23,0,13
+Siena/NYT,3,National,Donald Trump,47,2516,-1.5,rv,2024-10-23,1,13
+Siena/NYT,3,National,Donald Trump,46,2516,-1.5,rv,2024-10-23,1,13
+Siena/NYT,3,National,Donald Trump,48,2516,-1.5,lv,2024-10-23,1,13
+Siena/NYT,3,National,Donald Trump,47,2516,-1.5,lv,2024-10-23,1,13
+CNN/SSRS,2.8,National,Donald Trump,47,1704,-0.6,lv,2024-10-23,1,13
+CNN/SSRS,2.8,National,Donald Trump,46,1704,-0.6,rv,2024-10-23,1,13
+Suffolk,2.9,Wisconsin,Donald Trump,48,500,-1,lv,2024-10-23,0,13
+Washington Post/George Mason University,2.7,Virginia,Donald Trump,43,1004,-0.8,lv,2024-10-23,0,13
+Washington Post/George Mason University,2.7,Virginia,Donald Trump,42,1004,-0.8,rv,2024-10-23,0,13
+University of Massachusetts Lowell/YouGov,2.9,North Carolina,Donald Trump,47,650,-1,lv,2024-10-23,0,13
+University of Massachusetts Lowell/YouGov,2.9,Pennsylvania,Donald Trump,47,800,-1,lv,2024-10-23,0,13
+University of Massachusetts Lowell/YouGov,2.9,New Hampshire,Donald Trump,43,600,-1,lv,2024-10-23,0,13
+Emerson,2.9,Pennsylvania,Donald Trump,50.7,860,-1.1,lv,2024-10-22,0,14
+Emerson,2.9,North Carolina,Donald Trump,50.2,950,-1.1,lv,2024-10-22,0,14
+Emerson,2.9,Wisconsin,Donald Trump,49.9,800,-1.1,lv,2024-10-22,0,14
+YouGov,3,National,Donald Trump,46,1422,-1.1,rv,2024-10-22,1,14
+YouGov,3,National,Donald Trump,46,1293,-1.1,lv,2024-10-22,1,14
+Emerson,2.9,South Dakota,Donald Trump,62,825,-1.1,lv,2024-10-22,0,14
+Ipsos,2.8,National,Donald Trump,47,2392,-0.9,rv,2024-10-22,1,14
+Ipsos,2.8,National,Donald Trump,47,1913,-0.9,lv,2024-10-22,1,14
+East Carolina University,2.6,South Carolina,Donald Trump,55.1,950,-0.5,lv,2024-10-22,0,14
+Susquehanna,2.3,Pennsylvania,Donald Trump,45.8,500,-0.3,lv,2024-10-22,0,14
+Marist,2.9,Georgia,Donald Trump,48,1356,-0.9,rv,2024-10-22,0,14
+Marist,2.9,Georgia,Donald Trump,49,1193,-0.9,lv,2024-10-22,0,14
+Marist,2.9,North Carolina,Donald Trump,49,1410,-0.9,rv,2024-10-22,0,14
+Marist,2.9,North Carolina,Donald Trump,50,1226,-0.9,lv,2024-10-22,0,14
+Marist,2.9,Arizona,Donald Trump,49,1329,-0.9,rv,2024-10-22,0,14
+Marist,2.9,Arizona,Donald Trump,50,1193,-0.9,lv,2024-10-22,0,14
+University of Maryland/Washington Post,2.5,Maryland,Donald Trump,33,1000,-0.3,lv,2024-10-22,0,14
+Rutgers-Eagleton,2.3,New Jersey,Donald Trump,35,451,0,rv,2024-10-22,0,14
+Rutgers-Eagleton,2.3,New Jersey,Donald Trump,37,478,0,rv,2024-10-22,0,14
+Emerson,2.9,Maryland,Donald Trump,34.4,865,-1.1,lv,2024-10-21,0,15
+YouGov,3,National,Donald Trump,45,1266,-1.1,rv,2024-10-21,1,15
+YouGov,3,National,Donald Trump,45,1189,-1.1,lv,2024-10-21,1,15
+Emerson,2.9,Texas,Donald Trump,53.1,815,-1.1,lv,2024-10-21,0,15
+Monmouth,2.9,National,Donald Trump,44,802,-0.9,rv,2024-10-21,1,15
+Quinnipiac,2.8,Michigan,Donald Trump,46,1136,-0.5,lv,2024-10-21,0,15
+Quinnipiac,2.8,Michigan,Donald Trump,46,1136,-0.5,lv,2024-10-21,0,15
+Quinnipiac,2.8,Wisconsin,Donald Trump,48,1108,-0.5,lv,2024-10-21,0,15
+Quinnipiac,2.8,Wisconsin,Donald Trump,48,1108,-0.5,lv,2024-10-21,0,15
+Ipsos,2.8,National,Donald Trump,43,3481,-0.9,rv,2024-10-21,1,15
+Ipsos,2.8,National,Donald Trump,45,3307,-0.9,lv,2024-10-21,1,15
+Ipsos,2.8,National,Donald Trump,43,3481,-0.9,rv,2024-10-21,1,15
+Ipsos,2.8,National,Donald Trump,45,3307,-0.9,lv,2024-10-21,1,15
+InsiderAdvantage,2,Nevada,Donald Trump,47.9,800,-0.3,lv,2024-10-20,0,16
+InsiderAdvantage,2,Arizona,Donald Trump,49.5,800,-0.3,lv,2024-10-20,0,16
+InsiderAdvantage,2,North Carolina,Donald Trump,48.7,800,-0.3,lv,2024-10-20,0,16
+Emerson,2.9,Florida,Donald Trump,53.6,860,-1.1,lv,2024-10-20,0,16
+SurveyUSA/High Point University,2.8,North Carolina,Donald Trump,46,1164,-1.3,rv,2024-10-20,0,16
+Franklin and Marshall College,2.4,Pennsylvania,Donald Trump,45,794,-0.1,rv,2024-10-20,0,16
+Franklin and Marshall College,2.4,Pennsylvania,Donald Trump,50,583,-0.1,lv,2024-10-20,0,16
+Franklin and Marshall College,2.4,Pennsylvania,Donald Trump,44,794,-0.1,rv,2024-10-20,0,16
+Hart/POS,2.6,National,Donald Trump,48,1000,-0.7,rv,2024-10-19,1,17
+Suffolk,2.9,National,Donald Trump,44.4,1000,-1,lv,2024-10-18,1,18
+Suffolk,2.9,National,Donald Trump,48.7,1000,-1,lv,2024-10-18,1,18
+Research & Polling,2.1,New Mexico,Donald Trump,41,1024,-0.9,lv,2024-10-18,0,18
+U. North Florida,2.8,Florida,Donald Trump,53,977,-0.6,lv,2024-10-18,0,18
+RMG Research,2.3,Florida,Donald Trump,52,788,-0.4,lv,2024-10-17,0,19
+Siena,2.7,New York,Donald Trump,37,872,-0.8,lv,2024-10-17,0,19
+Siena,2.7,New York,Donald Trump,39,872,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,National,Donald Trump,50.7,4180,-0.8,lv,2024-10-17,1,19
+AtlasIntel,2.7,National,Donald Trump,50.8,4180,-0.8,lv,2024-10-17,1,19
+AtlasIntel,2.7,Arizona,Donald Trump,49.2,1440,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Arizona,Donald Trump,49.2,1440,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Georgia,Donald Trump,49.5,1411,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Georgia,Donald Trump,50.1,1411,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Michigan,Donald Trump,49.6,1529,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Michigan,Donald Trump,50.2,1529,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Nevada,Donald Trump,48.4,1171,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Nevada,Donald Trump,48.3,1171,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,North Carolina,Donald Trump,48.8,1674,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,North Carolina,Donald Trump,48.8,1674,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Pennsylvania,Donald Trump,49.8,2048,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Pennsylvania,Donald Trump,49.9,2048,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Wisconsin,Donald Trump,48.2,932,-0.8,lv,2024-10-17,0,19
+AtlasIntel,2.7,Wisconsin,Donald Trump,48.4,932,-0.8,lv,2024-10-17,0,19
+Elon U.,2.5,North Carolina,Donald Trump,46,800,-0.6,rv,2024-10-17,0,19
+YouGov,3,California,Donald Trump,34,1139,-1.1,rv,2024-10-17,0,19
+YouGov,3,California,Donald Trump,34,1139,-1.1,lv,2024-10-17,0,19
+YouGov,3,Pennsylvania,Donald Trump,47,1062,-1.1,rv,2024-10-17,0,19
+YouGov,3,Pennsylvania,Donald Trump,48,1043,-1.1,lv,2024-10-17,0,19
+YouGov,3,Florida,Donald Trump,51,1094,-1.1,rv,2024-10-17,0,19
+YouGov,3,Florida,Donald Trump,51,1076,-1.1,lv,2024-10-17,0,19
+YouGov,3,Texas,Donald Trump,50,1108,-1.1,rv,2024-10-17,0,19
+YouGov,3,Texas,Donald Trump,51,1075,-1.1,lv,2024-10-17,0,19
+YouGov,3,New York,Donald Trump,38,1089,-1.1,rv,2024-10-17,0,19
+YouGov,3,New York,Donald Trump,38,1089,-1.1,lv,2024-10-17,0,19
+YouGov,3,National,Donald Trump,46,1500,-1.1,rv,2024-10-17,1,19
+YouGov,3,National,Donald Trump,46,1500,-1.1,lv,2024-10-17,1,19
+Emerson,2.9,National,Donald Trump,49.2,1000,-1.1,lv,2024-10-16,1,20
+RMG Research,2.3,National,Donald Trump,49,2950,-0.4,lv,2024-10-16,1,20
+Mason-Dixon,2.6,South Dakota,Donald Trump,59,500,-1.1,rv,2024-10-16,0,20
+YouGov,3,Arizona,Donald Trump,51,1435,-1.1,lv,2024-10-16,0,20
+RMG Research,2.3,Wisconsin,Donald Trump,50,787,-0.4,lv,2024-10-16,0,20
+RMG Research,2.3,Michigan,Donald Trump,49,789,-0.4,lv,2024-10-16,0,20
+U. Georgia SPIA,2.2,Georgia,Donald Trump,47,1000,-0.2,lv,2024-10-16,0,20
+InsiderAdvantage,2,Georgia,Donald Trump,49,800,-0.3,rv,2024-10-15,0,21
+YouGov,3,National,Donald Trump,45,1457,-1.1,rv,2024-10-15,1,21
+YouGov,3,National,Donald Trump,45,1314,-1.1,lv,2024-10-15,1,21
+PPIC,2.5,California,Donald Trump,33,1137,-0.4,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Arizona,Donald Trump,50,580,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Arizona,Donald Trump,49,580,-0.8,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Georgia,Donald Trump,44,730,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Georgia,Donald Trump,47,730,-0.8,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Michigan,Donald Trump,47,687,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Michigan,Donald Trump,47,687,-0.8,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Nevada,Donald Trump,44,652,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Nevada,Donald Trump,48,652,-0.8,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,North Carolina,Donald Trump,49,965,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,North Carolina,Donald Trump,50,965,-0.8,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Pennsylvania,Donald Trump,46,707,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Pennsylvania,Donald Trump,47,707,-0.8,lv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Wisconsin,Donald Trump,46,695,-0.8,rv,2024-10-15,0,21
+Washington Post/George Mason University,2.7,Wisconsin,Donald Trump,47,695,-0.8,lv,2024-10-15,0,21
+Mitchell,2.4,Michigan,Donald Trump,47,589,-0.2,lv,2024-10-14,0,22
+Mitchell,2.4,Michigan,Donald Trump,48.5,589,-0.2,lv,2024-10-14,0,22
+Emerson,2.9,California,Donald Trump,36.6,1000,-1.1,lv,2024-10-14,0,22
+Cygnal,2.1,North Carolina,Donald Trump,47.2,600,-1.1,lv,2024-10-14,0,22
+Beacon/Shaw,2.8,National,Donald Trump,50,1110,-1.1,rv,2024-10-14,1,22
+Beacon/Shaw,2.8,National,Donald Trump,50,870,-1.1,lv,2024-10-14,1,22
+Quinnipiac,2.8,Georgia,Donald Trump,52,1328,-0.5,lv,2024-10-14,0,22
+Quinnipiac,2.8,Georgia,Donald Trump,52,1328,-0.5,lv,2024-10-14,0,22
+Quinnipiac,2.8,North Carolina,Donald Trump,47,1031,-0.5,lv,2024-10-14,0,22
+Quinnipiac,2.8,North Carolina,Donald Trump,47,1031,-0.5,lv,2024-10-14,0,22
+SurveyUSA,2.8,Washington,Donald Trump,35,703,-1.3,lv,2024-10-14,0,22
+East Carolina University,2.6,Georgia,Donald Trump,48.9,701,-0.5,lv,2024-10-14,0,22
+Fairleigh Dickinson,2.6,National,Donald Trump,47,806,-0.6,rv,2024-10-14,1,22
+Ipsos,2.8,National,Donald Trump,42,807,-0.9,rv,2024-10-13,1,23
+Ipsos,2.8,National,Donald Trump,44,769,-0.9,lv,2024-10-13,1,23
+YouGov,3,National,Donald Trump,48,2712,-1.1,lv,2024-10-11,1,25
+Marist,2.9,National,Donald Trump,47,1401,-0.9,lv,2024-10-10,1,26
+Marist,2.9,National,Donald Trump,48,1708,-0.9,rv,2024-10-10,1,26
+RMG Research,2.3,National,Donald Trump,47,2945,-0.4,lv,2024-10-10,1,26
+Siena/NYT,3,Pennsylvania,Donald Trump,47,857,-1.5,rv,2024-10-10,0,26
+Siena/NYT,3,Pennsylvania,Donald Trump,45,857,-1.5,rv,2024-10-10,0,26
+Siena/NYT,3,Pennsylvania,Donald Trump,47,857,-1.5,lv,2024-10-10,0,26
+Siena/NYT,3,Pennsylvania,Donald Trump,45,857,-1.5,lv,2024-10-10,0,26
+Siena/NYT,3,Arizona,Donald Trump,51,808,-1.5,lv,2024-10-10,0,26
+Siena/NYT,3,Arizona,Donald Trump,50,808,-1.5,lv,2024-10-10,0,26
+Siena/NYT,3,Arizona,Donald Trump,51,808,-1.5,rv,2024-10-10,0,26
+Siena/NYT,3,Arizona,Donald Trump,49,808,-1.5,rv,2024-10-10,0,26
+RMG Research,2.3,Georgia,Donald Trump,50,731,-0.4,lv,2024-10-10,0,26
+University of Massachusetts Lowell/YouGov,2.9,New Hampshire,Donald Trump,41,600,-1,lv,2024-10-10,0,26
+YouGov,3,Texas,Donald Trump,51,1091,-1.1,lv,2024-10-10,0,26
+Marquette Law School,3,National,Donald Trump,50,780,-1.1,rv,2024-10-10,1,26
+Marquette Law School,3,National,Donald Trump,39,780,-1.1,rv,2024-10-10,1,26
+Marquette Law School,3,National,Donald Trump,50,652,-1.1,lv,2024-10-10,1,26
+Marquette Law School,3,National,Donald Trump,41,652,-1.1,lv,2024-10-10,1,26
+U. Houston,2.2,Texas,Donald Trump,51,1329,-0.3,lv,2024-10-10,0,26
+InsiderAdvantage,2,Michigan,Donald Trump,48,800,-0.3,lv,2024-10-09,0,27
+InsiderAdvantage,2,Wisconsin,Donald Trump,48,800,-0.3,lv,2024-10-09,0,27
+University of Massachusetts Lowell/YouGov,2.9,Pennsylvania,Donald Trump,45,800,-1,lv,2024-10-09,0,27
+InsiderAdvantage,2,Pennsylvania,Donald Trump,49,800,-0.3,lv,2024-10-08,0,28
+Emerson,2.9,Arizona,Donald Trump,50.5,1000,-1.1,lv,2024-10-08,0,28
+Emerson,2.9,Georgia,Donald Trump,49.7,1000,-1.1,lv,2024-10-08,0,28
+Emerson,2.9,Michigan,Donald Trump,49.6,950,-1.1,lv,2024-10-08,0,28
+Emerson,2.9,Nevada,Donald Trump,48.1,900,-1.1,lv,2024-10-08,0,28
+Emerson,2.9,North Carolina,Donald Trump,49.9,1000,-1.1,lv,2024-10-08,0,28
+Emerson,2.9,Pennsylvania,Donald Trump,49.7,1000,-1.1,lv,2024-10-08,0,28
+Emerson,2.9,Wisconsin,Donald Trump,49.9,1000,-1.1,lv,2024-10-08,0,28
+Siena/NYT,3,Montana,Donald Trump,57,656,-1.5,rv,2024-10-08,0,28
+Siena/NYT,3,Montana,Donald Trump,56,656,-1.5,rv,2024-10-08,0,28
+Siena/NYT,3,Montana,Donald Trump,57,656,-1.5,lv,2024-10-08,0,28
+Siena/NYT,3,Montana,Donald Trump,56,656,-1.5,lv,2024-10-08,0,28
+Hart/POS,2.6,National,Donald Trump,47,1000,-0.7,rv,2024-10-08,1,28
+Hart/POS,2.6,National,Donald Trump,48,1000,-0.7,rv,2024-10-08,1,28
+Ipsos,2.8,National,Donald Trump,47,2226,-0.9,rv,2024-10-08,1,28
+Ipsos,2.8,National,Donald Trump,48,1714,-0.9,lv,2024-10-08,1,28
+Ipsos,2.8,National,Donald Trump,49,2226,-0.9,rv,2024-10-08,1,28
+Ipsos,2.8,National,Donald Trump,48,1714,-0.9,lv,2024-10-08,1,28
+YouGov,3,National,Donald Trump,44,1414,-1.1,rv,2024-10-07,1,29
+YouGov,3,National,Donald Trump,45,1230,-1.1,lv,2024-10-07,1,29
+Research Co.,2.4,Michigan,Donald Trump,48,450,-0.5,lv,2024-10-07,0,29
+Research Co.,2.4,Pennsylvania,Donald Trump,49,450,-0.5,lv,2024-10-07,0,29
+Research Co.,2.4,Wisconsin,Donald Trump,48,450,-0.5,lv,2024-10-07,0,29
+Ipsos,2.8,National,Donald Trump,43,1076,-0.9,rv,2024-10-07,1,29
+Ipsos,2.8,National,Donald Trump,45,1076,-0.9,lv,2024-10-07,1,29
+Ipsos,2.8,National,Donald Trump,48,1076,-0.9,rv,2024-10-07,1,29
+Ipsos,2.8,National,Donald Trump,49,1076,-0.9,lv,2024-10-07,1,29
+Quinnipiac,2.8,Michigan,Donald Trump,50,1007,-0.5,lv,2024-10-07,0,29
+Quinnipiac,2.8,Michigan,Donald Trump,51,1007,-0.5,lv,2024-10-07,0,29
+Quinnipiac,2.8,Pennsylvania,Donald Trump,46,1412,-0.5,lv,2024-10-07,0,29
+Quinnipiac,2.8,Pennsylvania,Donald Trump,47,1412,-0.5,lv,2024-10-07,0,29
+Quinnipiac,2.8,Wisconsin,Donald Trump,48,1073,-0.5,lv,2024-10-07,0,29
+Quinnipiac,2.8,Wisconsin,Donald Trump,49,1073,-0.5,lv,2024-10-07,0,29
+Marist,2.9,Florida,Donald Trump,51,1257,-0.9,lv,2024-10-07,0,29
+Marist,2.9,Florida,Donald Trump,51,1410,-0.9,rv,2024-10-07,0,29
+Marist,2.9,Texas,Donald Trump,52,1365,-0.9,rv,2024-10-07,0,29
+Marist,2.9,Texas,Donald Trump,53,1186,-0.9,lv,2024-10-07,0,29
+Marist,2.9,Ohio,Donald Trump,52,1511,-0.9,rv,2024-10-07,0,29
+Marist,2.9,Ohio,Donald Trump,52,1327,-0.9,lv,2024-10-07,0,29
+The Washington Post,3,Ohio,Donald Trump,51,1002,-1.2,lv,2024-10-07,0,29
+The Washington Post,3,Ohio,Donald Trump,51,1002,-1.2,rv,2024-10-07,0,29
+Noble Predictive Insights,2.4,Utah,Donald Trump,54,539,-0.4,lv,2024-10-07,0,29
+Noble Predictive Insights,2.4,Utah,Donald Trump,54,539,-0.4,lv,2024-10-07,0,29
+Noble Predictive Insights,2.4,Utah,Donald Trump,52,600,-0.4,rv,2024-10-07,0,29
+Noble Predictive Insights,2.4,Utah,Donald Trump,51,600,-0.4,rv,2024-10-07,0,29
+Research Co.,2.4,National,Donald Trump,45,1001,-0.5,lv,2024-10-06,1,30
+Pew,2.5,National,Donald Trump,47,4025,-0.4,rv,2024-10-06,1,30
+Pew,2.5,National,Donald Trump,49,4025,-0.4,rv,2024-10-06,1,30
+Siena/NYT,3,National,Donald Trump,46,3385,-1.5,lv,2024-10-06,1,30
+Siena/NYT,3,National,Donald Trump,44,3385,-1.5,lv,2024-10-06,1,30
+Siena/NYT,3,Florida,Donald Trump,55,622,-1.5,lv,2024-10-06,0,30
+Siena/NYT,3,Florida,Donald Trump,53,622,-1.5,lv,2024-10-06,0,30
+Siena/NYT,3,Florida,Donald Trump,54,622,-1.5,rv,2024-10-06,0,30
+Siena/NYT,3,Florida,Donald Trump,53,622,-1.5,rv,2024-10-06,0,30
+Suffolk,2.9,Massachusetts,Donald Trump,32.2,500,-1,lv,2024-10-05,0,31
+YouGov,3,National,Donald Trump,45,1150,-1.1,rv,2024-10-04,1,32
+YouGov,3,National,Donald Trump,46,1032,-1.1,lv,2024-10-04,1,32
+YouGov,3,National,Donald Trump,46,1151,-1.1,rv,2024-10-04,1,32
+YouGov,3,National,Donald Trump,46,1033,-1.1,lv,2024-10-04,1,32
+Noble Predictive Insights,2.4,National,Donald Trump,46,2290,-0.4,lv,2024-10-04,1,32
+Noble Predictive Insights,2.4,National,Donald Trump,47,2290,-0.4,lv,2024-10-04,1,32
+Noble Predictive Insights,2.4,National,Donald Trump,46,2560,-0.4,rv,2024-10-04,1,32
+Noble Predictive Insights,2.4,National,Donald Trump,45,2560,-0.4,rv,2024-10-04,1,32
+Mason-Dixon,2.6,Florida,Donald Trump,49,625,-1.1,lv,2024-10-04,0,32
+Siena/NYT,3,Texas,Donald Trump,50,617,-1.5,lv,2024-10-04,0,32
+Siena/NYT,3,Texas,Donald Trump,49,617,-1.5,lv,2024-10-04,0,32
+Siena/NYT,3,Texas,Donald Trump,50,617,-1.5,rv,2024-10-04,0,32
+Siena/NYT,3,Texas,Donald Trump,48,617,-1.5,rv,2024-10-04,0,32
+Christopher Newport U.,2.8,Virginia,Donald Trump,41,800,-0.6,lv,2024-10-04,0,32
+Data for Progress,2.6,National,Donald Trump,46,1211,-1.2,lv,2024-10-03,1,33
+Cygnal,2.1,National,Donald Trump,44.5,1500,-1.1,lv,2024-10-03,1,33
+Cygnal,2.1,National,Donald Trump,47,1500,-1.1,lv,2024-10-03,1,33
+RMG Research,2.3,National,Donald Trump,49,2965,-0.4,lv,2024-10-03,1,33
+RMG Research,2.3,Nevada,Donald Trump,49,782,-0.4,lv,2024-10-03,0,33
+St. Anselm,2.4,New Hampshire,Donald Trump,44,2104,-0.5,lv,2024-10-02,0,34
+RMG Research,2.3,Arizona,Donald Trump,50,783,-0.4,lv,2024-10-02,0,34
+YouGov/Center for Working Class Politics,3,Pennsylvania,Donald Trump,44.7,1000,-1.1,rv,2024-10-02,0,34
+YouGov,3,National,Donald Trump,45,1463,-1.1,rv,2024-10-01,1,35
+YouGov,3,National,Donald Trump,46,1261,-1.1,lv,2024-10-01,1,35
+Emerson,2.9,National,Donald Trump,48.6,1000,-1.1,lv,2024-10-01,1,35
+Marist,2.9,National,Donald Trump,48,1294,-0.9,lv,2024-10-01,1,35
+Marist,2.9,National,Donald Trump,47,1514,-0.9,rv,2024-10-01,1,35
+UC Berkeley,2.5,California,Donald Trump,35,3045,-0.2,lv,2024-10-01,0,35
+Susquehanna,2.3,National,Donald Trump,44,1001,-0.3,lv,2024-10-01,1,35
+Mitchell,2.4,Michigan,Donald Trump,49,709,-0.2,lv,2024-09-30,0,36
+Mitchell,2.4,Michigan,Donald Trump,47,709,-0.2,lv,2024-09-30,0,36
+InsiderAdvantage,2,Arizona,Donald Trump,49.1,800,-0.3,lv,2024-09-30,0,36
+InsiderAdvantage,2,Nevada,Donald Trump,49.3,800,-0.3,lv,2024-09-30,0,36
+InsiderAdvantage,2,North Carolina,Donald Trump,49.5,800,-0.3,lv,2024-09-30,0,36
+InsiderAdvantage,2,Georgia,Donald Trump,48.1,800,-0.3,lv,2024-09-30,0,36
+Leger,2,National,Donald Trump,47,837,0,lv,2024-09-29,1,37
+Leger,2,National,Donald Trump,48,888,0,rv,2024-09-29,1,37
+The Washington Post,3,North Carolina,Donald Trump,50,1001,-1.2,lv,2024-09-29,0,37
+The Washington Post,3,North Carolina,Donald Trump,50,1001,-1.2,rv,2024-09-29,0,37
+Quinnipiac,2.8,North Carolina,Donald Trump,49,953,-0.5,lv,2024-09-29,0,37
+Quinnipiac,2.8,North Carolina,Donald Trump,49,953,-0.5,lv,2024-09-29,0,37
+Quinnipiac,2.8,Georgia,Donald Trump,50,942,-0.5,lv,2024-09-29,0,37
+Quinnipiac,2.8,Georgia,Donald Trump,50,942,-0.5,lv,2024-09-29,0,37
+National Research,2,Arizona,Donald Trump,46,600,-0.5,lv,2024-09-29,0,37
+Winthrop U.,2.5,South Carolina,Donald Trump,51.6,1068,-0.3,lv,2024-09-29,0,37
+High Point University,2.5,North Carolina,Donald Trump,46,814,-0.4,rv,2024-09-29,0,37
+High Point University,2.5,North Carolina,Donald Trump,48,589,-0.4,lv,2024-09-29,0,37
+Emerson,2.9,Arizona,Donald Trump,51.7,920,-1.1,lv,2024-09-28,0,38
+Emerson,2.9,North Carolina,Donald Trump,49.9,850,-1.1,lv,2024-09-28,0,38
+Emerson,2.9,Pennsylvania,Donald Trump,48.8,1000,-1.1,lv,2024-09-28,0,38
+Cygnal,2.1,Iowa,Donald Trump,51.3,600,-1.1,lv,2024-09-28,0,38
+RMG Research,2.3,Texas,Donald Trump,53,779,-0.4,lv,2024-09-27,0,39
+RMG Research,2.3,Florida,Donald Trump,50,774,-0.4,lv,2024-09-27,0,39
+RMG Research,2.3,North Carolina,Donald Trump,51,780,-0.4,lv,2024-09-27,0,39
+RMG Research,2.3,Michigan,Donald Trump,47,789,-0.4,lv,2024-09-27,0,39
+McCourtney Institute/YouGov,3,National,Donald Trump,45,848,-1.1,lv,2024-09-27,1,39
+Siena/NYT,3,Nebraska CD-2,Donald Trump,42,680,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Nebraska CD-2,Donald Trump,41,680,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Nebraska CD-2,Donald Trump,43,680,-1.5,lv,2024-09-26,0,40
+Siena/NYT,3,Nebraska CD-2,Donald Trump,42,680,-1.5,lv,2024-09-26,0,40
+SurveyUSA,2.8,Minnesota,Donald Trump,44,646,-1.3,lv,2024-09-26,0,40
+East Carolina University,2.6,North Carolina,Donald Trump,49.4,1005,-0.5,lv,2024-09-26,0,40
+Siena/NYT,3,Michigan,Donald Trump,47,688,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Michigan,Donald Trump,46,688,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Michigan,Donald Trump,47,688,-1.5,lv,2024-09-26,0,40
+Siena/NYT,3,Michigan,Donald Trump,46,688,-1.5,lv,2024-09-26,0,40
+Siena/NYT,3,Ohio,Donald Trump,49,687,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Ohio,Donald Trump,47,687,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Ohio,Donald Trump,50,687,-1.5,lv,2024-09-26,0,40
+Siena/NYT,3,Ohio,Donald Trump,49,687,-1.5,lv,2024-09-26,0,40
+Siena/NYT,3,Wisconsin,Donald Trump,47,680,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Wisconsin,Donald Trump,45,680,-1.5,rv,2024-09-26,0,40
+Siena/NYT,3,Wisconsin,Donald Trump,47,680,-1.5,lv,2024-09-26,0,40
+Siena/NYT,3,Wisconsin,Donald Trump,46,680,-1.5,lv,2024-09-26,0,40
+Marquette Law School,3,Wisconsin,Donald Trump,48,882,-1.1,rv,2024-09-26,0,40
+Marquette Law School,3,Wisconsin,Donald Trump,48,798,-1.1,lv,2024-09-26,0,40
+Marquette Law School,3,Wisconsin,Donald Trump,44,882,-1.1,rv,2024-09-26,0,40
+Marquette Law School,3,Wisconsin,Donald Trump,44,798,-1.1,lv,2024-09-26,0,40
+Echelon Insights,2.7,National,Donald Trump,45,1005,-0.8,lv,2024-09-25,1,41
+Echelon Insights,2.7,National,Donald Trump,44,1005,-0.8,lv,2024-09-25,1,41
+Emerson,2.9,New York,Donald Trump,41.6,1000,-1.1,lv,2024-09-25,0,41
+RMG Research,2.3,National,Donald Trump,48,2952,-0.4,lv,2024-09-25,1,41
+CNN/SSRS,2.8,North Carolina,Donald Trump,48,931,-0.6,lv,2024-09-25,0,41
+CNN/SSRS,2.8,Nebraska CD-2,Donald Trump,42,749,-0.6,lv,2024-09-25,0,41
+AtlasIntel,2.7,Arizona,Donald Trump,49.7,946,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Arizona,Donald Trump,49.8,946,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Michigan,Donald Trump,50.4,918,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Michigan,Donald Trump,50.6,918,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Nevada,Donald Trump,47.7,858,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Nevada,Donald Trump,47.7,858,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Pennsylvania,Donald Trump,50.6,1775,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Pennsylvania,Donald Trump,51,1775,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Wisconsin,Donald Trump,49.6,1077,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Wisconsin,Donald Trump,49.7,1077,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,North Carolina,Donald Trump,47.3,1173,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,North Carolina,Donald Trump,48.1,1173,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Georgia,Donald Trump,49.3,1200,-0.8,lv,2024-09-25,0,41
+AtlasIntel,2.7,Georgia,Donald Trump,49.6,1200,-0.8,lv,2024-09-25,0,41
+Virginia Commonwealth U.,2.1,Virginia,Donald Trump,36.6,762,-0.1,rv,2024-09-25,0,41
+Emerson,2.9,Texas,Donald Trump,52.3,950,-1.1,lv,2024-09-24,0,42
+Emerson,2.9,Virginia,Donald Trump,46.2,860,-1.1,lv,2024-09-24,0,42
+YouGov,3,National,Donald Trump,44,1424,-1.1,rv,2024-09-24,1,42
+YouGov,3,National,Donald Trump,46,1220,-1.1,lv,2024-09-24,1,42
+YouGov,3,Georgia,Donald Trump,51,1441,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,Arizona,Donald Trump,49,1021,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,Arizona,Donald Trump,50,764,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,Arizona,Donald Trump,50,1021,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,Arizona,Donald Trump,51,764,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,Georgia,Donald Trump,47,1006,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,Georgia,Donald Trump,48,707,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,Georgia,Donald Trump,48,1006,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,Georgia,Donald Trump,48,707,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,North Carolina,Donald Trump,49,787,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,North Carolina,Donald Trump,47,991,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,North Carolina,Donald Trump,50,787,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,North Carolina,Donald Trump,48,991,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,48,775,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,46,1021,-1.1,rv,2024-09-24,0,42
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,49,775,-1.1,lv,2024-09-24,0,42
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,48,1021,-1.1,rv,2024-09-24,0,42
+Marist,2.9,Arizona,Donald Trump,50,1416,-0.9,rv,2024-09-24,0,42
+Marist,2.9,Arizona,Donald Trump,50,1264,-0.9,lv,2024-09-24,0,42
+Marist,2.9,North Carolina,Donald Trump,48,1507,-0.9,rv,2024-09-24,0,42
+Marist,2.9,North Carolina,Donald Trump,49,1348,-0.9,lv,2024-09-24,0,42
+Marist,2.9,Georgia,Donald Trump,48,1420,-0.9,rv,2024-09-24,0,42
+Marist,2.9,Georgia,Donald Trump,50,1220,-0.9,lv,2024-09-24,0,42
+Suffolk,2.9,Arizona,Donald Trump,48.4,500,-1,lv,2024-09-24,0,42
+SurveyUSA,2.8,Nebraska,Donald Trump,56,558,-1.3,lv,2024-09-23,0,43
+Monmouth,2.9,Pennsylvania,Donald Trump,45,654,-0.9,rv,2024-09-23,0,43
+University of Maryland/Washington Post,2.5,Maryland,Donald Trump,31,1012,-0.3,lv,2024-09-23,0,43
+University of Maryland/Washington Post,2.5,Maryland,Donald Trump,32,1012,-0.3,lv,2024-09-23,0,43
+University of Maryland/Washington Post,2.5,Maryland,Donald Trump,31,1012,-0.3,rv,2024-09-23,0,43
+University of Maryland/Washington Post,2.5,Maryland,Donald Trump,32,1012,-0.3,rv,2024-09-23,0,43
+RMG Research,2.3,Wisconsin,Donald Trump,49,788,-0.4,lv,2024-09-23,0,43
+Ipsos,2.8,National,Donald Trump,40.48,871,-0.9,rv,2024-09-22,1,44
+Ipsos,2.8,National,Donald Trump,44,785,-0.9,lv,2024-09-22,1,44
+CNN/SSRS,2.8,National,Donald Trump,47,2074,-0.6,lv,2024-09-22,1,44
+CNN/SSRS,2.8,National,Donald Trump,47,2074,-0.6,rv,2024-09-22,1,44
+Quinnipiac,2.8,National,Donald Trump,48,1728,-0.5,lv,2024-09-22,1,44
+Quinnipiac,2.8,National,Donald Trump,48,1728,-0.5,lv,2024-09-22,1,44
+Susquehanna,2.3,Pennsylvania,Donald Trump,46,700,-0.3,lv,2024-09-22,0,44
+Siena/NYT,3,Arizona,Donald Trump,49,713,-1.5,rv,2024-09-21,0,45
+Siena/NYT,3,Arizona,Donald Trump,50,713,-1.5,lv,2024-09-21,0,45
+Siena/NYT,3,Arizona,Donald Trump,47,713,-1.5,rv,2024-09-21,0,45
+Siena/NYT,3,Arizona,Donald Trump,48,713,-1.5,lv,2024-09-21,0,45
+Siena/NYT,3,Georgia,Donald Trump,48,682,-1.5,rv,2024-09-21,0,45
+Siena/NYT,3,Georgia,Donald Trump,49,682,-1.5,lv,2024-09-21,0,45
+Siena/NYT,3,Georgia,Donald Trump,46,682,-1.5,rv,2024-09-21,0,45
+Siena/NYT,3,Georgia,Donald Trump,47,682,-1.5,lv,2024-09-21,0,45
+Siena/NYT,3,North Carolina,Donald Trump,48,682,-1.5,rv,2024-09-21,0,45
+Siena/NYT,3,North Carolina,Donald Trump,49,682,-1.5,lv,2024-09-21,0,45
+Siena/NYT,3,North Carolina,Donald Trump,46,682,-1.5,rv,2024-09-21,0,45
+Siena/NYT,3,North Carolina,Donald Trump,47,682,-1.5,lv,2024-09-21,0,45
+YouGov,3,National,Donald Trump,48,3129,-1.1,lv,2024-09-20,1,46
+RMG Research,2.3,Ohio,Donald Trump,54,781,-0.4,lv,2024-09-20,0,46
+RMG Research,2.3,Pennsylvania,Donald Trump,49,783,-0.4,lv,2024-09-20,0,46
+Remington,2.6,Michigan,Donald Trump,47,800,-0.6,lv,2024-09-20,0,46
+Remington,2.6,Nevada,Donald Trump,49,800,-0.6,lv,2024-09-20,0,46
+Remington,2.6,Pennsylvania,Donald Trump,48,800,-0.6,lv,2024-09-20,0,46
+Remington,2.6,Wisconsin,Donald Trump,48,800,-0.6,lv,2024-09-20,0,46
+Remington,2.6,Montana,Donald Trump,56,800,-0.6,lv,2024-09-20,0,46
+RMG Research,2.3,National,Donald Trump,48,2969,-0.4,lv,2024-09-19,1,47
+Muhlenberg,2.8,Pennsylvania,Donald Trump,48,450,-1,lv,2024-09-19,0,47
+RMG Research,2.3,Montana,Donald Trump,59,491,-0.4,lv,2024-09-19,0,47
+University of Massachusetts Lowell/YouGov,2.9,Michigan,Donald Trump,43,650,-1,lv,2024-09-19,0,47
+University of Massachusetts Lowell/YouGov,2.9,Pennsylvania,Donald Trump,46,800,-1,lv,2024-09-19,0,47
+Mason-Dixon,2.6,Minnesota,Donald Trump,43,800,-1.1,lv,2024-09-18,0,48
+Suffolk,2.9,Michigan,Donald Trump,45.4,500,-1,lv,2024-09-18,0,48
+Emerson,2.9,Arizona,Donald Trump,49.8,868,-1.1,lv,2024-09-18,0,48
+Emerson,2.9,Georgia,Donald Trump,50.3,975,-1.1,lv,2024-09-18,0,48
+Emerson,2.9,Michigan,Donald Trump,49.1,875,-1.1,lv,2024-09-18,0,48
+Emerson,2.9,Nevada,Donald Trump,49,895,-1.1,lv,2024-09-18,0,48
+Emerson,2.9,Pennsylvania,Donald Trump,49.3,880,-1.1,lv,2024-09-18,0,48
+Emerson,2.9,North Carolina,Donald Trump,49.3,1000,-1.1,lv,2024-09-18,0,48
+Emerson,2.9,Wisconsin,Donald Trump,50.3,1000,-1.1,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Pennsylvania,Donald Trump,46,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Pennsylvania,Donald Trump,47,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Massachusetts,Donald Trump,32,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Massachusetts,Donald Trump,35,800,-0.8,lv,2024-09-18,0,48
+SurveyUSA,2.8,New Mexico,Donald Trump,42,619,-1.3,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Wisconsin,Donald Trump,45,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Wisconsin,Donald Trump,46,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Connecticut,Donald Trump,37,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Rhode Island,Donald Trump,40,800,-0.8,lv,2024-09-18,0,48
+MassINC Polling Group,2.8,Rhode Island,Donald Trump,43,800,-0.8,lv,2024-09-18,0,48
+YouGov,3,National,Donald Trump,45,1445,-1.1,rv,2024-09-17,1,49
+Hart/POS,2.6,National,Donald Trump,44,1000,-0.7,rv,2024-09-17,1,49
+Hart/POS,2.6,National,Donald Trump,41,1000,-0.7,rv,2024-09-17,1,49
+Marist,2.9,Pennsylvania,Donald Trump,48,1663,-0.9,rv,2024-09-17,0,49
+Marist,2.9,Pennsylvania,Donald Trump,49,1476,-0.9,lv,2024-09-17,0,49
+Marist,2.9,Wisconsin,Donald Trump,47,1312,-0.9,rv,2024-09-17,0,49
+Marist,2.9,Wisconsin,Donald Trump,49,1194,-0.9,lv,2024-09-17,0,49
+Marist,2.9,Michigan,Donald Trump,47,1282,-0.9,rv,2024-09-17,0,49
+Marist,2.9,Michigan,Donald Trump,47,1138,-0.9,lv,2024-09-17,0,49
+Data for Progress,2.6,National,Donald Trump,45,6152,-1.2,lv,2024-09-17,1,49
+Cygnal,2.1,North Carolina,Donald Trump,45.6,600,-1.1,lv,2024-09-16,0,50
+Angus Reid,2,National,Donald Trump,45,1707,-0.1,rv,2024-09-16,1,50
+Beacon/Shaw,2.8,National,Donald Trump,48,1102,-1.1,rv,2024-09-16,1,50
+Beacon/Shaw,2.8,National,Donald Trump,48,876,-1.1,lv,2024-09-16,1,50
+Quinnipiac,2.8,Pennsylvania,Donald Trump,45,1331,-0.5,lv,2024-09-16,0,50
+Quinnipiac,2.8,Pennsylvania,Donald Trump,46,1331,-0.5,lv,2024-09-16,0,50
+Quinnipiac,2.8,Michigan,Donald Trump,45,905,-0.5,lv,2024-09-16,0,50
+Quinnipiac,2.8,Michigan,Donald Trump,46,905,-0.5,lv,2024-09-16,0,50
+Quinnipiac,2.8,Wisconsin,Donald Trump,47,1075,-0.5,lv,2024-09-16,0,50
+Quinnipiac,2.8,Wisconsin,Donald Trump,48,1075,-0.5,lv,2024-09-16,0,50
+U. New Hampshire,2.6,Rhode Island,Donald Trump,38,683,-0.3,lv,2024-09-16,0,50
+U. New Hampshire,2.6,Massachusetts,Donald Trump,31,564,-0.3,lv,2024-09-16,0,50
+U. New Hampshire,2.6,New Hampshire,Donald Trump,43,1695,-0.3,lv,2024-09-16,0,50
+The Washington Post,3,Pennsylvania,Donald Trump,47,1003,-1.2,lv,2024-09-16,0,50
+The Washington Post,3,Pennsylvania,Donald Trump,48,1003,-1.2,lv,2024-09-16,0,50
+Siena/NYT,3,National,Donald Trump,47,2437,-1.5,lv,2024-09-16,1,50
+Siena/NYT,3,National,Donald Trump,47,2437,-1.5,rv,2024-09-16,1,50
+Siena/NYT,3,National,Donald Trump,46,2437,-1.5,rv,2024-09-16,1,50
+Siena/NYT,3,National,Donald Trump,46,2437,-1.5,lv,2024-09-16,1,50
+Siena,2.7,New York,Donald Trump,40,1003,-0.8,lv,2024-09-16,0,50
+Siena,2.7,New York,Donald Trump,42,1003,-0.8,lv,2024-09-16,0,50
+Siena/NYT,3,Pennsylvania,Donald Trump,46,1082,-1.5,rv,2024-09-16,0,50
+Siena/NYT,3,Pennsylvania,Donald Trump,46,1082,-1.5,lv,2024-09-16,0,50
+Siena/NYT,3,Pennsylvania,Donald Trump,45,1082,-1.5,rv,2024-09-16,0,50
+Siena/NYT,3,Pennsylvania,Donald Trump,45,1082,-1.5,lv,2024-09-16,0,50
+Noble Predictive Insights,2.4,Nevada,Donald Trump,47,692,-0.4,lv,2024-09-16,0,50
+Noble Predictive Insights,2.4,Nevada,Donald Trump,45,812,-0.4,rv,2024-09-16,0,50
+Noble Predictive Insights,2.4,Nevada,Donald Trump,47,692,-0.4,lv,2024-09-16,0,50
+Noble Predictive Insights,2.4,Nevada,Donald Trump,43,812,-0.4,rv,2024-09-16,0,50
+InsiderAdvantage,2,Pennsylvania,Donald Trump,49.8,800,-0.3,lv,2024-09-15,0,51
+Monmouth,2.9,National,Donald Trump,44,803,-0.9,rv,2024-09-15,1,51
+U. Georgia SPIA,2.2,Georgia,Donald Trump,46.9,1000,-0.2,lv,2024-09-15,0,51
+Pan Atlantic Research,2.1,Maine,Donald Trump,41,812,-0.1,lv,2024-09-15,0,51
+Pan Atlantic Research,2.1,Maine CD-1,Donald Trump,32,414,-0.1,lv,2024-09-15,0,51
+Pan Atlantic Research,2.1,Maine CD-2,Donald Trump,49,398,-0.1,lv,2024-09-15,0,51
+Franklin and Marshall College,2.4,Pennsylvania,Donald Trump,46,890,-0.1,rv,2024-09-15,0,51
+Suffolk,2.9,Pennsylvania,Donald Trump,45.6,500,-1,lv,2024-09-14,0,52
+Data for Progress,2.6,National,Donald Trump,46,1283,-1.2,lv,2024-09-13,1,53
+Emerson,2.9,Maryland,Donald Trump,33.3,890,-1.1,lv,2024-09-13,0,53
+Emerson,2.9,Missouri,Donald Trump,55.2,850,-1.1,lv,2024-09-13,0,53
+Emerson,2.9,Indiana,Donald Trump,57.9,1000,-1.1,lv,2024-09-13,0,53
+YouGov,3,National,Donald Trump,45,1177,-1.1,rv,2024-09-13,1,53
+YouGov,3,National,Donald Trump,46,1090,-1.1,lv,2024-09-13,1,53
+YouGov,3,National,Donald Trump,44,1175,-1.1,rv,2024-09-13,1,53
+YouGov,3,National,Donald Trump,45,1090,-1.1,lv,2024-09-13,1,53
+Ipsos,2.8,National,Donald Trump,47,2772,-0.9,rv,2024-09-13,1,53
+Ipsos,2.8,National,Donald Trump,46,2196,-0.9,lv,2024-09-13,1,53
+Ipsos,2.8,National,Donald Trump,46,2772,-0.9,rv,2024-09-13,1,53
+Ipsos,2.8,National,Donald Trump,46,2196,-0.9,lv,2024-09-13,1,53
+Research & Polling,2.1,New Mexico,Donald Trump,39,532,-0.9,lv,2024-09-13,0,53
+Elon U.,2.5,North Carolina,Donald Trump,45,800,-0.6,rv,2024-09-13,0,53
+InsiderAdvantage,2,Michigan,Donald Trump,48.6,800,-0.3,lv,2024-09-12,0,54
+Ipsos,2.8,National,Donald Trump,42,1405,-0.9,rv,2024-09-12,1,54
+St. Anselm,2.4,New Hampshire,Donald Trump,43,2241,-0.5,lv,2024-09-12,0,54
+St. Anselm,2.4,New Hampshire,Donald Trump,43,2241,-0.5,lv,2024-09-12,0,54
+InsiderAdvantage,2,Wisconsin,Donald Trump,46.6,800,-0.3,lv,2024-09-12,0,54
+AtlasIntel,2.7,National,Donald Trump,50.9,1775,-0.8,lv,2024-09-12,1,54
+AtlasIntel,2.7,National,Donald Trump,50.9,1775,-0.8,lv,2024-09-12,1,54
+RMG Research,2.3,National,Donald Trump,47,2756,-0.4,lv,2024-09-12,1,54
+GQR,2,Missouri,Donald Trump,55,645,0.1,lv,2024-09-12,0,54
+Mitchell,2.4,Michigan,Donald Trump,48,580,-0.2,lv,2024-09-11,0,55
+Mitchell,2.4,Michigan,Donald Trump,46,580,-0.2,lv,2024-09-11,0,55
+Leger,2,National,Donald Trump,44,1174,0,lv,2024-09-11,1,55
+Selzer,2.8,Iowa,Donald Trump,47,656,-1.2,lv,2024-09-11,0,55
+YouGov,3,National,Donald Trump,45,1464,-1.1,rv,2024-09-10,1,56
+Data Orbital,2.9,Arizona,Donald Trump,46.2,550,-0.9,lv,2024-09-09,0,57
+PPIC,2.5,California,Donald Trump,29,1071,-0.4,lv,2024-09-09,0,57
+Quinnipiac,2.8,North Carolina,Donald Trump,46,940,-0.5,lv,2024-09-08,0,58
+Quinnipiac,2.8,North Carolina,Donald Trump,47,940,-0.5,lv,2024-09-08,0,58
+Quinnipiac,2.8,Georgia,Donald Trump,49,969,-0.5,lv,2024-09-08,0,58
+Quinnipiac,2.8,Georgia,Donald Trump,49,969,-0.5,lv,2024-09-08,0,58
+Washington Post/George Mason University,2.7,Virginia,Donald Trump,42,1005,-0.8,lv,2024-09-08,0,58
+Washington Post/George Mason University,2.7,Virginia,Donald Trump,43,1005,-0.8,lv,2024-09-08,0,58
+Washington Post/George Mason University,2.7,Virginia,Donald Trump,42,1005,-0.8,rv,2024-09-08,0,58
+Washington Post/George Mason University,2.7,Virginia,Donald Trump,43,1005,-0.8,rv,2024-09-08,0,58
+SurveyUSA,2.8,North Carolina,Donald Trump,46,676,-1.3,lv,2024-09-07,0,59
+YouGov,3,Michigan,Donald Trump,49,1077,-1.1,lv,2024-09-06,0,60
+YouGov,3,Pennsylvania,Donald Trump,50,1078,-1.1,lv,2024-09-06,0,60
+YouGov,3,Wisconsin,Donald Trump,49,946,-1.1,lv,2024-09-06,0,60
+Siena/NYT,3,National,Donald Trump,48,1695,-1.5,lv,2024-09-06,1,60
+Siena/NYT,3,National,Donald Trump,47,1695,-1.5,lv,2024-09-06,1,60
+Siena/NYT,3,National,Donald Trump,48,1695,-1.5,rv,2024-09-06,1,60
+Siena/NYT,3,National,Donald Trump,46,1695,-1.5,rv,2024-09-06,1,60
+Virginia Commonwealth U.,2.1,Virginia,Donald Trump,35.7,749,-0.1,rv,2024-09-06,0,60
+RMG Research,2.3,National,Donald Trump,48,2701,-0.4,lv,2024-09-05,1,61
+Emerson,2.9,California,Donald Trump,38,815,-1.1,lv,2024-09-05,0,61
+Emerson,2.9,Florida,Donald Trump,51.1,815,-1.1,lv,2024-09-05,0,61
+Emerson,2.9,Texas,Donald Trump,50.9,845,-1.1,lv,2024-09-05,0,61
+Emerson,2.9,Ohio,Donald Trump,54.3,945,-1.1,lv,2024-09-05,0,61
+Marist,2.9,National,Donald Trump,48,1413,-0.9,rv,2024-09-05,1,61
+Cygnal,2.1,National,Donald Trump,44.2,1510,-1.1,lv,2024-09-05,1,61
+Cygnal,2.1,National,Donald Trump,46.9,1510,-1.1,lv,2024-09-05,1,61
+Marquette Law School,3,Wisconsin,Donald Trump,48,822,-1.1,rv,2024-09-05,0,61
+Marquette Law School,3,Wisconsin,Donald Trump,48,738,-1.1,lv,2024-09-05,0,61
+Marquette Law School,3,Wisconsin,Donald Trump,43,822,-1.1,rv,2024-09-05,0,61
+Marquette Law School,3,Wisconsin,Donald Trump,43,738,-1.1,lv,2024-09-05,0,61
+Emerson,2.9,National,Donald Trump,47.6,1000,-1.1,lv,2024-09-04,1,62
+SurveyMonkey,2,National,Donald Trump,41,18123,0.2,rv,2024-09-04,1,62
+Kaiser Family Foundation,2.5,National,Donald Trump,47,1084,-0.3,rv,2024-09-04,1,62
+YouGov,3,National,Donald Trump,45,1389,-1.1,rv,2024-09-03,1,63
+Pew,2.5,National,Donald Trump,49,8044,-0.4,rv,2024-09-02,1,64
+Cygnal,2.1,Alaska,Donald Trump,53,400,-1.1,lv,2024-09-01,0,65
+Cygnal,2.1,Michigan,Donald Trump,46,600,-1.1,lv,2024-09-01,0,65
+InsiderAdvantage,2,Nevada,Donald Trump,47.9,800,-0.3,lv,2024-08-31,0,66
+InsiderAdvantage,2,Arizona,Donald Trump,48.6,800,-0.3,lv,2024-08-31,0,66
+InsiderAdvantage,2,North Carolina,Donald Trump,49.2,800,-0.3,lv,2024-08-31,0,66
+InsiderAdvantage,2,Georgia,Donald Trump,47.6,800,-0.3,lv,2024-08-31,0,66
+YouGov,3,Texas,Donald Trump,49,1200,-1.1,rv,2024-08-31,0,66
+YouGov,3,Texas,Donald Trump,49,1200,-1.1,rv,2024-08-31,0,66
+SurveyUSA,2.8,Minnesota,Donald Trump,43,635,-1.3,lv,2024-08-29,0,68
+CNN/SSRS,2.8,Arizona,Donald Trump,49,682,-0.6,lv,2024-08-29,0,68
+CNN/SSRS,2.8,Georgia,Donald Trump,47,617,-0.6,lv,2024-08-29,0,68
+CNN/SSRS,2.8,Michigan,Donald Trump,43,708,-0.6,lv,2024-08-29,0,68
+CNN/SSRS,2.8,Nevada,Donald Trump,47,626,-0.6,lv,2024-08-29,0,68
+CNN/SSRS,2.8,Pennsylvania,Donald Trump,47,789,-0.6,lv,2024-08-29,0,68
+CNN/SSRS,2.8,Wisconsin,Donald Trump,44,976,-0.6,lv,2024-08-29,0,68
+RMG Research,2.3,National,Donald Trump,48,2441,-0.4,lv,2024-08-28,1,69
+East Carolina University,2.6,North Carolina,Donald Trump,47.6,920,-0.5,lv,2024-08-28,0,69
+Emerson,2.9,Arizona,Donald Trump,51.2,720,-1.1,lv,2024-08-28,0,69
+Emerson,2.9,Michigan,Donald Trump,47.6,800,-1.1,lv,2024-08-28,0,69
+Emerson,2.9,Nevada,Donald Trump,48.8,1168,-1.1,lv,2024-08-28,0,69
+Emerson,2.9,Pennsylvania,Donald Trump,49.4,950,-1.1,lv,2024-08-28,0,69
+Emerson,2.9,Wisconsin,Donald Trump,49.8,850,-1.1,lv,2024-08-28,0,69
+Emerson,2.9,North Carolina,Donald Trump,49.9,775,-1.1,lv,2024-08-28,0,69
+Emerson,2.9,Georgia,Donald Trump,49,800,-1.1,lv,2024-08-28,0,69
+Suffolk,2.9,National,Donald Trump,43.3,1000,-1,lv,2024-08-28,1,69
+Ipsos,2.8,National,Donald Trump,40,3562,-0.9,rv,2024-08-28,1,69
+Ipsos,2.8,National,Donald Trump,41,3562,-0.9,rv,2024-08-28,1,69
+YouGov,3,National,Donald Trump,45,1368,-1.1,rv,2024-08-27,1,70
+Quinnipiac,2.8,National,Donald Trump,47,1611,-0.5,lv,2024-08-27,1,70
+Quinnipiac,2.8,National,Donald Trump,48,1611,-0.5,lv,2024-08-27,1,70
+SurveyUSA,2.8,Nebraska,Donald Trump,54,1293,-1.3,rv,2024-08-27,0,70
+SurveyUSA,2.8,Nebraska CD-2,Donald Trump,42,507,-1.3,rv,2024-08-27,0,70
+Beacon/Shaw,2.8,Arizona,Donald Trump,47,1014,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,Arizona,Donald Trump,49,1014,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,Georgia,Donald Trump,46,1014,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,Georgia,Donald Trump,48,1014,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,Nevada,Donald Trump,46,1026,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,Nevada,Donald Trump,48,1026,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,North Carolina,Donald Trump,48,999,-1.1,rv,2024-08-26,0,71
+Beacon/Shaw,2.8,North Carolina,Donald Trump,50,999,-1.1,rv,2024-08-26,0,71
+YouGov,3,National,Donald Trump,45,1194,-1.1,rv,2024-08-26,1,71
+YouGov,3,National,Donald Trump,46,1197,-1.1,rv,2024-08-26,1,71
+YouGov,3,National,Donald Trump,42,1200,-1.1,rv,2024-08-26,1,71
+Echelon Insights,2.7,National,Donald Trump,49,1031,-0.8,lv,2024-08-25,1,72
+Echelon Insights,2.7,National,Donald Trump,45,1031,-0.8,lv,2024-08-25,1,72
+Echelon Insights,2.7,National,Donald Trump,48,1031,-0.8,lv,2024-08-25,1,72
+Echelon Insights,2.7,National,Donald Trump,50,1031,-0.8,lv,2024-08-25,1,72
+Leger,2,National,Donald Trump,46,863,0,lv,2024-08-25,1,72
+Kaplan Strategies,2,National,Donald Trump,46,1257,-0.9,rv,2024-08-24,1,73
+Kaplan Strategies,2,National,Donald Trump,45,1190,-0.9,lv,2024-08-24,1,73
+Angus Reid,2,National,Donald Trump,40,1758,-0.1,rv,2024-08-23,1,74
+Angus Reid,2,National,Donald Trump,42,1758,-0.1,rv,2024-08-23,1,74
+Emerson,2.9,New Mexico,Donald Trump,46.4,965,-1.1,rv,2024-08-22,0,75
+Emerson,2.9,New Mexico,Donald Trump,40.2,965,-1.1,rv,2024-08-22,0,75
+RMG Research,2.3,National,Donald Trump,49,2404,-0.4,lv,2024-08-22,1,75
+RMG Research,2.3,National,Donald Trump,46,2404,-0.4,lv,2024-08-22,1,75
+SurveyUSA/High Point University,2.8,North Carolina,Donald Trump,45,1053,-1.3,rv,2024-08-21,0,76
+SurveyUSA/High Point University,2.8,North Carolina,Donald Trump,47,941,-1.3,lv,2024-08-21,0,76
+YouGov,3,National,Donald Trump,43,1371,-1.1,rv,2024-08-20,1,77
+Fairleigh Dickinson,2.6,National,Donald Trump,43,801,-0.6,rv,2024-08-20,1,77
+InsiderAdvantage,2,Pennsylvania,Donald Trump,46.6,800,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,New Hampshire,Donald Trump,43,2048,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,New Hampshire,Donald Trump,47,2048,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Vermont,Donald Trump,27,924,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Vermont,Donald Trump,29,924,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Maine,Donald Trump,38,951,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Maine,Donald Trump,41,951,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Maine CD-1,Donald Trump,33,490,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Maine CD-1,Donald Trump,36,476,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Maine CD-2,Donald Trump,44,443,-0.3,lv,2024-08-19,0,78
+U. New Hampshire,2.6,Maine CD-2,Donald Trump,47,432,-0.3,lv,2024-08-19,0,78
+Remington,2.6,Nebraska CD-2,Donald Trump,42,656,-0.6,lv,2024-08-17,0,80
+YouGov,3,National,Donald Trump,48,3253,-1.1,lv,2024-08-16,1,81
+YouGov,3,National,Donald Trump,47,3253,-1.1,lv,2024-08-16,1,81
+Roanoke College,2.6,Virginia,Donald Trump,44,691,-0.4,lv,2024-08-16,0,81
+Roanoke College,2.6,Virginia,Donald Trump,42,691,-0.4,lv,2024-08-16,0,81
+Noble Predictive Insights,2.4,Arizona,Donald Trump,47,1003,-0.4,rv,2024-08-16,0,81
+Noble Predictive Insights,2.4,Arizona,Donald Trump,44,1003,-0.4,rv,2024-08-16,0,81
+YouGov,3,Missouri,Donald Trump,54,900,-1.1,lv,2024-08-16,0,81
+University of Houston/Texas Southern University,2.2,Texas,Donald Trump,49.5,1365,-0.3,lv,2024-08-16,0,81
+Cygnal,2.1,Pennsylvania,Donald Trump,47.1,800,-1.1,lv,2024-08-15,0,82
+Cygnal,2.1,Pennsylvania,Donald Trump,44.3,800,-1.1,lv,2024-08-15,0,82
+Siena/NYT,3,Nevada,Donald Trump,48,677,-1.5,rv,2024-08-15,0,82
+Siena/NYT,3,Nevada,Donald Trump,48,677,-1.5,lv,2024-08-15,0,82
+Siena/NYT,3,Nevada,Donald Trump,45,677,-1.5,rv,2024-08-15,0,82
+Siena/NYT,3,Nevada,Donald Trump,46,677,-1.5,lv,2024-08-15,0,82
+Siena/NYT,3,Arizona,Donald Trump,45,677,-1.5,rv,2024-08-15,0,82
+Siena/NYT,3,Arizona,Donald Trump,45,677,-1.5,lv,2024-08-15,0,82
+Siena/NYT,3,Arizona,Donald Trump,42,677,-1.5,rv,2024-08-15,0,82
+Siena/NYT,3,Arizona,Donald Trump,43,677,-1.5,lv,2024-08-15,0,82
+Data for Progress,2.6,National,Donald Trump,46,6067,-1.2,lv,2024-08-15,1,82
+Data for Progress,2.6,National,Donald Trump,43,6067,-1.2,lv,2024-08-15,1,82
+St. Anselm,2.4,New Hampshire,Donald Trump,44,1656,-0.5,rv,2024-08-14,0,83
+Emerson,2.9,Pennsylvania,Donald Trump,50.7,1000,-1.1,lv,2024-08-14,0,83
+Emerson,2.9,Pennsylvania,Donald Trump,47.4,1000,-1.1,lv,2024-08-14,0,83
+Emerson,2.9,National,Donald Trump,47.7,1000,-1.1,lv,2024-08-14,1,83
+Emerson,2.9,National,Donald Trump,43.5,1000,-1.1,lv,2024-08-14,1,83
+RMG Research,2.3,National,Donald Trump,49,2708,-0.4,lv,2024-08-14,1,83
+RMG Research,2.3,National,Donald Trump,46,2708,-0.4,lv,2024-08-14,1,83
+Siena/NYT,3,North Carolina,Donald Trump,46,655,-1.5,rv,2024-08-14,0,83
+Siena/NYT,3,North Carolina,Donald Trump,47,655,-1.5,lv,2024-08-14,0,83
+Siena/NYT,3,North Carolina,Donald Trump,42,655,-1.5,rv,2024-08-14,0,83
+Siena/NYT,3,North Carolina,Donald Trump,44,655,-1.5,lv,2024-08-14,0,83
+Siena/NYT,3,Georgia,Donald Trump,51,661,-1.5,rv,2024-08-14,0,83
+Siena/NYT,3,Georgia,Donald Trump,50,661,-1.5,lv,2024-08-14,0,83
+Siena/NYT,3,Georgia,Donald Trump,47,661,-1.5,rv,2024-08-14,0,83
+Siena/NYT,3,Georgia,Donald Trump,47,661,-1.5,lv,2024-08-14,0,83
+RMG Research,2.3,Montana,Donald Trump,57,540,-0.4,rv,2024-08-14,0,83
+YouGov,3,National,Donald Trump,44,1407,-1.1,rv,2024-08-13,1,84
+Ipsos,2.8,National,Donald Trump,45,1975,-0.9,rv,2024-08-13,1,84
+Ipsos,2.8,National,Donald Trump,45,1505,-0.9,lv,2024-08-13,1,84
+Ipsos,2.8,National,Donald Trump,44,1975,-0.9,rv,2024-08-13,1,84
+Beacon/Shaw,2.8,National,Donald Trump,45,1105,-1.1,rv,2024-08-12,1,85
+Beacon/Shaw,2.8,National,Donald Trump,50,1105,-1.1,rv,2024-08-12,1,85
+Quinnipiac,2.8,Pennsylvania,Donald Trump,45,1738,-0.5,lv,2024-08-12,0,85
+Quinnipiac,2.8,Pennsylvania,Donald Trump,47,1738,-0.5,lv,2024-08-12,0,85
+Suffolk,2.9,Florida,Donald Trump,46.8,500,-1,lv,2024-08-11,0,86
+Pew,2.5,National,Donald Trump,45,7569,-0.4,rv,2024-08-11,1,86
+UC Berkeley,2.5,California,Donald Trump,34,3765,-0.2,lv,2024-08-11,0,86
+Franklin and Marshall College,2.4,Pennsylvania,Donald Trump,43,920,-0.1,rv,2024-08-11,0,86
+Siena/NYT,3,Pennsylvania,Donald Trump,46,693,-1.5,rv,2024-08-09,0,88
+Siena/NYT,3,Pennsylvania,Donald Trump,46,693,-1.5,lv,2024-08-09,0,88
+Siena/NYT,3,Pennsylvania,Donald Trump,43,693,-1.5,rv,2024-08-09,0,88
+Siena/NYT,3,Pennsylvania,Donald Trump,44,693,-1.5,lv,2024-08-09,0,88
+YouGov Blue,3,North Carolina,Donald Trump,46,802,-1.1,rv,2024-08-09,0,88
+InsiderAdvantage,2,Michigan,Donald Trump,47,800,-0.3,lv,2024-08-08,0,89
+Cygnal,2.1,National,Donald Trump,47,1500,-1.1,lv,2024-08-08,1,89
+Cygnal,2.1,National,Donald Trump,44.4,1500,-1.1,lv,2024-08-08,1,89
+Siena/NYT,3,Michigan,Donald Trump,48,619,-1.5,rv,2024-08-08,0,89
+Siena/NYT,3,Michigan,Donald Trump,46,619,-1.5,lv,2024-08-08,0,89
+Siena/NYT,3,Michigan,Donald Trump,43,619,-1.5,rv,2024-08-08,0,89
+Siena/NYT,3,Michigan,Donald Trump,43,619,-1.5,lv,2024-08-08,0,89
+Siena/NYT,3,Wisconsin,Donald Trump,46,661,-1.5,rv,2024-08-08,0,89
+Siena/NYT,3,Wisconsin,Donald Trump,46,661,-1.5,lv,2024-08-08,0,89
+Siena/NYT,3,Wisconsin,Donald Trump,42,661,-1.5,rv,2024-08-08,0,89
+Siena/NYT,3,Wisconsin,Donald Trump,43,661,-1.5,lv,2024-08-08,0,89
+InsiderAdvantage,2,Wisconsin,Donald Trump,48.6,800,-0.3,lv,2024-08-07,0,90
+RMG Research,2.3,National,Donald Trump,46,2000,-0.4,rv,2024-08-07,1,90
+Ipsos,2.8,National,Donald Trump,37,1342,-0.9,rv,2024-08-07,1,90
+Ipsos,2.8,National,Donald Trump,47,1342,-0.9,rv,2024-08-07,1,90
+Emerson,2.9,Montana,Donald Trump,57.5,1000,-1.1,lv,2024-08-06,0,91
+Emerson,2.9,Montana,Donald Trump,53.5,1000,-1.1,lv,2024-08-06,0,91
+YouGov,3,National,Donald Trump,43,1413,-1.1,rv,2024-08-06,1,91
+Cygnal,2.1,North Carolina,Donald Trump,47.2,600,-1.1,lv,2024-08-05,0,92
+SurveyUSA,2.8,National,Donald Trump,45,1510,-1.3,lv,2024-08-05,1,92
+RMG Research,2.3,Wisconsin,Donald Trump,45,800,-0.4,rv,2024-08-05,0,92
+Marist,2.9,National,Donald Trump,48,1513,-0.9,rv,2024-08-04,1,93
+Marist,2.9,National,Donald Trump,45,1513,-0.9,rv,2024-08-04,1,93
+Hart/POS,2.6,National,Donald Trump,48,1001,-0.7,rv,2024-08-04,1,93
+YouGov,3,National,Donald Trump,49,3092,-1.1,lv,2024-08-02,1,95
+YouGov,3,National,Donald Trump,47,3092,-1.1,lv,2024-08-02,1,95
+UMass Amherst/YouGov,2.4,National,Donald Trump,43,1000,-0.4,rv,2024-08-01,1,96
+Siena,2.7,New York,Donald Trump,39,1199,-0.8,lv,2024-08-01,0,96
+Siena,2.7,New York,Donald Trump,37,1199,-0.8,lv,2024-08-01,0,96
+Marquette Law School,3,Wisconsin,Donald Trump,50,877,-1.1,rv,2024-08-01,0,96
+Marquette Law School,3,Wisconsin,Donald Trump,49,801,-1.1,lv,2024-08-01,0,96
+Marquette Law School,3,Wisconsin,Donald Trump,43,877,-1.1,rv,2024-08-01,0,96
+Marquette Law School,3,Wisconsin,Donald Trump,45,801,-1.1,lv,2024-08-01,0,96
+Marquette Law School,3,National,Donald Trump,48,879,-1.1,rv,2024-08-01,1,96
+Marquette Law School,3,National,Donald Trump,47,683,-1.1,lv,2024-08-01,1,96
+Marquette Law School,3,National,Donald Trump,41,879,-1.1,rv,2024-08-01,1,96
+Marquette Law School,3,National,Donald Trump,42,683,-1.1,lv,2024-08-01,1,96
+RMG Research,2.3,National,Donald Trump,42,3000,-0.4,rv,2024-07-31,1,97
+YouGov,3,National,Donald Trump,44,1434,-1.1,rv,2024-07-30,1,98
+Civiqs,2.4,National,Donald Trump,45,1123,-0.2,rv,2024-07-30,1,98
+GQR,2,Pennsylvania,Donald Trump,46,500,0.1,lv,2024-07-30,0,98
+Ipsos,2.8,National,Donald Trump,42,876,-0.9,rv,2024-07-28,1,100
+Emerson,2.9,New Hampshire,Donald Trump,47.6,1000,-1.1,rv,2024-07-28,0,100
+Emerson,2.9,New Hampshire,Donald Trump,41.4,1000,-1.1,rv,2024-07-28,0,100
+Leger,2,National,Donald Trump,41,786,0,lv,2024-07-28,1,100
+Susquehanna,2.3,Pennsylvania,Donald Trump,43,600,-0.3,lv,2024-07-28,0,100
+U. North Florida,2.8,Florida,Donald Trump,49,774,-0.6,lv,2024-07-27,0,101
+St. Anselm,2.4,New Hampshire,Donald Trump,44,2083,-0.5,rv,2024-07-25,0,103
+U. New Hampshire,2.6,Maine,Donald Trump,40,1445,-0.3,lv,2024-07-25,0,103
+U. New Hampshire,2.6,Maine,Donald Trump,45,1445,-0.3,lv,2024-07-25,0,103
+U. New Hampshire,2.6,New Hampshire,Donald Trump,43,2875,-0.3,lv,2024-07-25,0,103
+U. New Hampshire,2.6,New Hampshire,Donald Trump,46,2875,-0.3,lv,2024-07-25,0,103
+SurveyUSA,2.8,Minnesota,Donald Trump,40,656,-1.3,lv,2024-07-25,0,103
+AtlasIntel,2.7,National,Donald Trump,50.1,1980,-0.8,rv,2024-07-25,1,103
+AtlasIntel,2.7,National,Donald Trump,47.7,1980,-0.8,rv,2024-07-25,1,103
+Angus Reid,2,National,Donald Trump,42,1743,-0.1,rv,2024-07-25,1,103
+U. New Hampshire,2.6,Maine CD-1,Donald Trump,36,732,-0.3,lv,2024-07-25,0,103
+U. New Hampshire,2.6,Maine CD-1,Donald Trump,39,732,-0.3,lv,2024-07-25,0,103
+U. New Hampshire,2.6,Maine CD-2,Donald Trump,44,701,-0.3,lv,2024-07-25,0,103
+U. New Hampshire,2.6,Maine CD-2,Donald Trump,51,701,-0.3,lv,2024-07-25,0,103
+Siena/NYT,3,National,Donald Trump,48,1142,-1.5,rv,2024-07-24,1,104
+Siena/NYT,3,National,Donald Trump,48,1142,-1.5,lv,2024-07-24,1,104
+Siena/NYT,3,National,Donald Trump,42,1142,-1.5,rv,2024-07-24,1,104
+Siena/NYT,3,National,Donald Trump,43,1142,-1.5,lv,2024-07-24,1,104
+Beacon/Shaw,2.8,Wisconsin,Donald Trump,46,1046,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Wisconsin,Donald Trump,50,1046,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Wisconsin,Donald Trump,50,1046,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Wisconsin,Donald Trump,49,1046,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,43,1034,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,49,1034,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,49,1034,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Pennsylvania,Donald Trump,44,1034,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Minnesota,Donald Trump,41,1071,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Minnesota,Donald Trump,46,1071,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Minnesota,Donald Trump,46,1071,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Minnesota,Donald Trump,45,1071,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Michigan,Donald Trump,45,1012,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Michigan,Donald Trump,49,1012,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Michigan,Donald Trump,46,1012,-1.1,rv,2024-07-24,0,104
+Beacon/Shaw,2.8,Michigan,Donald Trump,48,1012,-1.1,rv,2024-07-24,0,104
+Ipsos,2.8,National,Donald Trump,42,1018,-0.9,rv,2024-07-23,1,105
+Ipsos,2.8,National,Donald Trump,38,1018,-0.9,rv,2024-07-23,1,105
+RMG Research,2.3,National,Donald Trump,48,2000,-0.4,rv,2024-07-23,1,105
+Emerson,2.9,Arizona,Donald Trump,52.6,800,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Arizona,Donald Trump,47.5,800,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Georgia,Donald Trump,51.1,800,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Georgia,Donald Trump,45.9,800,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Michigan,Donald Trump,50.9,800,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Michigan,Donald Trump,44.1,800,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Wisconsin,Donald Trump,49.4,845,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Wisconsin,Donald Trump,44.9,845,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Pennsylvania,Donald Trump,51.1,850,-1.1,rv,2024-07-23,0,105
+Emerson,2.9,Pennsylvania,Donald Trump,46.1,850,-1.1,rv,2024-07-23,0,105
+YouGov,3,National,Donald Trump,46,1155,-1.1,lv,2024-07-23,1,105
+YouGov,3,National,Donald Trump,44,1435,-1.1,rv,2024-07-23,1,105
+Marist,2.9,National,Donald Trump,46,1117,-0.9,rv,2024-07-22,1,106
+Marist,2.9,National,Donald Trump,42,1117,-0.9,rv,2024-07-22,1,106
+Landmark Communications,2.1,Georgia,Donald Trump,48,400,-0.6,lv,2024-07-22,0,106
+Landmark Communications,2.1,Georgia,Donald Trump,45.8,400,-0.6,lv,2024-07-22,0,106
+YouGov,3,National,Donald Trump,43,1178,-1.1,rv,2024-07-22,1,106
+YouGov,3,National,Donald Trump,45,1115,-1.1,rv,2024-07-22,1,106
+YouGov,3,National,Donald Trump,43,1178,-1.1,rv,2024-07-22,1,106
+YouGov,3,National,Donald Trump,46,1178,-1.1,rv,2024-07-22,1,106
+YouGov,3,National,Donald Trump,46,1178,-1.1,rv,2024-07-22,1,106
+YouGov,3,National,Donald Trump,46,1178,-1.1,rv,2024-07-22,1,106
+YouGov,3,National,Donald Trump,46,1178,-1.1,rv,2024-07-22,1,106
+Praecones Analytica,2,New Hampshire,Donald Trump,39.7,601,0,rv,2024-07-21,0,107
+Praecones Analytica,2,New Hampshire,Donald Trump,40.2,601,0,rv,2024-07-21,0,107
+Echelon Insights,2.7,National,Donald Trump,49,982,-0.8,lv,2024-07-21,1,107
+Echelon Insights,2.7,National,Donald Trump,48,982,-0.8,lv,2024-07-21,1,107
+Echelon Insights,2.7,National,Donald Trump,43,982,-0.8,lv,2024-07-21,1,107
+Echelon Insights,2.7,National,Donald Trump,49,982,-0.8,lv,2024-07-21,1,107
+Echelon Insights,2.7,National,Donald Trump,48,982,-0.8,lv,2024-07-21,1,107
+Echelon Insights,2.7,National,Donald Trump,50,982,-0.8,lv,2024-07-21,1,107
+Quinnipiac,2.8,National,Donald Trump,48,1257,-0.5,rv,2024-07-21,1,107
+Quinnipiac,2.8,National,Donald Trump,44,1257,-0.5,rv,2024-07-21,1,107
+Quinnipiac,2.8,National,Donald Trump,49,1257,-0.5,rv,2024-07-21,1,107
+Quinnipiac,2.8,National,Donald Trump,45,1257,-0.5,rv,2024-07-21,1,107
