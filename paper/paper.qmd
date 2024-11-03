@@ -1032,7 +1032,26 @@ groups that could affect overall trends.
 
 ## Third discussion point
 
-## Weaknesses and next steps
+## Next Steps
+
+To enhance the predictive power of the model, historical voting data, economic
+indicators and major news events can be used as background variables. By analyzing
+the impact of similar factors on voter sentiment in past elections, we can gain
+insight into patterns and trends that may apply to the current campaign. For
+example, high-profile events have historically influenced voter opinion, and
+understanding these influences can provide a more complete picture of the factors
+that drive support for each candidate. Given the underlying conditions that influence
+voter preferences over time, this additional context would allow the model to make
+more informed predictions.
+
+Another possible improvement is the addition of detailed demographic information, such as age,
+gender, income level, and educational background, which would allow us to identify trends among
+specific groups of voters and thus greatly enhance our analysis. Different demographics often
+have unique responses to campaign issues and activities; for example, younger voters may
+prioritize different issues compared to older voters, and income level and educational
+attainment may influence political preferences in complex ways. By incorporating this level
+of granularity, future analyses can provide deeper insights into voter behavior and help
+develop more targeted campaign strategies.
 
 \newpage
 
