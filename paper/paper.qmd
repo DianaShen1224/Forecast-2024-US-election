@@ -258,13 +258,13 @@ of overall public opinion, and thus improve the accuracy of our predictive model
 ## Population {#population}
 
 The “population” variable in the dataset represents the status of each
-entry, categorizing participants as “lv” (likely voters) or “rv”
-(registered voters). They represent different levels of participation
-and potential voting behavior. Likely voters are individuals who are not
-only registered but are statistically more likely to vote based on historical
-data or survey responses. In contrast, registered voters include all
-individuals who are eligible to vote, regardless of their likelihood
-of participation. 
+entry. it is the abbreviated description of the respondent group, categorizing
+participants as “lv” (likely voters) or “rv” (registered voters). They represent
+different levels of participation and potential voting behavior. Likely voters
+are individuals who are not only registered but are statistically more likely
+to vote based on historical data or survey responses. In contrast, registered
+voters include all individuals who are eligible to vote, regardless of their
+likelihood of participation. 
 
 ### State {#sec-state}
 
