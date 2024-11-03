@@ -255,6 +255,17 @@ may introduce significant bias into our model. By labeling each poll as national
 non-national, we can give higher weight to national polls, which are more representative
 of overall public opinion, and thus improve the accuracy of our predictive model.
 
+## Population {#population}
+
+The “population” variable in the dataset represents the status of each
+entry, categorizing participants as “lv” (likely voters) or “rv”
+(registered voters). They represent different levels of participation
+and potential voting behavior. Likely voters are individuals who are not
+only registered but are statistically more likely to vote based on historical
+data or survey responses. In contrast, registered voters include all
+individuals who are eligible to vote, regardless of their likelihood
+of participation. 
+
 ### State {#sec-state}
 
 @fig-state displays the distribution of polls by state, showing how
