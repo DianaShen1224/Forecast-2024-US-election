@@ -586,7 +586,7 @@ are reliable across different polling scenarios.
 # Result {#sec-result}
 
 This section examines the relationship between national polling trends,
-pollster effects, population demographics, and other factors with
+pollster effects, population(respondent group), and other factors with
 respect to the predicted support levels for Kamala Harris and Donald
 Trump in the 2024 U.S. Presidential Election. Using a dataset comprising
 polling data from various states and organizations, we applied both
