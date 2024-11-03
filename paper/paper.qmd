@@ -358,9 +358,8 @@ ggplot(harris_data, aes(x = numeric_grade)) +
 
 @fig-pollstertime shows the trend of percentage support for Kamala
 Harris over time, with data points and smoothed trend lines for each
-pollster. The x-axis represents the dates from August through October,
-while the y-axis indicates the percentage of respondents supporting
-Harris. Each color corresponds to a specific polling organization, with
+pollster. The graph shows the trend of the percentage of respondents supporting
+Harris from August through October. Each color corresponds to a specific polling organization, with
 prominent pollsters such as Beacon/Shaw, Ipsos, Siena/NYT, Emerson,
 Quinnipiac, and YouGov. The smoothed lines reveal subtle trends over
 time, with some pollsters like Emerson and Beacon/Shaw showing a slight
@@ -400,8 +399,7 @@ grade remain subtle, indicating minor variations in support trends over
 time across different pollster quality levels. Most points are clustered
 around the 50% support level, suggesting a generally stable voter
 sentiment for Harris, with only slight fluctuations across numeric
-grades. By limiting the y-axis, outliers and extreme variations are
-minimized, resulting in a clearer and more interpretable visualization.
+grades. By limiting the maximum value of support at 80%, outliers and extreme variations are minimized, resulting in a clearer and more interpretable visualization.
 This approach emphasizes the central trend, allowing for clearer
 comparisons of support levels across pollsters of varying reliability
 without distraction from extreme values.
@@ -413,10 +411,10 @@ without distraction from extreme values.
 #| warning: false
 #| message: false
 
-ggplot(harris_data %>% filter(pct <= 100), aes(x = end_date, y = pct, color = factor(numeric_grade))) +
+ggplot(harris_data %>% filter(pct <= 80), aes(x = end_date, y = pct, color = factor(numeric_grade))) +
   geom_point(alpha = 0.7) +
   geom_smooth(se = FALSE, span = 0.3) +
-  labs(y = "Harris Percent", x = "Date", color = "Numeric Grade") +
+  labs(y = "Support for Harris", x = "Date", color = "Numeric Grade") +
   scale_color_viridis_d() +
   theme_classic() +
   theme(legend.position = "bottom") +
@@ -606,11 +604,11 @@ The linear regression models constructed for predicting support for
 Kamala Harris and Donald Trump in the 2024 U.S. Presidential Election
 utilized both unweighted and weighted configurations.The model summary of support for Harris is shown in @tbl-summary1, support for Trump is shown in @tbl-summary2. As shown in
 @tbl-summary1 and @tbl-summary2, the intercepts for Harris and Trump,
-estimated at 45.10 and 59.28 respectively in the unweighted models,
+estimated at 44.70 and 59.28 respectively in the unweighted models, while in weighted models, it's estimated at 45.2 and 54.8,
 represent their baseline support levels when all predictors are at
-reference values. The high ( R\^2 ) values of 0.738 for Harris’s
-unweighted model and 0.860 for her weighted model, along with similar
-values of 0.635 and 0.890 for Trump, indicate that a significant portion
+reference values. The high ( R\^2 ) values of 0.824 for Harris’s
+unweighted model and 0.892 for her weighted model, along with similar
+values of 0.849 and 0.916 for Trump, indicate that a significant portion
 of the variation in support can be explained by the model's predictors.
 The relatively low Root Mean Square Error (RMSE) values further suggest
 that the models provide reasonably accurate predictions of support
@@ -644,13 +642,13 @@ msummary(
 
 The results underscore the significance of **national_poll** as key predictors for both candidates' support, highlighting how national trends and pollster differences impact the
 reported support levels, as polls from the National level increase the
-support of Harris by 3.262%, decrease the support for Trump by 7.943%.
+support of Harris by 3.47%/4.27% , decrease the support for Trump by 7.61%/7.17%.
 The **population** predictor indicates that the type of respondent group
 contributes meaningfully to variations in support. With "likely voters"
 as the baseline level, the coefficient for "registered voters"
 (populationrv) suggests a lower level of support for both Harris and
-Trump in this group compared to likely voters. Specifically, the support
-of registered voters is 2.1095 (unweighted model) and 1.0322 (weighted
+Trump in this group compared to likely voters. Specifically, the support for Harris
+of registered voters is 1.372 (unweighted model) or 0.529 (weighted
 model) lower than the likely voters. This implies that, on average,
 support among registered voters is lower than that among likely voters.
 
@@ -660,23 +658,19 @@ support among registered voters is lower than that among likely voters.
 and Donald Trump from August 1, 2024, to October 27, 2024, using both
 unweighted and weighted linear regression models. In the
 @fig-support-trend-1 unweighted model, we see that Trump's predicted
-support generally hovers between 45% and 50%, while Harris's support
-ranges from 35% to 45%. Both candidates' support levels appear
+support generally hovers between 40% and 50%, while Harris's support
+ranges from 45% to 50%. Both candidates' support levels appear
 relatively stable across the polling period, with minor fluctuations.
-This model, which treats all polls equally, suggests a consistent lead
-for Trump, albeit within a fairly close range, as shown by the
-overlapping grey points representing individual poll results.
+This model, which treats all polls equally, suggests a consistent lead for Harris, albeit within a fairly close range. 
 
 The weighted model @fig-support-trend-2 refines these predictions by
 applying weights based on recency and sample size, which reduces the
 influence of older or smaller polls. This approach results in smoother
 trend lines for both candidates, with less apparent variability compared
 to the unweighted model @fig-support-trend-1. Trump's support remains
-around the mid-40% range, while Harris’s support stays in the high 30%
-range. The weighting emphasizes more recent and larger polls, likely
-providing a more accurate reflection of current public opinion. Overall,
-both models consistently indicate a lead for Trump, with the weighted
-model slightly stabilizing the predictions.
+around the 40% to 50% range, while Harris’s support stays in about 45% to 52%  range. The weighting emphasizes more recent and larger polls, likely
+providing a more accurate reflection of current public opinion. Overall, both models consistently indicate a lead for Harris, with the weighted model slightly stabilizing the predictions. The average support for Harris and Trump are both consist for two models, which predicts that Harris will win on about 49%, leads Trump by about 2%.
+
 
 ```{r}
 #| echo: false
@@ -691,14 +685,14 @@ new_data_harris <- data.frame(
   end_date = seq(
     min(harris_data$end_date),
     max(harris_data$end_date),
-    length.out = 2000
+    length.out = 700
   ),
-  state = factor(sample( c("National","Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"), size = 2000, replace = TRUE)), 
-  pollster = factor(sample(levels(harris_data$pollster), size = 2000, replace = TRUE), 
+  state = factor(sample( c("National","Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"), size = 700, replace = TRUE)), 
+  pollster = factor(sample(levels(harris_data$pollster), size = 700, replace = TRUE), 
                     levels = levels(harris_data$pollster)), 
-  population = factor(sample(levels(harris_data$population), size = 2000, replace = TRUE), 
+  population = factor(sample(levels(harris_data$population), size = 700, replace = TRUE), 
                     levels = levels(harris_data$population)),
-  sample_size = sample(1:2300, size = 2000, replace = TRUE)
+  sample_size = sample(1:2300, size = 700, replace = TRUE)
 )|>
   mutate(
     national_poll = if_else(state == "National", 1, 0),
@@ -714,22 +708,20 @@ new_data_trump <- data.frame(
   end_date = seq(
     min(trump_data$end_date),
     max(trump_data$end_date),
-    length.out = 2000
+    length.out = 700
   ),
-  pollster = factor(sample(levels(trump_data$pollster), size = 2000, replace = TRUE), 
+  pollster = factor(sample(levels(trump_data$pollster), size = 700, replace = TRUE), 
                     levels = levels(trump_data$pollster)),
- population= factor(sample(levels(trump_data$population), size = 2000, replace = TRUE), 
+ population= factor(sample(levels(trump_data$population), size = 700, replace = TRUE), 
                     levels = levels(trump_data$population)),
-   state = factor(sample( c("National","Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"), size = 2000, replace = TRUE), 
+   state = factor(sample( c("National","Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin"), size = 700, replace = TRUE), 
                     levels = levels(trump_data$state)),  
-  sample_size =sample(1:2300, size = 2000, replace = TRUE),
-  pollster_quality= sample(2:4, size = 2000, replace = TRUE)
+  sample_size =sample(1:2300, size = 700, replace = TRUE)
 )|>
   mutate(
    national_poll = if_else(state == "National", 1, 0),
       recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
     sample_size_weight = pmin(sample_size / 2300, 1),
-   pollster_quality_weight = pollster_quality / 4,  
     recency_weight = exp(-recency * 0.1),  
     combined_weight = recency_weight * sample_size_weight,
     candidate="Donald Trump"
@@ -741,8 +733,6 @@ new_data_trump <- data.frame(
 #| warning: false
 #| message: false
 #| include: false
-# Predictions for Harris
-plan(multisession)
 new_data_harris <- new_data_harris |>
   mutate(
     predicted_unweighted = predict(harris_unweighted_model, newdata = new_data_harris),
@@ -780,7 +770,8 @@ plan(multisession)
 ##unweighted
 ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
   geom_point(alpha = 0.1)+ 
-  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 1)+
+  geom_smooth(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), method = "lm",size = 1)+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted),size = 0.2)+
   labs(
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
@@ -794,7 +785,8 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
 ##weighted
 ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
   geom_point(alpha = 0.1)+ 
-  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted), size = 1)+
+  geom_smooth(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), method = "lm",size = 1)+ 
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted), size = 0.2)+
   labs(x = "End Date of the Poll",
        y = "Predicted Support (%)",
        color = "Candidate",
@@ -821,16 +813,16 @@ across most states, with slight variations in trends across the polling
 period from August to October 2024.
 
 In the @fig-support-state-1 , support for Kamala Harris and Donald Trump
-fluctuates widely across battleground states, with Harris holding slight
-leads in Pennsylvania and North Carolina but facing tight competition
-overall. Without weighting, polls contribute equally, creating more
+fluctuates widely across battleground states, with Harris holding significant
+leads in Michigan, and Pennsylvania.  Harris also hold advantage in Wisconsin but facing tight competition. Overall, without weighting, polls contribute equally, creating more
 volatility.
 
 The @fig-support-state-2 stabilizes these trends by emphasizing recent,
 larger polls. Harris's support becomes more consistent, particularly in
-Pennsylvania, North Carolina, and Nevada, where she shows a clearer
+Pennsylvania, Michigan, and Wiscosin, where she shows a clearer
 lead. This weighted approach provides a more refined snapshot,
 highlighting Harris’s likely advantage in these key states.
+
 
 ```{r}
 #| echo: false
@@ -839,7 +831,7 @@ highlighting Harris’s likely advantage in these key states.
 #| eval: true
 #| fig-subcap: ["Unweighted","Weighted"]
 #| layout-ncol: 2
-#| fig-cap: "Harris is likely to lead Trump in Pennsylvania, North Carolina, and Nevada by Model Prediction"
+#| fig-cap: "Harris is likely to lead Trump in Pennsylvania, North Carolina, and Wisconsin by Model Prediction"
 #| label: fig-support-state
 ## unweighted
 plan(multisession)
@@ -888,15 +880,15 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
 
 @fig-support-pollster depict the predicted support for Kamala Harris and
 Donald Trump in the 2024 U.S. election, from August 1, 2024, to October
-27, 2024, using a weighted multiple linear regression model. The red
-line shows fluctuations in Trump’s support, generally between 40% and
-55%, with some noticeable peaks and dips, indicating variability over
-time. In contrast, Harris’s support, represented by the blue line,
-remains more stable, consistently ranging around 40% to 50%, suggesting
+27, 2024, using the unweighted and weighted multiple linear regression model. The red
+line shows average fluctuations in Trump’s support, generally between 46% and
+48%, with some noticeable peaks and dips, indicating variability over
+time. In contrast,the average Harris’s support, represented by the blue line,
+remains more stable, consistently ranging around 47% to 48%, suggesting
 less volatility in voter sentiment for her.
 
 Major Pollsters are represented by different colors, with circle sizes
-reflecting weights based on factors like recency and sample size. Larger
+reflecting weights based on factors like recency and sample size. In the weighted model, larger
 circles correspond to higher-weighted polls, indicating they had a
 greater influence on the predictions. The model incorporates national
 poll data, adjustments for pollster effects, and population
@@ -937,9 +929,9 @@ combined_data_total <- combined_data_total %>%
 
 ggplot(combined_data_total, aes(x = end_date, y = pct)) +
   geom_point(aes(fill = pollster_group), alpha = 0.7, shape = 21) + 
-  geom_line(data = combined_predictions_filtered %>% filter(candidate == "Kamala Harris"), 
+  geom_smooth(data = combined_predictions_filtered %>% filter(candidate == "Kamala Harris"), 
             aes(x = end_date, y = predicted_unweighted), color = "blue", size = 1) +
-  geom_line(data = combined_predictions_filtered %>% filter(candidate == "Donald Trump"), 
+  geom_smooth(data = combined_predictions_filtered %>% filter(candidate == "Donald Trump"), 
             aes(x = end_date, y = predicted_unweighted), color = "red", size = 1) +
   labs(
     x = "End Date of the Poll",
@@ -967,9 +959,9 @@ ggplot(combined_data_total, aes(x = end_date, y = pct)) +
 
 ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) +
   geom_point(aes(fill = pollster_group), alpha = 0.7, shape = 21) + 
-  geom_line(data = combined_predictions_filtered %>% filter(candidate == "Kamala Harris"), 
+  geom_smooth(data = combined_predictions_filtered %>% filter(candidate == "Kamala Harris"), 
             aes(x = end_date, y = predicted_weighted), color = "blue", size = 1) +
-  geom_line(data = combined_predictions_filtered %>% filter(candidate == "Donald Trump"), 
+  geom_smooth(data = combined_predictions_filtered %>% filter(candidate == "Donald Trump"), 
             aes(x = end_date, y = predicted_weighted), color = "red", size = 1)+
   labs(
     x = "End Date of the Poll",
