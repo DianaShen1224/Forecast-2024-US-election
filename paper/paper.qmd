@@ -233,6 +233,21 @@ when the survey period concluded. This date provides crucial context for
 the poll results, as public opinion may change over time in response to
 events, campaign actions, or other influencing factors.
 
+## Recency {#sec-recency}
+
+Recency is a newly created predictor variable in our dataset, specifically
+for use in our model. It is calculated as follows Recency = Election Date - End Date,
+where Election Date is set to November 5th. This variable quantifies the time
+interval between the poll's end date and the election date as a measure of the poll's
+relevance and potential impact on voter behavior. In general, polls conducted closer
+to the election date provide a more accurate picture of public opinion. The original
+dataset includes only dates, and by mutating this variable, we can more intuitively
+interpret the number of days before the election that each data point was collected.
+Converting this to discrete data enhances its usefulness in constructing predictive models.
+
+## National Poll {#sec-national-poll}
+
+
 ### State {#sec-state}
 
 @fig-state displays the distribution of polls by state, showing how
