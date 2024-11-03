@@ -247,6 +247,13 @@ Converting this to discrete data enhances its usefulness in constructing predict
 
 ## National Poll {#sec-national-poll}
 
+National polls is another newly created variable in our dataset, represented by a binary
+indicator (1 for national polls, 0 otherwise). This distinction is important because
+not all polls are conducted nationally; some are state-specific and may reflect the
+region's preference for a particular presidential candidate. Ignoring this distinction
+may introduce significant bias into our model. By labeling each poll as national or
+non-national, we can give higher weight to national polls, which are more representative
+of overall public opinion, and thus improve the accuracy of our predictive model.
 
 ### State {#sec-state}
 
