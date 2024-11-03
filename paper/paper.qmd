@@ -1,6 +1,6 @@
 ---
 title: "Forecasting the 2024 U.S. Presidential Election Using a Model-Based Approach"
-subtitle: "Harris expects to win on 49%, leads Trump by about 2% in 2024 US election"
+subtitle: "Kamala Harris expects to win on 47.5%, leads Donald Trump by about 1% in 2024 US election"
 author: 
   - Diana Shen
   - Jinyan Wei
@@ -8,7 +8,7 @@ author:
 thanks: "Code and data are available at: [https://github.com/DianaShen1224/Forecast-2024-US-election](https://github.com/DianaShen1224/Forecast-2024-US-election)."
 date: today
 date-format: long
-abstract: "This paper predicts the outcome of the 2024 U.S. presidential election using a statistical model based on aggregated polling data for Kamala Harris and Donald Trump. We employ multi-level regression with post-stratification (MRP) using demographic predictors to estimate voter support. The analysis addresses polling biases and proposes an idealized survey methodology with a $100,000 budget. Our results offer insights into voter behavior and suggest improvements for future election forecasting models."
+abstract: "This study models the 2024 U.S. Presidential Election by analyzing polling data with adjustments for factors like recency and sample size, simulating an approach that captures up-to-date voter sentiment. Using recent 4 months aggregated poll data, the model identifies shifts in candidate support across key battleground states, providing a nuanced view of evolving preferences as election day approaches. By emphasizing recent, high-quality polls, the analysis improves predictive reliability, offering insights that could inform campaign strategies and public discourse. These findings highlight the value of weighting and time-sensitive adjustments in forecasting methods, balancing accuracy with responsiveness to the latest trends."
 format: pdf
 toc: true
 number-sections: true
@@ -29,8 +29,9 @@ library(dplyr)
 library(ggplot2)
 library(modelsummary)
 library(RColorBrewer)
-library(gt)
 library(future)
+library(boot)    # For bootstrapping
+library(caret)   # For cross-validation
 ```
 
 ```{r}
@@ -73,10 +74,10 @@ we intend to pinpoint the key factors influencing support, such as the
 poll's end date, the polling organization, geographic location, and the
 poll's score.
 
-Research by Gelman and King (1993) underscores that while polls can
+Research by @GelKin93 underscores that while polls can
 exhibit variability over a campaign period, they can provide reliable
 predictions when adjusted for temporal changes and fundamental factors.
-Additionally, Erikson and Wlezien (2008) highlight the importance of
+Additionally, @politic highlight the importance of
 timing in polling, showing that data closer to election day tends to
 stabilize and therefore becomes more predictive. Our research seeks to
 fill a gap in existing literature that often fails to address the
@@ -121,16 +122,16 @@ focus during the campaign. Given that elections can be decided by narrow
 margins, having trustworthy insights into voter preferences can
 substantially influence the final outcomes.
 
-The structure of this paper is organized as follows: @third-data
+The structure of this paper is organized as follows: @sec-data 
 provides details on the data sources and variables used in our analysis.
-@forth-model explains the modeling approach, including the assumptions
+@sec-model explains the modeling approach, including the assumptions
 and specifications of our linear regression framework. In
-@fifth-results, we present our findings, emphasizing the key predictors
-of Harris's support. Finally, @sixth-discussion explores the
+@sec-result, we present our findings, emphasizing the key predictors
+of Harris's support. Finally, @sec-discussion explores the
 implications of our results and suggests potential directions for future
-research. @appendix-a provide external data detail, @appendix-b provide
-model detail, @appendix-c provide a exploration for pollster
-methodology, @appendix-d provide a idealized methodology.
+research. @sec-a provide external data detail, @sec-b provide
+model detail, @sec-c provide a exploration for pollster Siena College's
+methodology, and  @sec-d provide a idealized methodology for polling the poll.
 
 # Data {#sec-data}
 
@@ -138,7 +139,7 @@ methodology, @appendix-d provide a idealized methodology.
 
 We conduct our polling data analysis using the R programming language
 [@citeR]. Our dataset, obtained from FiveThirtyEight
-[@fivethirtyeight2024],based on polling as of 27 October 2024, provides
+[@fivethirtyeight2024],based on polling as of 2 November 2024, provides
 a detailed overview of public opinion in the lead-up to the election.
 Adhering to the guidelines presented in @tellingstories, we explore
 various factors that influence voter support percentages, including the
@@ -154,11 +155,11 @@ to our data files [@citehere]. We relied on janitor to perform data
 cleaning, as it provides functionalities to identify and rectify quality
 issues within the dataset [@citejanitor]. For handling date-related
 operations, the lubridate package proved invaluable, simplifying the
-manipulation of time variables [@citelubridate]. Lastly, arrow supported
+manipulation of time variables [@citelubridate]. Arrow supported
 efficient data input and output in a performance-oriented format,
-essential for managing larger datasets [@citearrow]. Our coding
-practices and file organization were informed by the structure outlined
+essential for managing larger datasets [@citearrow]. We use ggplot2 [@citeggplot2] to visualize the analysis of data. In addition to the core packages, we employed several specialized libraries to facilitate specific analytical tasks. The modelsummary package enabled us to generate clean, interpretable model summaries, streamlining the reporting of regression and other statistical results [@citemodelsummary]. RColorBrewer provided color palettes for visualizations, enhancing clarity and visual appeal in our plots [@citeRColorBrewer]. The future package supported parallel processing, optimizing the runtime of intensive computations, especially beneficial in model training [@citefuture]. Finally,for resampling and bootstrapping techniques, we utilized the boot package, which allowed us to assess model stability and reliability [@citeboot1;@citeboot2]. caret facilitated model training and validation, offering a unified interface for cross-validation and performance metrics [@citecaret]. Our coding practices and file organization were informed by the structure outlined
 in @tellingstories.
+
 
 ## Measurement {#sec-data-measurement}
 
@@ -193,6 +194,43 @@ shape public opinion as the election nears. This structured methodology
 effectively converts subjective opinions into measurable data, providing
 valuable insights into voter behavior and preferences.
 
+## Variables
+
+### End Date {#sec-end-date}
+
+The end date is the final day of data collection for a poll, indicating
+when the survey period concluded. This date provides crucial context for
+the poll results, as public opinion may change over time in response to
+events, campaign actions, or other influencing factors. In our analysis, we only choose the polls with end date after July 21 2024, which Kamala Harris first declared in the election.
+
+### Recency {#sec-recency}
+```{r}
+#| label: fig-recency
+#| fig-cap: Distribution of the recency of the polls after July 21 2024
+#| echo: false
+#| warning: false
+#| message: false
+ggplot(harris_data, aes(x = recency)) +
+  geom_histogram(binwidth = 1, fill = "gold", color = "grey50") +
+  labs(
+    x = "Recency (days)",
+    y = "Count"
+  ) +
+  theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+Recency is a newly created predictor variable in our dataset, specifically
+for use in our model. It is calculated as follows Recency = Election Date - End Date,
+where Election Date is set to November 5th. This variable quantifies the time
+interval between the poll's end date and the election date as a measure of the poll's
+relevance and potential impact on voter behavior. In general, polls conducted closer
+to the election date provide a more accurate picture of public opinion. The original
+dataset includes only dates, and by mutating this variable, we can more intuitively
+interpret the number of days before the election that each data point was collected.
+Converting this to discrete data enhances its usefulness in constructing predictive models.
+@fig-recency reveals a strong focus on recent polling data, with the highest frequency of polls occurring within the first few days and gradually declining as recency increases. Periodic peaks around 30, 60, and 90 days suggest some regularity in polling schedules, though the overall trend emphasizes newer data. This distribution highlights the prioritization of recent polls in the dataset.
+
 ## Outcome variable {#sec-outcome-variable}
 
 ### The support percentage of Kamala Harris. {#sec-harris-support}
@@ -217,7 +255,7 @@ variability in support for Harris as captured across multiple polls.
 ggplot(harris_data, aes(x = pct)) +
   geom_histogram(binwidth = 1, fill = "gold", color = "grey50") +
   labs(
-    x = "Support Percentage",
+    x = "Support Percentage (%)",
     y = "Count"
   ) +
   theme_classic() +
@@ -226,45 +264,36 @@ ggplot(harris_data, aes(x = pct)) +
 
 ## Predictor variables {#sec-predictor-variables}
 
-### End Date {#sec-end-date}
+```{r}
+#| label: tbl-category
+#| tbl-cap: Summary Statistics of categorical variable population and national_pull
+#| echo: false
+#| warning: false
+#| message: false
+harris_data|>select(population,national_poll)|>
+  datasummary_skim(type = "categorical")
+```
 
-The end date is the final day of data collection for a poll, indicating
-when the survey period concluded. This date provides crucial context for
-the poll results, as public opinion may change over time in response to
-events, campaign actions, or other influencing factors.
-
-## Recency {#sec-recency}
-
-Recency is a newly created predictor variable in our dataset, specifically
-for use in our model. It is calculated as follows Recency = Election Date - End Date,
-where Election Date is set to November 5th. This variable quantifies the time
-interval between the poll's end date and the election date as a measure of the poll's
-relevance and potential impact on voter behavior. In general, polls conducted closer
-to the election date provide a more accurate picture of public opinion. The original
-dataset includes only dates, and by mutating this variable, we can more intuitively
-interpret the number of days before the election that each data point was collected.
-Converting this to discrete data enhances its usefulness in constructing predictive models.
-
-## National Poll {#sec-national-poll}
+### National Poll {#sec-national-poll}
 
 National polls is another newly created variable in our dataset, represented by a binary
-indicator (1 for national polls, 0 otherwise). This distinction is important because
+indicator (1 for polls at national level, 0 otherwise). This distinction is important because
 not all polls are conducted nationally; some are state-specific and may reflect the
 region's preference for a particular presidential candidate. Ignoring this distinction
 may introduce significant bias into our model. By labeling each poll as national or
 non-national, we can give higher weight to national polls, which are more representative
-of overall public opinion, and thus improve the accuracy of our predictive model.
+of overall public opinion, and thus improve the accuracy of our predictive model. @tbl-category shows that for the national_poll variable, non-national polls (coded as 0) account for 681 cases (75.0%), whereas national polls (coded as 1) represent 227 cases (25.0%). This distribution highlights a focus on likely voters and a predominance of non-national polling data in the sample. 
 
-## Population {#population}
+### Population {#population}
 
-The “population” variable in the dataset represents the status of each
+The "population" variable in the dataset represents the status of each
 entry. it is the abbreviated description of the respondent group, categorizing
 participants as “lv” (likely voters) or “rv” (registered voters). They represent
 different levels of participation and potential voting behavior. Likely voters
 are individuals who are not only registered but are statistically more likely
 to vote based on historical data or survey responses. In contrast, registered
 voters include all individuals who are eligible to vote, regardless of their
-likelihood of participation. 
+likelihood of participation. @tbl-category shows that likely voters (lv) constitute the majority with 620 cases (68.3%), while registered voters (rv) make up 288 cases (31.7%). 
 
 ### State {#sec-state}
 
@@ -287,7 +316,7 @@ nears, emphasizing areas that could sway the final result.
 
 ```{r}
 #| label: fig-state
-#| fig-cap: Count of polls by state
+#| fig-cap: Count of polls by the US state 
 #| echo: false
 #| warning: false
 #| message: false
@@ -317,7 +346,7 @@ activity related to the election.
 
 ```{r}
 #| label: fig-pollster
-#| fig-cap: Frequency of Polls by Pollster"
+#| fig-cap: Frequency of Polls by Pollster
 #| echo: false
 #| warning: false
 #| message: false
@@ -615,7 +644,7 @@ The linear regression models constructed for predicting support for
 Kamala Harris and Donald Trump in the 2024 U.S. Presidential Election
 utilized both unweighted and weighted configurations.The model summary of support for Harris is shown in @tbl-summary1, support for Trump is shown in @tbl-summary2. As shown in
 @tbl-summary1 and @tbl-summary2, the intercepts for Harris and Trump,
-estimated at 44.70 and 59.28 respectively in the unweighted models, while in weighted models, it's estimated at 45.2 and 54.8,
+estimated at 44.70% and 59.28% respectively in the unweighted models, while in weighted models, it's estimated at 45.2% and 54.8%,
 represent their baseline support levels when all predictors are at
 reference values. The high ( R\^2 ) values of 0.824 for Harris’s
 unweighted model and 0.892 for her weighted model, along with similar
@@ -637,7 +666,6 @@ msummary(
   fmt = fmt_significant(3),coef_omit="state|pollster",notes = "Note. All models include a control for state and pollsters. The reference level of state is Alaska, the reference level of population is likely voter, and the reference level of pollsters is Alaska is Angus Reid.")
 ```
 
-
 ```{r}
 #| echo: false
 #| warning: false
@@ -649,7 +677,6 @@ msummary(
   list("Unweighted" = trump_unweighted_model, "Weighted" = trump_weighted_model),
   fmt = fmt_significant(3),coef_omit="state|pollster",notes = "Note. All models include a control for state and pollsters. The reference level of state is Alaska,the reference level of population is likely voter, and the reference level of pollsters is Alaska is ABC/Washington Post.")
 ```
-
 
 The results underscore the significance of **national_poll** as key predictors for both candidates' support, highlighting how national trends and pollster differences impact the
 reported support levels, as polls from the National level increase the
@@ -666,7 +693,7 @@ support among registered voters is lower than that among likely voters.
 ## Predicted Voting Outcomes {#sec-model-predicted-outcome}
 
 @fig-support-trend illustrate the predicted support for Kamala Harris
-and Donald Trump from August 1, 2024, to October 27, 2024, using both
+and Donald Trump from August 1, 2024, to November 2, 2024, using both
 unweighted and weighted linear regression models. In the
 @fig-support-trend-1 unweighted model, we see that Trump's predicted
 support generally hovers between 40% and 50%, while Harris's support
@@ -680,7 +707,7 @@ influence of older or smaller polls. This approach results in smoother
 trend lines for both candidates, with less apparent variability compared
 to the unweighted model @fig-support-trend-1. Trump's support remains
 around the 40% to 50% range, while Harris’s support stays in about 45% to 52%  range. The weighting emphasizes more recent and larger polls, likely
-providing a more accurate reflection of current public opinion. Overall, both models consistently indicate a lead for Harris, with the weighted model slightly stabilizing the predictions. The average support for Harris and Trump are both consist for two models, which predicts that Harris will win on about 49%, leads Trump by about 2%.
+providing a more accurate reflection of current public opinion. Overall, both models consistently indicate a lead for Harris, with the weighted model slightly stabilizing the predictions. The average support for Harris and Trump are both consist for two models, which predicts that Harris will win on about 47%, leads Trump by about 1%.
 
 
 ```{r}
@@ -706,7 +733,7 @@ new_data_harris <- data.frame(
   sample_size = sample(1:2300, size = 700, replace = TRUE)
 )|>
   mutate(
-    national_poll = if_else(state == "National", 1, 0),
+    national_poll = factor(if_else(state == "National", 1, 0)),
     recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
     sample_size_weight = pmin(sample_size / 2300, 1),
     recency_weight = exp(-recency * 0.1),
@@ -730,7 +757,7 @@ new_data_trump <- data.frame(
   sample_size =sample(1:2300, size = 700, replace = TRUE)
 )|>
   mutate(
-   national_poll = if_else(state == "National", 1, 0),
+   national_poll = factor(if_else(state == "National", 1, 0)),
       recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
     sample_size_weight = pmin(sample_size / 2300, 1),
     recency_weight = exp(-recency * 0.1),  
@@ -764,7 +791,7 @@ recent_date_cutoff <- as.Date("2024-08-01")
 combined_predictions<- bind_rows(new_data_harris, new_data_trump)
 combined_predictions_filtered<-combined_predictions|>filter(end_date>=recent_date_cutoff)
 # Determine the maximum end date for setting the x-axis limit
-max_end_date <- as.Date("2024-10-26")
+max_end_date <- as.Date("2024-11-2")
 ```
 
 ```{r}
@@ -772,9 +799,9 @@ max_end_date <- as.Date("2024-10-26")
 #| warning: false
 #| message: false
 #| eval: true
-#| fig-cap: "Harris Kamala leads Donald Trump an average 5% in Predicted Support in the 2024 US Election (From August 1, 2024, to October 27, 2024)"
+#| fig-cap: "Harris Kamala leads Donald Trump an average 2% in Predicted Support in the 2024 US Election (From August 1, 2024, to November 2, 2024)"
 #| fig-subcap: ["Unweighted","Weighted"]
-#| layout-ncol: 2
+#| layout-ncol: 1
 #| label: fig-support-trend
 # Plotting with the filtered data
 plan(multisession)
@@ -790,9 +817,15 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
                    "Linear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
-  theme(legend.position = "right",
+  theme(legend.position = "bottom",
         axis.text.x = element_text(angle = 45, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
-  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) +
+  annotate("text", x = max(combined_predictions_filtered$end_date) -0.5, y = 48, 
+           label = "47.5%", color = "blue", hjust = -0.2, size = 2) +  # Adjust size here
+  annotate("text", x = max(combined_predictions_filtered$end_date) - 0.5, y = 46, 
+           label = "46.5%", color = "red", hjust = -0.2, size = 2)
+
+
 ##weighted
 ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
   geom_point(alpha = 0.1)+ 
@@ -805,9 +838,13 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red"))  +
   theme_classic() +
-  theme(legend.position = "right",
+  theme(legend.position = "bottom",
         axis.text.x = element_text(angle = 45, hjust = 1),strip.background = element_rect(colour = "black", fill = "white")) +
-  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date))
+  scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) +
+  annotate("text", x = max(combined_predictions_filtered$end_date) -0.5, y = 48, 
+           label = "47.5%", color = "blue", hjust = -0.2, size = 2) +  # Adjust size here
+  annotate("text", x = max(combined_predictions_filtered$end_date) - 0.5, y = 46, 
+           label = "46.5%", color = "red", hjust = -0.2, size = 2)
 ```
 
 ## Predicted Voting Outcomes for Recent Three Months by State
@@ -821,7 +858,7 @@ giving greater influence to polls with higher weights based on recency
 and sample size. In both figures, Trump’s support, represented by red
 lines, and Harris’s support, shown in blue, show close competition
 across most states, with slight variations in trends across the polling
-period from August to October 2024.
+period from August to November 2024.
 
 In the @fig-support-state-1 , support for Kamala Harris and Donald Trump
 fluctuates widely across battleground states, with Harris holding significant
@@ -830,7 +867,7 @@ volatility.
 
 The @fig-support-state-2 stabilizes these trends by emphasizing recent,
 larger polls. Harris's support becomes more consistent, particularly in
-Pennsylvania, Michigan, and Wiscosin, where she shows a clearer
+Pennsylvania, Michigan, and Wisconsin, where she shows a clearer
 lead. This weighted approach provides a more refined snapshot,
 highlighting Harris’s likely advantage in these key states.
 
@@ -841,18 +878,18 @@ highlighting Harris’s likely advantage in these key states.
 #| message: false
 #| eval: true
 #| fig-subcap: ["Unweighted","Weighted"]
-#| layout-ncol: 2
-#| fig-cap: "Harris is likely to lead Trump in Pennsylvania, North Carolina, and Wisconsin by Model Prediction"
+#| layout-ncol: 1
+#| fig-cap: "Harris is likely to lead Trump in Pennsylvania, Michigan, and Wisconsin by Model Prediction"
 #| label: fig-support-state
 ## unweighted
 plan(multisession)
 selected_states <- c("Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
 combined_data_total<-combined_data_total|>filter(state %in% selected_states)
 combined_predictions_filtered<-combined_predictions_filtered|>filter(state %in% selected_states)
-
-ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
+late<-combined_predictions_filtered[which.max(combined_predictions_filtered$end_date), ]
+ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate))+
   geom_point(alpha = 0.1)+ 
-  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 0.5)+ # Smoothed trend line
+  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 0.5)+
   facet_wrap(~ state,ncol = 4) +
   labs(
        x = "End Date of the Poll",  # Change x-axis label to End Date
@@ -861,8 +898,8 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
        caption = "Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
-  theme(legend.position = "top",
-        axis.text.x = element_text(angle = 90, hjust = 1),
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, hjust = 1, size =6),
         legend.box = "vertical",
         strip.background = element_rect(colour = "black", fill = "white")) +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
@@ -880,8 +917,8 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        caption = "Weights: recency_weight * sample_size_weight\nCandidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
-  theme(legend.position = "top",
-        axis.text.x = element_text(angle = 90, hjust = 1),
+  theme(legend.position = "bottom",
+        axis.text.x = element_text(angle = 90, hjust = 1,size=6),
         legend.box = "vertical",
         strip.background = element_rect(colour = "black", fill = "white")) +
   scale_x_date(date_labels = "%b %d", date_breaks = "1 week", limits = c(recent_date_cutoff, max_end_date)) 
@@ -890,8 +927,8 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
 ## Predicted Support for Harris and Trump by Major Pollsters
 
 @fig-support-pollster depict the predicted support for Kamala Harris and
-Donald Trump in the 2024 U.S. election, from August 1, 2024, to October
-27, 2024, using the unweighted and weighted multiple linear regression model. The red
+Donald Trump in the 2024 U.S. election, from August 1, 2024, to November
+2, 2024, using the unweighted and weighted multiple linear regression model. The red
 line shows average fluctuations in Trump’s support, generally between 46% and
 48%, with some noticeable peaks and dips, indicating variability over
 time. In contrast,the average Harris’s support, represented by the blue line,
@@ -924,7 +961,7 @@ present a more competitive picture.
 #| message: false
 #| eval: true
 #| fig-subcap: ["Unweighted","Weighted"]
-#| layout-ncol: 2
+#| layout-ncol: 1
 #| fig-cap: "Major Pollsters Siena/NYT and Quinnipiac favor Harris, while Emerson, AtlasIntel, and Beacon/Shaw present a more competitive picture"
 #| label: fig-support-pollster
 plan(multisession)
@@ -956,10 +993,10 @@ ggplot(combined_data_total, aes(x = end_date, y = pct)) +
                                setNames(brewer.pal(10, "Set1"), top_pollsters))) + 
   theme_classic() +
   theme(
-    legend.position = "right",
+    legend.position = "bottom",
     legend.box = "vertical",  # Place legends in a horizontal row
     legend.title.align = 0.5,   # Center-align legend titles for better appearance
-    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text.x = element_text(angle = 45, hjust = 1,size=8),
     strip.background = element_rect(colour = "black", fill = "white")
   ) +
   guides(
@@ -978,7 +1015,6 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
     x = "End Date of the Poll",
     y = "Predicted Support (%)",
     size = "Weight",
-    color = "Candidate",
     fill = "Top 5 Pollster",
     caption = "Weights: recency_weight * sample_size_weight \nCandidate Support Percentage = national_poll + pollster + population + state"
   )+ # Smoothed trend line
@@ -987,10 +1023,10 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
                                setNames(brewer.pal(10, "Set1"), top_pollsters))) +
   theme_classic() +
   theme(
-    legend.position = "right",
+    legend.position = "bottom",
     legend.box = "vertical",  # Place legends in a horizontal row
     legend.title.align = 0.5,   # Center-align legend titles for better appearance
-    axis.text.x = element_text(angle = 45, hjust = 1),
+    axis.text.x = element_text(angle = 45, hjust = 1,size=8),
     strip.background = element_rect(colour = "black", fill = "white")
   ) +
   guides(
@@ -1002,7 +1038,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
 
 ```
 
-# Discussion
+# Discussion {#sec-discussion}
 
 ## Key Findings and Real-World Implications {#sec-key-findings}
 
@@ -1020,10 +1056,10 @@ underscore this enduring tension: while Harris may have a slight
 national advantage, the true battle will be fought state by state, in a
 handful of battlegrounds that could flip the election either way.
 
-In states like Wisconsin and Arizona, our model highlights just how
-close the race remains. Wisconsin, for instance, shows both candidates
-locked in a near tie around 48% support—a statistical dead heat that
-brings the state’s significance into sharp relief. Arizona, meanwhile,
+In states like Nevada and North Carolina, our model highlights just how
+close the race remains. North Carolina, for instance, shows both candidates
+locked in a near tie around 47% support—a statistical dead heat that
+brings the state’s significance into sharp relief. Neveda, meanwhile,
 leans modestly toward Trump, a reflection of the unique demographic and
 political nuances shaping each battleground. These state-level insights
 illuminate a critical truth: while national polls offer a snapshot of
@@ -1031,11 +1067,15 @@ overall sentiment, they risk obscuring the specific, local dynamics that
 will ultimately decide the outcome. The stakes are high; these are the
 states that could swing, the margins that will be watched closely on
 election night, as even slight changes in turnout or last-minute shifts
-in opinion could tip the balance.
+in opinion could tip the balance. improve the number based on the graph results
 
 Ultimately, these findings highlight the intricate dance between popular
 sentiment and the electoral mechanics of American democracy—a system where
 every vote counts, but some states matter just a bit more than others.
+
+## Influence of Weighting Methodology in Analyzing Voters' Preference
+
+In our analysis and shown result, we find out that the use of a weighted model helps to reduce volatility in predicted support trends by assigning greater importance to polls that are both recent and based on larger sample sizes. This approach effectively smooths out abrupt fluctuations that might otherwise result from older or smaller polls, providing a more stable and coherent view of voter sentiment. hough our data filtered with recent polls after Harris's candidacy announcement, voter sentiment remains fluid, with ongoing debates and events likely to influence preferences. By emphasizing recent polls, the model is more responsive to the latest shifts in public opinion, which is especially relevant as election day approaches and voters’ preferences may crystallize. Larger-sample polls, often conducted by established pollsters like Siena/NYT or Emerson, are assumed to be more reliable, and their increased weight in the model further reduces the likelihood of erratic changes driven by smaller, less consistent polls. This decreased volatility allows the model to present a clearer picture of the general support trend for each candidate, reducing noise and highlighting true shifts in sentiment. However, this smoothing effect may also mask some of the localized or short-term dynamics captured by less frequent or smaller-sample polls, which could provide unique insights into specific voter groups or state-level shifts.
 
 ## Limitations of the Dataset and Model
 
@@ -1054,8 +1094,6 @@ such as age, gender, income, and education, which are critical to
 understanding the preferences of different groups of voters. Without
 them, our analysis may have overlooked significant changes in specific
 groups that could affect overall trends. 
-
-## Third discussion point
 
 ## Next Steps
 
@@ -1084,7 +1122,7 @@ develop more targeted campaign strategies.
 
 # Appendix {.unnumbered}
 
-# Additional data details {#first-data-details}
+# Additional data details {#sec-a}
 
 ## Dataset and Graph Sketches
 
@@ -1127,7 +1165,7 @@ are free to share, copy, redistribute, remix, transform, and build upon
 the material for any purpose, even commercially, as long as we credit
 the original creation.
 
-# Model details {#sec-model-details}
+# Model details {#sec-b}
 
 ## Model validation: K-Fold Cross-Validation
 
@@ -1136,8 +1174,6 @@ the original creation.
 #| message: false
 #| warning: false
 # Load necessary libraries
-library(boot)    # For bootstrapping
-library(caret)   # For cross-validation
 
 # Set up 10-fold cross-validation
 train_control <- trainControl(method = "cv", number = 10)
@@ -1193,30 +1229,30 @@ metrics, which breaks down here:
 RMSE (Root Mean Square Error): Measures the average magnitude of
 prediction errors (lower is better).
 
-Harris model: RMSE of 3.41, indicating an average prediction error of
-around 3.44 percentage points.\
-Trump model: RMSE of 4.28, showing a slightly higher prediction error on
+Harris model: RMSE of 2.43, indicating an average prediction error of
+around 2.43 percentage points.\
+Trump model: RMSE of 2.57, showing a slightly average prediction error on
 average.\
 
 R-squared: Represents the proportion of the variance in the response
 variable explained by the model (higher is better).\
-Harris model: R-squared of 0.34, meaning the model explains about 34.6%
+Harris model: R-squared of 0.63, meaning the model explains about 63%
 of the variance in Harris's polling data.\
-Trump model: R-squared of 0.28 as well, indicating similar explanatory
-power for Trump's polling data.
+Trump model: R-squared of 0.66, meaning the model explains about 66%
+of the variance in Trump's polling data.
 
 MAE (Mean Absolute Error): Shows the average absolute difference between
 observed and predicted values (lower is better).\
-Harris model: MAE of 2.40, meaning that, on average, the predictions are
-off by 2.48 percentage points.\
-Trump model: MAE of 3.09, indicating slightly less precise predictions
+Harris model: MAE of 1.6, meaning that, on average, the predictions are
+off by 1.62 percentage points.\
+Trump model: MAE of 1.62, indicating slightly higher precise predictions
 compared to the Harris model.\
 
 Interpretation Summary Predictive Accuracy: The Harris model has
 slightly better predictive accuracy than the Trump model, as reflected
 by its lower RMSE and MAE values.\
-Model Fit: Harris' model explain roughly 34% of the variance in their
-respective datasets. Trump's models explain roughly 28% of the variance
+Model Fit: Harris' model explain roughly 63% of the variance in their
+respective datasets. Trump's models explain roughly 66% of the variance
 in their respective datasets.This suggests that other factors not
 included in the model may play a significant role in explaining the
 remaining variance.\
@@ -1263,38 +1299,18 @@ theoretical normal distribution. Ideally, residuals should follow a
 straight line in this plot if they are normally distributed, which is an
 assumption of linear regression.
 
-@fig-stanareyouokay-1 is a residual plot of un-weighted model for Harris
+@fig-stanareyouokay-1 and @fig-stanareyouokay-3 are residual plots of un-weighted model for Harris
 support. It showsthe residuals are generally spread around zero, with no
 clear pattern. This suggests the model is relatively well-specified. 
 
-@fig-stanareyouokay-2 is a Q-Q plot of un-weighted model plot for Harris
-support. It shows most residuals fall along the line, especially in the
+@fig-stanareyouokay-2 and @fig-stanareyouokay-4 is are Q-Q plots of un-weighted and weighted model plot for Harris support. It shows most residuals fall along the line, especially in the
 middle range. This suggests that our model satisfy the normality
-assumption. However, some points at the head deviate, indicating
+assumption. However, some points at the head and tail deviate, indicating
 potential outliers or non-normality in the extreme residual values. This
 slight deviation at the ends suggests the model might have some issues
 with extreme predictions but performs reasonably well overall.
 
-@fig-stanareyouokay-3 is a residual plot of weighted model for Harris
-support.It shows residuals are again plotted against fitted values.
-Similar to the unweighted model, the residuals are mostly centered
-around zero, indicating that the weighted model captures the general
-trend without significant systematic bias. 
-
-@fig-stanareyouokay-4 is a Q-Q Plot of weighted model plot for Harris
-support.The residuals generally align with the theoretical normal
-distribution line, particularly in the central range, indicating that
-the residuals of the weighted model are close to normal. Similar to the
-unweighted model, there are deviations at the heads, though they appear
-less pronounced. This suggests that the weighting scheme has slightly
-improved the distribution of residuals, making the model’s predictions
-more robust. However, some extreme values remain, which could still
-affect model
-
-In summary, both models show a reasonably good fit, with the weighted
-model offering slight improvements in handling non-linearity and extreme
-values. However, both models exhibit minor deviations from normality and
-a few notable outliers, which may warrant further model adjustments for
+In summary, both models show a reasonably good fit. Both models exhibit minor deviations from normality and a few notable outliers, which may warrant further model adjustments for
 improved prediction accuracy.
 
 ```{r}
@@ -1324,24 +1340,15 @@ qqline(residuals(trump_weighted_model), col = "red")
 
 ```
 
-@fig-dia-1 shows the residuals plotted against the fitted values for the
-unweighted model. It shows that the residuals are generally spread
-around zero with no clear pattern, suggesting that the model is well-specified. 
+@fig-dia-1 and @fig-dia-3 shows the residuals plotted against the fitted values for the
+unweighted model for Trump's Support. It shows that the residuals are generally spread
+around zero with no clear pattern for both model, suggesting that the model is well-specified. 
 
-@fig-dia-2 shows the Q-Q plot for the unweighted model, showing that
+@fig-dia-2 and @fig-dia-4 shows the Q-Q plot for the unweighted and weighted model for Trump's Support, showing that
 most residuals fall along the line, especially in the middle range,
 suggesting that the model satisfies the normality assumption. However,
-some points at the head deviate, indicating potential outliers or
+some points at the head and tail deviate, indicating potential outliers or
 non-normality in extreme residual values.
-
-@fig-dia-3 shows residuals plotted against fitted values. Similar to the
-unweighted model, the residuals are centered around zero, indicating
-that the weighted model captures the overall trend without significant
-systematic bias. 
-
-@fig-dia-4 shows the Q-Q plot for the weighted model compares residuals
-with a theoretical normal distribution. Here, the residuals almost fully
-align with the theoretical line,suggest that our data is almost normally distributed.
 
 Summary Both models exhibit a reasonably good fit, with the weighted
 model offering slight improvements in managing non-linearity and extreme
@@ -1349,7 +1356,7 @@ values. Despite this, both models show minor deviations from normality
 and some notable outliers, suggesting that further model adjustments may
 be beneficial for improved prediction accuracy.
 
-# The New York Times/Siena College Polling Methodology {#appendix-c}
+# The New York Times/Siena College Polling Methodology {#sec-c}
 
 This appendix outlines the methodology used by the Siena College Polling
 Institute for conducting its surveys. Known for its methodological
@@ -1554,7 +1561,7 @@ should focus on diversifying question types, ensuring demographic
 inclusivity, and refining question phrasing to reduce bias and enhance
 validity.
 
-# Idealized Methodology for US Presidential Election Forecast {#appendix-d}
+# Idealized Methodology for US Presidential Election Forecast {#sec-d}
 
 This appendix details the methodology and design for conducting a U.S.
 presidential election forecast survey with a budget of $\$100,000$. The
@@ -1822,7 +1829,7 @@ acquiescence bias.
 
 ### Definition of the response bias
 
-We have defined the bias we want to solve in [Appendix C](#third-poll).
+We have defined the bias we want to solve in @sec-pollster.
 
 ### Solution to the response bias in our survey
 
