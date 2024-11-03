@@ -1,11 +1,13 @@
 #### Preamble ####
-# Purpose: Cleans the raw poll data recorded
+# Purpose: Cleans the raw 2024 US election poll of polls data recorded as of 2 November 2024.
 # Author: Diana Shen, Jinyan Wei, Huayan Yu
-# Date: 27 October 2024 
+# Date: 2 November 2024
 # Contact: diana.shen@mail.utoronto.ca; jinyan.wei@mail.utoronto.ca; huayan.yu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: not needed
-# Any other information needed? not needed
+# Pre-requisites:  
+# - The `tidyverse`, `janitor`,`lubridate`,`arrow` package must be installed and loaded
+# - 02-download_data.R must have been run
+# Any other information needed? Make sure you are in the `starter_folder` rproj
 
 #### Workspace setup ####
 library(tidyverse)
@@ -22,8 +24,8 @@ cleaned_data <- raw_data |>
 just_harris_high_quality <- cleaned_data |>
   # Select relevant columns for analysis
   select(
-    pollster, numeric_grade, state, candidate_name, pct, sample_size, 
-    population, methodology, start_date, end_date
+    pollster, numeric_grade, state, candidate_name, pct, sample_size, pollscore,
+    population, end_date
   )|>filter(population %in% c("lv", "rv"))|>
   # Drop rows with missing values in essential columns
   drop_na(numeric_grade, pct, sample_size, end_date)|>
@@ -35,9 +37,9 @@ just_harris_high_quality <- cleaned_data |>
     state = if_else(is.na(state) | state == "--", "National", state),
     national_poll = if_else(state == "National", 1, 0)  # 1 for national, 0 for state-specific
   ) |> mutate(
-    start_date = mdy(start_date),
     end_date = mdy(end_date)
   )|>
+  filter(end_date >= as.Date("2024-07-21"))|>
   mutate(
     recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days"))
   ) |>
@@ -46,14 +48,14 @@ just_harris_high_quality <- cleaned_data |>
     state = factor(state),
     candidate_name = factor(candidate_name),
     population = factor(population),  # Only if appropriate
-    methodology = factor(methodology)
+    national_poll = factor(national_poll)
   )
 
 just_trump_high_quality <- cleaned_data|>
   # Select relevant columns for analysis
   select(
-    pollster, numeric_grade, state, candidate_name, pct, sample_size, 
-    population, methodology, start_date, end_date
+    pollster, numeric_grade, state, candidate_name, pct, sample_size, pollscore,
+    population, end_date
   )|>filter(population %in% c("lv", "rv"))|>
   # Drop rows with missing values in essential columns
   drop_na(numeric_grade, pct, sample_size, end_date)|>
@@ -65,9 +67,9 @@ just_trump_high_quality <- cleaned_data|>
     state = if_else(is.na(state) | state == "--", "National", state),
     national_poll = if_else(state == "National", 1, 0)  # 1 for national, 0 for state-specific
   ) |> mutate(
-    start_date = mdy(start_date),
     end_date = mdy(end_date)
   )|>
+  filter(end_date >= as.Date("2024-07-21"))|>
   # Calculate recency weight using exponential decay (more recent polls get higher weight)
   mutate(
     recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days"))
@@ -77,8 +79,10 @@ just_trump_high_quality <- cleaned_data|>
     state = factor(state),
     candidate_name = factor(candidate_name),
     population = factor(population),  # Only if appropriate
-    methodology = factor(methodology)
+    national_poll = factor(national_poll)
   )
 #### Save data ####
+write_csv(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.csv")
+write_csv(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.csv")
 write_parquet(just_harris_high_quality, "data/02-analysis_data/analysis_data_Harris.parquet")
 write_parquet(just_trump_high_quality, "data/02-analysis_data/analysis_data_Trump.parquet")

@@ -1,11 +1,12 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from FiveThirtyeight,com
+# Purpose: Downloads and saves the data from FiveThirtyeight.com of 2024 US election poll of polls.
 # Author: Diana Shen, Jinyan Wei, Huayan Yu
-# Date: 27 October 2024 
+# Date: 2 November 2024 
 # Contact: diana.shen@mail.utoronto.ca; jinyan.wei@mail.utoronto.ca; huayan.yu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites:
+# - Packages `tidyverse` must be installed and loaded
+# Any other information needed? Make sure you are in the `starter_folder` rproj
 
 
 #### Workspace setup ####

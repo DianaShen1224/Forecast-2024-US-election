@@ -1,10 +1,13 @@
 #### Preamble ####
-# Purpose: Model Harris's support in the 2024 U.S. presidential election using weighted and unweighted linear models.
-# Author: [Your Name]
-# Date: [Today's Date]
-# Contact: [Your Email]
+# Purpose: Model Harris' and Trump's support in the 2024 U.S. presidential election using weighted and unweighted linear models.
+# Author: Diana Shen, Jinyan Wei, Huayan Yu
+# Date: 3 November 2024 
+# Contact: diana.shen@mail.utoronto.ca; jinyan.wei@mail.utoronto.ca; huayan.yu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: Cleaned data file `cleaned_harris_support.csv` should be available in the `data/02-analysis_data/` directory.
+# Pre-requisites: 
+# - Cleaned data file `analysis_data_Harris.parquet` and `analysis_data_Trump.parquet` should be available in the `data/02-analysis_data/` directory.
+# - Packages `arrow`, and `dplyr` must be installed and loaded
+# Any other information needed? Make sure you are in the `starter_folder` rproj
 
 
 #### Load cleaned data ####

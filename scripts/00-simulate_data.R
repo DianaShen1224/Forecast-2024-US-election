@@ -1,52 +1,54 @@
 #### Preamble ####
-# Purpose: Simulates a dataset of Australian electoral divisions, including the 
-  #state and party that won each division.
-# Author: Rohan Alexander
-# Date: 26 September 2024
-# Contact: rohan.alexander@utoronto.ca
+# Purpose: Simulates a dataset of 2024 US election poll of polls.
+# Author: Diana Shen, Jinyan Wei, Huayan Yu
+# Date: 3 November 2024 
+# Contact: diana.shen@mail.utoronto.ca; jinyan.wei@mail.utoronto.ca; huayan.yu@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: The `tidyverse` package must be installed
 # Any other information needed? Make sure you are in the `starter_folder` rproj
 
-
 #### Workspace setup ####
 library(tidyverse)
-set.seed(853)
+library(lubridate)
 
+#### Data expected structure ####
+# Simulated Data Harris:
+# - Columns: pollscore, end_date, pollster, numeric_grade, national_poll, recency, state, population, sample_size, pct, candidate, sample_size_weight, recency_weight, combined_weight
+# - pollscore should be between -1.5 and 2
+# - end_date should be between 2024-07-21 and 2024-11-2
+# - pollster should be one of: "Pollster A", "Pollster B", "Pollster C", "Pollster D".
+# - numeric_grade should be between 0.5 and 3
+# - national_poll should be one of: 0 and 1.
+# - state should be valid US state abbreviations
+# - population should be one of: "lv", "rv"
+# - recency should greater than 0.
+# - candidate should be one of: "Donald Trump", "Kamala Harris"
+# - pct should be between 30 and 80
+# - sample_size should be between 0 and 2300
 
 #### Simulate data ####
-# State names
-states <- c(
-  "New South Wales",
-  "Victoria",
-  "Queensland",
-  "South Australia",
-  "Western Australia",
-  "Tasmania",
-  "Northern Territory",
-  "Australian Capital Territory"
-)
+# Define states, candidates, and other factors
+states <- c("National", "Arizona", "Georgia", "Michigan", "Nevada", "North Carolina", "Pennsylvania", "Wisconsin")
+candidates <- c("Kamala Harris", "Donald Trump")
+pollsters <- c("Pollster A", "Pollster B", "Pollster C", "Pollster D")
+populations <- c("rv", "lv")
 
-# Political parties
-parties <- c("Labor", "Liberal", "Greens", "National", "Other")
-
-# Create a dataset by randomly assigning states and parties to divisions
-analysis_data <- tibble(
-  division = paste("Division", 1:151),  # Add "Division" to make it a character
-  state = sample(
-    states,
-    size = 151,
-    replace = TRUE,
-    prob = c(0.25, 0.25, 0.15, 0.1, 0.1, 0.1, 0.025, 0.025) # Rough state population distribution
-  ),
-  party = sample(
-    parties,
-    size = 151,
-    replace = TRUE,
-    prob = c(0.40, 0.40, 0.05, 0.1, 0.05) # Rough party distribution
+simulated_data <- data.frame(
+  end_date =  sample(seq(as.Date('2024-07-21'), as.Date('2024-11-02'), by="day"), 
+                     700, replace=TRUE),
+  state = factor(sample(states, size = 700, replace = TRUE)),
+  pollster = factor(sample(pollsters, size = 700, replace = TRUE)),
+  population = factor(sample(populations, size = 700, replace = TRUE)),
+  sample_size = sample(1:2300, size = 700, replace = TRUE),
+  numeric_grade = runif(700, min = 0.5, max = 3),
+  pollscore = runif(700, min = -1.5, max = 2),
+  pct = round(runif(700, 30, 80), 1)
+) |>
+  mutate(
+    candidate_name = factor(sample(candidates, size = 700, replace = TRUE)),
+    national_poll = factor(if_else(state == "National", 1, 0)),
+    recency = as.numeric(difftime(as.Date("2024-11-05"), end_date, units = "days")),
   )
-)
-
 
 #### Save data ####
-write_csv(analysis_data, "data/00-simulated_data/simulated_data.csv")
+write_csv(simulated_data, "data/00-simulated_data/simulated_data.csv")
