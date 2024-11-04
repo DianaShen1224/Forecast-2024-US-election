@@ -4,7 +4,7 @@
 # Date: 3 November 2024 
 # Contact: diana.shen@mail.utoronto.ca; jinyan.wei@mail.utoronto.ca; huayan.yu@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: The `tidyverse` package must be installed
+# Pre-requisites: The `tidyverse` and `lubridate` package must be installed
 # Any other information needed? Make sure you are in the `starter_folder` rproj
 
 #### Workspace setup ####
