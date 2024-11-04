@@ -227,6 +227,25 @@ interpret the number of days before the election that each data point was collec
 Converting this to discrete data enhances its usefulness in constructing predictive models.
 @fig-recency demonstrates a strong focus on recent polling data, with the highest frequency of polls occurring within the first few days and gradually declining as recency increases. Periodic peaks around 30, 60, and 90 days suggest some regularity in polling schedules, though the overall trend emphasizes newer data. This distribution highlights the prioritization of recent polls in the dataset.
 
+### Numeric Grade {#sec-numberic-grade}
+
+@fig-numericgrade displays the distribution of numeric grades assigned to various pollsters. The numeric grade is a metric that evaluates the quality or reliability of a pollster, considering factors such as methodology, historical accuracy, sample size, and pollster reputation. In this chart, we observe that the frequency of numeric grades peaks around 2.75 and 3.00, with a notable concentration at these values. This suggests that, after excluding lower-quality polls, a significant number of surveys are conducted by highly rated pollsters. Fewer polls have grades below 2.5, indicating a relatively lower occurrence of polls from less-reliable pollsters in this dataset. This distribution highlights the emphasis on high-quality pollsters, ensuring a more reliable and consistent source of polling data for subsequent analysis.
+
+```{r}
+#| label: fig-numericgrade
+#| fig-cap: Distribution of the Numeric Grade of the Polls
+#| echo: false
+#| warning: false
+#| message: false
+
+ggplot(harris_data, aes(x = numeric_grade)) +
+  geom_histogram(binwidth = 0.05, fill = "gold", color = "grey30") +
+  labs(
+    x = "Numeric Grade",
+    y = "Frequency"
+  ) +
+  theme_minimal()
+```
 ## Outcome variable {#sec-outcome-variable}
 
 ### The support percentage of Kamala Harris. {#sec-harris-support}
@@ -251,7 +270,7 @@ variability in support for Harris as captured across multiple polls.
 ggplot(harris_data, aes(x = pct)) +
   geom_histogram(binwidth = 1, fill = "gold", color = "grey50") +
   labs(
-    x = "Support Percentage (%)",
+    x = "Support for Harris (%)",
     y = "Count"
   ) +
   theme_classic() +
@@ -355,39 +374,6 @@ ggplot(harris_data, aes(x = fct_infreq(pollster))) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1, size = 6))
 ```
 
-### Numeric Grade {#sec-numberic-grade}
-
-@fig-numericgrade displays the distribution of numeric grades assigned
-to various pollsters, with the x-axis representing the numeric grade
-values and the y-axis indicates the frequency of each grade. The
-numeric grade is a metric that evaluates the quality or reliability of a
-pollster, taking into account factors such as methodology, historical
-accuracy, sample size, and pollster reputation. In this chart, we
-observe that the most common numeric grades are concentrated around 2.75
-and 3.00, with a large spike at these values, suggesting that a
-significant number of polls are conducted by highly rated pollsters.
-Fewer polls have grades below 2.5, indicating a relatively lower
-occurrence of polls from less-reliable pollsters in this dataset. This
-distribution underscores the emphasis on high-quality pollsters within
-the dataset, ensuring a more reliable and consistent source of polling
-data for subsequent analysis.
-
-```{r}
-#| label: fig-numericgrade
-#| fig-cap: Distribution of the Numeric Grade of the Polls
-#| echo: false
-#| warning: false
-#| message: false
-
-ggplot(harris_data, aes(x = numeric_grade)) +
-  geom_histogram(binwidth = 0.05, fill = "gold", color = "grey30") +
-  labs(
-    x = "Numeric Grade",
-    y = "Frequency"
-  ) +
-  theme_minimal()
-```
-
 ## Relationships between key varaibles {#sec-data-relationship}
 
 @fig-pollstertime shows the trend of percentage support for Kamala
@@ -421,7 +407,7 @@ ggplot(filtered_data, aes(x = end_date, y = pct, color = pollster)) +
   geom_point(alpha = 0.7) +
   geom_smooth(se = FALSE)+
   scale_color_viridis_d() +
-  labs(y = "Harris Support Percent", x = "Date") +
+  labs(y = "Support for Harris (%)", x = "End Date of the Poll") +
   theme_classic() +
   theme(legend.position = "bottom", legend.title = element_blank())
 ```
@@ -437,7 +423,7 @@ grades.
 
 ```{r}
 #| label: fig-numericgradetime
-#| fig-cap: Harris Support Over Time by Numeric Grade of the polls
+#| fig-cap: Harris Support Over Time by Numeric Grade of the Polls
 #| echo: false
 #| warning: false
 #| message: false
@@ -445,7 +431,7 @@ grades.
 ggplot(harris_data, aes(x = end_date, y = pct, color = factor(numeric_grade))) +
   geom_point(alpha = 0.7) +
   geom_smooth(se = FALSE, span = 0.3) +
-  labs(y = "Support for Harris", x = "Date", color = "Numeric Grade") +
+  labs(y = "Support for Harris (%)", x = "End Date of the Poll", color = "Numeric Grade") +
   scale_color_viridis_d() +
   theme_classic() +
   theme(legend.position = "bottom") +
@@ -637,7 +623,7 @@ utilized both unweighted and weighted configurations. The model summary of suppo
 @tbl-summary1 and @tbl-summary2, the intercepts for Harris and Trump,
 estimated at 44.70% and 59.28% respectively in the unweighted models, while in weighted models, it's estimated at 45.2% and 54.8%,
 represent their baseline support levels when all predictors are at
-reference values. The high ( R\^2 ) values of 0.824 for Harris’s
+reference values. The high ( $R^2$ ) values of 0.824 for Harris’s
 unweighted model and 0.892 for her weighted model, along with a similar
 values of 0.849 and 0.916 for Trump, indicate that a significant portion
 of the variation in support can be explained by the model's predictors.
@@ -654,7 +640,7 @@ levels.
 #| label: tbl-summary1
 msummary(
   list("Unweighted" = harris_unweighted_model, "Weighted" = harris_weighted_model),
-  fmt = fmt_significant(3),coef_omit="state|pollster",notes = "Note. All models include a control for state and pollsters. The reference level of state is Alaska, the reference level of population is likely voter, and the reference level of pollsters is Alaska is Angus Reid.")
+  fmt = fmt_significant(3),coef_omit="state|pollster",notes = "Note. All models include a control for state and pollsters. The reference level of state is Alaska, the reference level of population is likely voter, and the reference level of pollsters is Angus Reid.")
 ```
 
 ```{r}
@@ -666,7 +652,7 @@ msummary(
 #| label: tbl-summary2
 msummary(
   list("Unweighted" = trump_unweighted_model, "Weighted" = trump_weighted_model),
-  fmt = fmt_significant(3),coef_omit="state|pollster",notes = "Note. All models include a control for state and pollsters. The reference level of state is Alaska,the reference level of population is likely voter, and the reference level of pollsters is Alaska is ABC/Washington Post.")
+  fmt = fmt_significant(3),coef_omit="state|pollster",notes = "Note. All models include a control for state and pollsters. The reference level of state is Alaska,the reference level of population is likely voter, and the reference level of pollsters is ABC/Washington Post.")
 ```
 
 The results underscore the significance of **national_poll** as key predictors for both candidates' support, highlighting how national trends and pollster differences impact the
