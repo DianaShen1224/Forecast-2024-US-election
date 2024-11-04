@@ -8,7 +8,7 @@ author:
 thanks: "Code and data are available at: [https://github.com/DianaShen1224/Forecast-2024-US-election](https://github.com/DianaShen1224/Forecast-2024-US-election)."
 date: today
 date-format: long
-abstract: "This study models the 2024 U.S. Presidential Election by analyzing polling data with adjustments for factors like recency and sample size, simulating an approach that captures up-to-date voter sentiment. Using the recent 4 months of aggregated poll data, the model identifies shifts in candidate support across key battleground states, providing a nuanced view of evolving preferences as election day approaches. By emphasizing recent, high-quality polls, the analysis improves predictive reliability, offering an understanding that could inform campaign strategies and public discourse. These findings highlight the value of weighting and time-sensitive adjustments in forecasting methods, balancing accuracy with responsiveness to the latest trends."
+abstract: "This study models the 2024 U.S. Presidential Election by analyzing polling data with adjustments for factors like recency and sample size, simulating an approach that captures up-to-date voter sentiment. Using the recent 4 months (July 21th - November 2th) of aggregated poll data, the model identifies shifts in candidate support across key battleground states, providing a nuanced view of evolving preferences as election day approaches. By emphasizing recent, high-quality polls, the analysis improves predictive reliability, offering an understanding that could inform campaign strategies and public discourse. These findings highlight the value of weighting and time-sensitive adjustments in forecasting methods, balancing accuracy with responsiveness to the latest trends."
 format: pdf
 toc: true
 number-sections: true
@@ -466,11 +466,12 @@ In this analysis, we use predictors that capture both the methodological
 quality and structural aspects of each poll. Specifically, we include
 variables such as `national_poll`, which reflects national support
 trends; `pollster`, which represents differences in methodology and
-reliability across polling organizations; and `population`, which
-accounts for demographic and regional characteristics associated with
-each poll. Our combined weighting approach further integrates factors
-like recency and sample size to ensure that more recent, larger-sample
-polls have a greater impact on the model's predictions, providing a
+reliability across polling organizations; `population`, which
+accounts for the type of respondent group of voters associated with
+each poll; and lastly,`state`, which represents the exact U.S. state
+where the poll was conducted or focused.Our combined weighting approach further
+integrates factors like recency and sample size to ensure that more recent, 
+larger-sample polls have a greater impact on the model's predictions, providing a
 balanced and detailed assessment of candidate support.
 
 The model assumes that the distribution of support percentage, given
@@ -837,7 +838,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
            label = "46.5%", color = "red", hjust = -0.2, size = 2)
 ```
 
-## Predicted Voting Outcomes for Recent Three Months by State
+## Predicted Voting Outcomes in Key Battleground States
 
 @fig-support-state compare the predicted support for Kamala Harris and
 Donald Trump in key battleground states (Arizona, Georgia, Michigan,
