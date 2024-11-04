@@ -642,7 +642,7 @@ utilized both unweighted and weighted configurations. The model summary of suppo
 @tbl-summary1 and @tbl-summary2, the intercepts for Harris and Trump,
 estimated at 44.70% and 51.87% respectively in the unweighted models, while in weighted models, it's estimated at 45.2% and 54.8%,
 represent their baseline support levels when all predictors are at
-reference values. The high ( $R^2$ ) values of 0.824 for Harris’s
+reference values. The high $R^2$ values of 0.824 for Harris’s
 unweighted model and 0.892 for her weighted model, along with a similar
 values of 0.849 and 0.916 for Trump, indicate that a significant portion
 of the variation in support can be explained by the model's predictors.
@@ -810,7 +810,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",caption = 
-                   "Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatetst Poll: Nov 2\nSource: FiftyThirtyEight") +
+                   "Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatest Poll: Nov 2; Source: FiftyThirtyEight") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -831,7 +831,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Lines are weighted by recency_weight * sample_size_weight.\nPoints are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatetst Poll: Nov 2\nSource: FiftyThirtyEight") +
+       caption = "Lines are weighted by recency_weight * sample_size_weight. Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatest Poll: Nov 2; Source: FiftyThirtyEight") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red"))  +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -891,7 +891,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate))+
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",
-       caption = "Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatetst Poll: Nov 2\nSource: FiftyThirtyEight") +
+       caption = "Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatest Poll: Nov 2; Source: FiftyThirtyEight") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -910,7 +910,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Lines are weighted by recency_weight * sample_size_weight.\nPoints are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatetst Poll: Nov 2\nSource: FiftyThirtyEight") +
+       caption = "Lines are weighted by recency_weight * sample_size_weight. Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatest Poll: Nov 2; Source: FiftyThirtyEight") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -982,7 +982,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct)) +
     y = "Predicted Support (%)",
     color = "Candidate",
     fill = "Top 5 Pollster",
-    caption = "Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatetst Poll: Nov 2\nSource: FiftyThirtyEight"
+    caption = "Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatest Poll: Nov 2; Source: FiftyThirtyEight"
   )+ # Smoothed trend line
   facet_wrap(~ candidate,ncol = 2) +
   scale_fill_manual(values = c(setNames(rep("grey", length(unique(combined_data_total$pollster_group))), "Other"),
@@ -1012,7 +1012,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
     y = "Predicted Support (%)",
     size = "Weight",
     fill = "Top 5 Pollster",
-    caption = "Lines are weighted by recency_weight * sample_size_weight.\nPoints are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatetst Poll: Nov 2\nSource: FiftyThirtyEight"
+    caption = "Lines are weighted by recency_weight * sample_size_weight. Points are polls.\nModel: Candidate Support Percentage = national_poll + pollster + population + state\nLatest Poll: Nov 2; Source: FiftyThirtyEight"
   )+ # Smoothed trend line
   facet_wrap(~ candidate,ncol = 2) +
   scale_fill_manual(values = c(setNames(rep("grey", length(unique(combined_data_total$pollster_group))), "Other"),
