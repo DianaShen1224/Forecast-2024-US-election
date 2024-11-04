@@ -18,4 +18,4 @@ The repository is structured as follows:
 
 ## Statement on LLM usage
 
-Aspects of the code were written with the help of Copilot and ChatGPT4o. The whole writing process, including generating and polishing was written with the help of ChatGPT4o and the entire chat history is available in `other/llms/usage.txt`.
+Aspects of the code were written with the help of Copilot and ChatGPT4o. Part of the writing process, including generating and polishing was written with the help of ChatGPT4o, and the entire chat history is available in `other/llms/usage.txt`.
