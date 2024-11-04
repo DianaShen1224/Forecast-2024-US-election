@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the analysis and methodology used to predict the outcome of the 2024 U.S. Presidential election. The primary objective is to forecast the popular vote results for the candidates Kamala Harris (Democrat), based on aggregated poll data. The project incorporates statistical modeling, demographic analysis, and discussions on polling methodologies to provide a robust election prediction. This repository provides readers with all the necessary data, R scripts, and files to understand and reproduce an analysis of the 2024 US election prediction based on the poll of polls.
+This repository contains the analysis and methodology used to predict the outcome of the 2024 U.S. Presidential election. The primary objective is to forecast the popular vote results for the candidates Kamala Harris (Democrat), based on aggregated poll data. The project incorporates statistical modeling, and discussions on polling methodologies to provide a robust election prediction. This repository provides readers with all the necessary data, R scripts, and files to understand and reproduce an analysis of the 2024 US election prediction based on the poll of polls.
 
 ## File Structure
 
