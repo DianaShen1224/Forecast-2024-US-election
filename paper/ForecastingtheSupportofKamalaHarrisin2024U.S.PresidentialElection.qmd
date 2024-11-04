@@ -202,7 +202,7 @@ events, campaign actions, or other influencing factors. In our analysis, we only
 ### Recency {#sec-recency}
 ```{r}
 #| label: fig-recency
-#| fig-cap: Distribution of the Poll Recency since July 21, 2024
+#| fig-cap: The distribution of the Poll Recency since July 21, 2024 highlights a strong focus on recent polling data, with the highest frequency of polls occurring within the first few days.
 #| echo: false
 #| warning: false
 #| message: false
@@ -233,7 +233,7 @@ Converting this to discrete data enhances its usefulness in constructing predict
 
 ```{r}
 #| label: fig-numericgrade
-#| fig-cap: Distribution of the Numeric Grade of the Polls
+#| fig-cap: The distribution of the Numeric Grade of the Polls shows that surveys are conducted by highly rated pollsters, which ensure the reliability of the analysis.
 #| echo: false
 #| warning: false
 #| message: false
@@ -263,7 +263,7 @@ variability in support for Harris as captured across multiple polls.
 
 ```{r}
 #| label: fig-percentage
-#| fig-cap: Distribution of the Support Percentage of Kamala Harris
+#| fig-cap: The distribution of the Support Percentage of Kamala Harris clustered around 50%, with the majority of support falling between 40% and 55%.
 #| echo: false
 #| warning: false
 #| message: false
@@ -281,7 +281,7 @@ ggplot(harris_data, aes(x = pct)) +
 
 ```{r}
 #| label: tbl-category
-#| tbl-cap: Summary Statistics of the categorical variables population and national_pull
+#| tbl-cap: Summary statistics of the categorical variables population and national_pull reveal that the majority of the polls are state-level (68.3%) and focus primarily on likely voters (75%).
 #| echo: false
 #| warning: false
 #| message: false
@@ -329,7 +329,7 @@ nears, emphasizing areas that could sway the final result.
 
 ```{r}
 #| label: fig-state
-#| fig-cap: Count of Polls by the US state 
+#| fig-cap: Count of Polls by the US state shows that Polling Distribution Prioritizes National Sentiment and High-Impact Battleground States.
 #| echo: false
 #| warning: false
 #| message: false
@@ -359,7 +359,7 @@ activity related to the election.
 
 ```{r}
 #| label: fig-pollster
-#| fig-cap: Frequency of Polls by Pollster
+#| fig-cap: Frequency of Polls Highlights Siena/NYT as Leading Pollster, Followed by YouGov and Emerson.
 #| echo: false
 #| warning: false
 #| message: false
@@ -390,7 +390,7 @@ sample.
 
 ```{r}
 #| label: fig-pollstertime
-#| fig-cap: Harris Support Over Time by Pollster (Top 6 Pollsters)
+#| fig-cap: Trend Analysis of Kamala Harris Support from August to October Shows Upward Trends by Emerson and Beacon/Shaw, with Siena/NYT Showing Decline.
 #| echo: false
 #| warning: false
 #| message: false
@@ -423,7 +423,7 @@ grades.
 
 ```{r}
 #| label: fig-numericgradetime
-#| fig-cap: Harris Support Over Time by Numeric Grade of the Polls
+#| fig-cap: Harris's Support Trends Stable Around 50%, with Minor Fluctuations Across Pollster Numeric Grades, Especially in Polls with Numeric Grade 2.5.
 #| echo: false
 #| warning: false
 #| message: false
@@ -636,7 +636,7 @@ levels.
 #| warning: false
 #| message: false
 #| eval: true
-#| tbl-cap: "Summary of Multiple Linear Regression Model Predicting Harris Support Based on Polling Data"
+#| tbl-cap: "Summary of Multiple Linear Regression Model Predicting Harris Support Based on Polling Data since 21 July 2024 (Harris first declared) to 2 November 2024"
 #| label: tbl-summary1
 msummary(
   list("Unweighted" = harris_unweighted_model, "Weighted" = harris_weighted_model),
@@ -648,7 +648,7 @@ msummary(
 #| warning: false
 #| message: false
 #| eval: true
-#| tbl-cap: "Summary of Multiple Linear Regression Model Predicting Trump Support Based on Polling Data"
+#| tbl-cap: "Summary of Multiple Linear Regression Model Predicting Trump Support Based on Polling Data since 21 July 2024 (Harris first declared) to 2 November 2024"
 #| label: tbl-summary2
 msummary(
   list("Unweighted" = trump_unweighted_model, "Weighted" = trump_weighted_model),
@@ -776,7 +776,7 @@ max_end_date <- as.Date("2024-11-2")
 #| warning: false
 #| message: false
 #| eval: true
-#| fig-cap: "Harris Kamala leads Donald Trump an average 1% in Predicted Support in the 2024 US Election (From August 1, 2024, to November 2, 2024)"
+#| fig-cap: "Harris Kamala leads Donald Trump an average 1% in Predicted Support in the 2024 US Election (From August 1, 2024, to November 2, 2024)."
 #| fig-subcap: ["Unweighted","Weighted"]
 #| layout-ncol: 1
 #| label: fig-support-trend
@@ -856,7 +856,7 @@ highlighting Harris’s likely advantage in these key states.
 #| eval: true
 #| fig-subcap: ["Unweighted","Weighted"]
 #| layout-ncol: 1
-#| fig-cap: "Harris is likely to lead Trump in Pennsylvania, Michigan, and Wisconsin by Model Prediction"
+#| fig-cap: "Harris is likely to lead Trump in Pennsylvania, Michigan, and Wisconsin by Model Prediction (From August 1, 2024, to November 2, 2024)."
 #| label: fig-support-state
 ## unweighted
 plan(multisession)
@@ -939,7 +939,7 @@ present a more competitive picture.
 #| eval: true
 #| fig-subcap: ["Unweighted","Weighted"]
 #| layout-ncol: 1
-#| fig-cap: "Major Pollsters Siena/NYT and Quinnipiac favor Harris, while Emerson, AtlasIntel, and Beacon/Shaw present a more competitive picture"
+#| fig-cap: "Major Pollsters Siena/NYT and Quinnipiac favor Harris, while Emerson, AtlasIntel, and Beacon/Shaw present a more competitive picture."
 #| label: fig-support-pollster
 plan(multisession)
 # Calculate the top 10 pollsters by frequency in the data
