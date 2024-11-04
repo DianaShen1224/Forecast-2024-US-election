@@ -1074,23 +1074,9 @@ Despite the strengths of our model, limitations remain. Our weighting system pri
 
 ## Next Steps
 
-To enhance the predictive power of the model, historical voting data, economic
-indicators, and major news events can be used as background variables. By analyzing
-the impact of similar factors on voter sentiment in past elections, we can understand the patterns and trends that may apply to the current campaign. For
-example, high-profile events have historically influenced voter opinion, and
-understanding these influences can provide a more complete picture of the factors
-that drive support for each candidate. Given the underlying conditions that influence
-voter preferences over time, this additional context would allow the model to make
-more informed predictions.
+To strengthen the predictive capability of the model, integrating historical voting data, economic indicators, and significant news events as contextual variables is recommended. Analyzing the impact of these factors on voter sentiment in prior elections can illuminate patterns and trends potentially relevant to the current campaign. For instance, high-profile events have historically affected voter opinions, and understanding these influences can offer a comprehensive view of the variables driving support for each candidate. This expanded context, capturing the evolving conditions that shape voter preferences, would enable the model to generate more nuanced predictions.
 
-Another possible improvement is the addition of detailed demographic information, such as age,
-gender, income level, and educational background, which would allow us to identify trends among
-specific groups of voters and thus greatly enhance our analysis. Different demographics often
-have unique responses to campaign issues and activities; for example, younger voters may
-prioritize different issues compared to older voters, and income level and educational
-attainment may influence political preferences in complex ways. By incorporating this level
-of granularity, future analyses can provide a deeper understanding of voter behavior and help
-develop more targeted campaign strategies.
+Another potential enhancement involves incorporating detailed demographic information—such as age, gender, income level, and educational background—which would enable the identification of trends within specific voter groups, significantly enriching the analysis. Distinct demographics often respond uniquely to campaign issues; for example, younger voters may prioritize issues differently from older voters, while income levels and educational backgrounds can complexly influence political preferences. By integrating this granular demographic data, future analyses can yield a deeper understanding of voter behavior, supporting the development of more targeted campaign strategies.
 
 \newpage
 
