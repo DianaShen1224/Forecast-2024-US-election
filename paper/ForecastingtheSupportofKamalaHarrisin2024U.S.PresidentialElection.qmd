@@ -1837,7 +1837,7 @@ Section 1: Survey Questions
     -   Other
     -   Prefer not to say
 
-10.  **Imagine the following candidates: Candidate A favors cutting taxes
+10. **Imagine the following candidates: Candidate A favors cutting taxes
     but has a weak stance on climate change, and Candidate B focuses on
     healthcare but supports increased military spending. Who would you
     vote for?**
