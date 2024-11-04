@@ -8,7 +8,7 @@ This repository contains the analysis and methodology used to predict the outcom
 
 The repository is structured as follows:
 
--   `data/raw_data` contains the raw poll data as obtained from [FiveThirtyEight](https://projects.fivethirtyeight.com/polls/president-general/2024/national/), by searching for "Download the data", then selecting Presidential general election polls (current cycle), then "Download".To open these data through GitHub, they can be downloaded. Alternatively, to view these files within RStudio, they can be imported using the library `readr`.
+-   `data/raw_data` contains the raw poll data as obtained from [FiveThirtyEight](https://projects.fivethirtyeight.com/polls/president-general/2024/national/) as of November 2nd, by searching for "Download the data", then selecting Presidential general election polls (current cycle), then "Download".To open these data through GitHub, they can be downloaded. Alternatively, to view these files within RStudio, they can be imported using the library `readr`.
 -   `data/02-analysis_data` contains the cleaned dataset constructed in `scripts/03-clean_data`.
 -   The `scripts` folder contains the R scripts and code that simulated, tested, downloaded, and cleaned the data.
 -   `model` contains fitted models.
