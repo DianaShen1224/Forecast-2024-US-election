@@ -549,7 +549,7 @@ $$
 $$
 
 Where: $W$ is the weight parameters calculated from the product of
-**sample size weight** and recency **weight**.
+**sample size weight** and **recency weight**.
 
 -   **Sample Size Weight**: Calculated as the sample size divided by
     2300, capped at 1. This emphasizes larger, more reliable polls while
@@ -558,7 +558,7 @@ Where: $W$ is the weight parameters calculated from the product of
 
 -   **Recency Weight**: Applied through an exponential decay function,
     exp(-recency \* 0.1), where "recency" represents the days since the
-    poll was conducted. This ensures that more recent data carries more
+    poll was conducted, and 0.1 is the decay rate of the poll. This ensures that more recent data carries more
     weight, while older polls have reduced influence.
 
 -   **Combined Weight**: The final weight is the product of all
@@ -1111,7 +1111,7 @@ Donald Trump, retaining only high-quality polls with a numeric_grade of
 2 or higher—given that the average numeric_grade is approximately 2.175,
 with a median of 1.9. We also handle placeholder values in state
 information by setting entries marked as NA to National, and creating a
-national_poll indicator, assigning a value of 1 for value in state equal to National and 0 for others. Dates are standardized using the lubridate
+national_poll indicator, assigning a value of 1 for value in state equal to National and 0 for others. We also filter the population with only likely voters and registered voters. Dates are standardized using the lubridate
 package to facilitate accurate time-based analysis.
 
 Recency is calculated based on the days elapsed since the
