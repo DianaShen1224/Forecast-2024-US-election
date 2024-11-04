@@ -5,7 +5,7 @@
 # Contact: diana.shen@mail.utoronto.ca; jinyan.wei@mail.utoronto.ca; huayan.yu@mail.utoronto.ca
 # License: MIT
 # Pre-requisites:  
-# - The `tidyverse`, `janitor`,`lubridate`,`arrow` package must be installed and loaded
+# - The `tidyverse`, `janitor`,`lubridate`,`arrow` packages must be installed and loaded
 # - 02-download_data.R must have been run
 # Any other information needed? Make sure you are in the `starter_folder` rproj
 
