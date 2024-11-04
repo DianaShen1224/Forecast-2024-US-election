@@ -148,7 +148,7 @@ In this study, we utilized several R packages to enhance our data
 manipulation, modeling, and visualization capabilities. The `tidyverse`
 package offered a detailed set of tools for data wrangling and
 analysis, improving workflow efficiency [@thereferencecanbewhatever].
-The `here` package aided in managing file paths, improving the reproducible workflow of our study [@citehere].We use `testthat` to verify dataset variables, ensuring they are correctly formatted and contain expected values for analysis [@citetestthat]. We relied on `janitor` to perform data
+The `here` package aided in managing file paths, improving the reproducible workflow of our study [@citehere].We use `testthat` to verify dataset variables, ensuring they are correctly formatted and contain expected values for analysis [@citetestthat]. We use `knitr` to build the table using the `kable` function [@citeknitr]. We relied on `janitor` to perform data
 cleaning, as it provides functionalities to identify and rectify quality
 issues within the dataset [@citejanitor]. For handling date-related
 operations, the `lubridate` package help simplifying the
