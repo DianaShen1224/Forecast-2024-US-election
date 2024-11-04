@@ -202,7 +202,7 @@ events, campaign actions, or other influencing factors. In our analysis, we only
 ### Recency {#sec-recency}
 ```{r}
 #| label: fig-recency
-#| fig-cap: Distribution of the recency of the polls after July 21 2024
+#| fig-cap: Distribution of the Poll Recency since July 21, 2024
 #| echo: false
 #| warning: false
 #| message: false
@@ -244,7 +244,7 @@ variability in support for Harris as captured across multiple polls.
 
 ```{r}
 #| label: fig-percentage
-#| fig-cap: Distribution of support percentage of Kamala Harris
+#| fig-cap: Distribution of the Support Percentage of Kamala Harris
 #| echo: false
 #| warning: false
 #| message: false
@@ -262,14 +262,13 @@ ggplot(harris_data, aes(x = pct)) +
 
 ```{r}
 #| label: tbl-category
-#| tbl-cap: Summary Statistics of categorical variable population and national_pull
+#| tbl-cap: Summary Statistics of the categorical variables population and national_pull
 #| echo: false
 #| warning: false
 #| message: false
 harris_data|>select(population,national_poll)|>
   datasummary_skim(type = "categorical")
 ```
-
 ### National Poll {#sec-national-poll}
 
 National poll is another newly created variable in our dataset, represented by a binary
@@ -311,7 +310,7 @@ nears, emphasizing areas that could sway the final result.
 
 ```{r}
 #| label: fig-state
-#| fig-cap: Count of polls by the US state 
+#| fig-cap: Count of Polls by the US state 
 #| echo: false
 #| warning: false
 #| message: false
@@ -375,7 +374,7 @@ data for subsequent analysis.
 
 ```{r}
 #| label: fig-numericgrade
-#| fig-cap: Distribution of numeric grade
+#| fig-cap: Distribution of the Numeric Grade of the Polls
 #| echo: false
 #| warning: false
 #| message: false
@@ -438,7 +437,7 @@ grades.
 
 ```{r}
 #| label: fig-numericgradetime
-#| fig-cap: Harris Support Over Time by Numeric Grade
+#| fig-cap: Harris Support Over Time by Numeric Grade of the polls
 #| echo: false
 #| warning: false
 #| message: false
