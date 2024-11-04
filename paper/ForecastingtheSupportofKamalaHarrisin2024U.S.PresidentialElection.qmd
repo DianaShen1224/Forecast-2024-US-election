@@ -1,6 +1,6 @@
 ---
-title: "Forecasting the Support of Kamala Harris in 2024 U.S. Presidential Election using a Model-Based Approach with Poll-of-Polls Data"
-subtitle: "Kamala Harris expects to win on 47.5%, leads Donald Trump by about 1% in 2024 US election"
+title: "Forecasting the Support of Kamala Harris in 2024 U.S. Presidential Election using a Model-Based Approach"
+subtitle: "Kamala Harris expects to win on 47.5%, leads Donald Trump by about 1% in 2024 US election in Popular Vote based on Poll-of-Polls Data and Linear Modeling."
 author: 
   - Diana Shen
   - Jinyan Wei
@@ -8,7 +8,7 @@ author:
 thanks: "Code and data are available at: [https://github.com/DianaShen1224/Forecast-2024-US-election](https://github.com/DianaShen1224/Forecast-2024-US-election)."
 date: today
 date-format: long
-abstract: "This study models the 2024 U.S. Presidential Election by analyzing polling data with adjustments for factors like recency and sample size, simulating an approach that captures up-to-date voter sentiment. Using the recent 4 months (July 21th - November 2th) of aggregated poll data, the model identifies shifts in candidate support across key battleground states, providing a nuanced view of evolving preferences as election day approaches. By emphasizing recent, high-quality polls, the analysis improves predictive reliability, offering an understanding that could inform campaign strategies and public discourse. These findings highlight the value of weighting and time-sensitive adjustments in forecasting methods, balancing accuracy with responsiveness to the latest trends."
+abstract: "This study models the 2024 U.S. Presidential Election by analyzing polling data with adjustments for factors like recency and sample size, simulating an approach that captures up-to-date voter sentiment. Using the recent 4 months (July 21th - November 2th) of aggregated poll data, we built a multiple linear regression model to estimate Harris’ support in popular vote and the winner of seven key battleground states. We estimate that  Kamala Harris will lead with an expected 47.5% support, ahead of Donald Trump by approximately 1% in popular vote and winning in three of seven key battleground states, Wisconsin, Michigan, and Pennsylvania.  By emphasizing recent, high-quality polls, the analysis improves predictive reliability, offering an understanding that could inform campaign strategies and public discourse. These findings highlight the value of weighting and time-sensitive adjustments in forecasting methods, balancing accuracy with responsiveness to the latest trends."
 format: pdf
 toc: true
 number-sections: true
@@ -866,7 +866,7 @@ combined_predictions_filtered<-combined_predictions_filtered|>filter(state %in% 
 late<-combined_predictions_filtered[which.max(combined_predictions_filtered$end_date), ]
 ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate))+
   geom_point(alpha = 0.1)+ 
-  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted), size = 0.5)+
+  geom_smooth(data = combined_predictions_filtered,aes(x=end_date,y = predicted_unweighted),se = FALSE, size = 0.5)+
   facet_wrap(~ state,ncol = 4) +
   labs(
        x = "End Date of the Poll",  # Change x-axis label to End Date
@@ -884,7 +884,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate))+
 ## weighetd
 ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = combined_weight)) +
   geom_point(alpha = 0.1)+ 
-  geom_line(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted), size = 0.5)+ # Smoothed trend line
+  geom_smooth(data = combined_predictions_filtered,aes(x=end_date,y = predicted_weighted),se = FALSE, size = 0.5)+ # Smoothed trend line
   facet_wrap(~ state,ncol = 4) +
   labs(
        x = "End Date of the Poll",  # Change x-axis label to End Date
