@@ -611,7 +611,7 @@ approach also reduces the risk of overfitting, enhancing the
 generalizability of our results to a wider set of polling data.
 
 Finally, to ensure the robustness and accuracy of our model, we conduct
-model validation and diagnostics, which are detailed in Appendix B. We
+model validation and diagnostics, which are detailed in @sec-b. We
 use K-Fold Cross-Validation to validate the model, use Q-Q Plot and
 Residuals vs fitted diagram to diagnose the model. These procedures
 help confirm that the model assumptions are met and that the predictions
