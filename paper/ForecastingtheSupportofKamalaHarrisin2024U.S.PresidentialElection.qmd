@@ -32,6 +32,7 @@ library(RColorBrewer)
 library(future)
 library(boot)    # For bootstrapping
 library(caret)   # For cross-validation
+library(knitr)
 ```
 
 ```{r}
@@ -436,6 +437,24 @@ ggplot(harris_data, aes(x = end_date, y = pct, color = factor(numeric_grade))) +
   theme_classic() +
   theme(legend.position = "bottom") +
   coord_cartesian(ylim = c(0, 100))
+```
+@tbl-harrissupport shows Harris' average support across states in the 2024 U.S. Presidential Election. She leads in Democratic-leaning states, with top support in Vermont (68.5%), Maryland (62.9%), and Massachusetts (61.2%). In key battlegrounds, Harris's support hovers around 50%, including Wisconsin (49.0%) and Pennsylvania (48.3%). Nationally, she averages 47.9%, with competitive support in swing states like Nevada (47.9%) and North Carolina (47.8%). However, in Republican-leaning states like Texas (44.3%) and Florida (44.2%), her support is lower. This distribution highlights Harris’s strength in Democratic regions and mixed prospects in competitive areas.
+```{r}
+#| label: tbl-harrissupport
+#| tbl-cap: Harris leads in Democratic-leaning states, showing strong support in reliably blue areas. In pivotal swing states, she maintains competitive support, with Wisconsin at 49% and Pennsylvania at 48.3%, reflecting her appeal in regions important for a potential electoral victory. However, in traditionally Republican strongholds, indicating areas where additional campaign efforts might bolster her standing. Nationally, Harris averages 47.9%, underscoring the competitive landscape as election day nears.
+#| echo: false
+#| warning: false
+#| message: false
+
+# Calculate average support for Kamala Harris in each state
+harris_data_state <- harris_data|>
+  group_by(state)|>
+  summarize(`Average Support (%)` = round(mean(pct, na.rm = TRUE), 1)) |>
+  arrange(desc(`Average Support (%)`))|>rename(`State` = state) 
+
+# Display the result as a table
+kable(harris_data_state, caption = "Average Support for Kamala Harris by State")
+
 ```
 
 # Model {#sec-model}
