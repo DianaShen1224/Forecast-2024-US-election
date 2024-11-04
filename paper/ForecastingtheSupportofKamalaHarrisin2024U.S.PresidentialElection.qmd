@@ -536,8 +536,8 @@ reliable polls have a greater influence on the model’s predictions.
 
 Our model uses a weighted approach to estimate candidate support more
 accurately by emphasizing higher-quality and more recent polls. The
-weighting scheme integrates factors like poll recency, sample size,
-pollster quality, and frequency, as inspired by the New York Times' methodology [@nyt_polling_averages] for polling averages.
+weighting scheme integrates factors like poll recency and sample size, which are
+inspired by the New York Times' methodology [@nyt_polling_averages] for polling averages.
 
 In this model, weights are applied directly to each poll’s contribution
 in the **Weighted Least Squares (WLS)** estimation process, modifying
@@ -640,7 +640,7 @@ The linear regression models constructed for predicting support for
 Kamala Harris and Donald Trump in the 2024 U.S. Presidential Election
 utilized both unweighted and weighted configurations. The model summary of support for Harris is shown in @tbl-summary1, and support for Trump is shown in @tbl-summary2. As shown in
 @tbl-summary1 and @tbl-summary2, the intercepts for Harris and Trump,
-estimated at 44.70% and 59.28% respectively in the unweighted models, while in weighted models, it's estimated at 45.2% and 54.8%,
+estimated at 44.70% and 51.87% respectively in the unweighted models, while in weighted models, it's estimated at 45.2% and 54.8%,
 represent their baseline support levels when all predictors are at
 reference values. The high ( $R^2$ ) values of 0.824 for Harris’s
 unweighted model and 0.892 for her weighted model, along with a similar
