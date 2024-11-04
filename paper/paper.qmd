@@ -144,17 +144,16 @@ timing of the polls, the traits of polling organizations, and regional
 differences.
 
 In this study, we utilized several R packages to enhance our data
-manipulation, modeling, and visualization capabilities. The tidyverse
+manipulation, modeling, and visualization capabilities. The `tidyverse`
 package offered a detailed set of tools for data wrangling and
 analysis, improving workflow efficiency [@thereferencecanbewhatever].
-The here package aided in managing file paths, allowing for easy access
-to our data files [@citehere]. We relied on janitor to perform data
+The `here` package aided in managing file paths, improving the reproducible workflow of our study [@citehere].We use `testthat` to verify dataset variables, ensuring they are correctly formatted and contain expected values for analysis [@citetestthat]. We relied on `janitor` to perform data
 cleaning, as it provides functionalities to identify and rectify quality
 issues within the dataset [@citejanitor]. For handling date-related
-operations, the lubridate package proved invaluable, simplifying the
-manipulation of time variables [@citelubridate]. Arrow supported
-efficient data input and output in a performance-oriented format,
-essential for managing larger datasets [@citearrow]. We use ggplot2 [@citeggplot2] to visualize the analysis of data. In addition to the core packages, we employed several specialized libraries to facilitate specific analytical tasks. The modelsummary package enabled us to generate clean, interpretable model summaries, streamlining the reporting of regression and other statistical results [@citemodelsummary]. RColorBrewer provided color palettes for visualizations, enhancing clarity and visual appeal in our plots [@citeRColorBrewer]. The future package supported parallel processing, optimizing the runtime of intensive computations, which is especially beneficial in model training [@citefuture]. Finally,for resampling and bootstrapping techniques, we utilized the boot package, which allowed us to assess model stability and reliability [@citeboot1;@citeboot2]. caret facilitated model training and validation, offering a unified interface for cross-validation and performance metrics [@citecaret]. Our coding practices and file organization were informed by the structure outlined
+operations, the `lubridate` package help simplifying the
+manipulation of time variables [@citelubridate]. `arrow` supported
+efficient data input and output in a parquet format,
+essential for managing larger datasets [@citearrow]. We use `ggplot2` [@citeggplot2] to visualize the analysis of data. In addition to the core packages, we employed several specialized libraries to facilitate specific analytical tasks. The `modelsummary` package enabled us to generate clean, interpretable model summaries, streamlining the reporting of regression and other statistical results [@citemodelsummary]. `RColorBrewer` provided color palettes for visualizations, enhancing clarity and visual appeal in our plots [@citeRColorBrewer]. The `future` package supported parallel processing, optimizing the runtime of intensive computations, which is especially beneficial in model training [@citefuture]. Finally,for validation of model using K-Fold cross validation, we utilized the `boot` package, which allowed us to assess model stability and reliability [@citeboot1;@citeboot2] and `caret` to facilitate model training and validation, offering a unified interface for cross-validation and performance metrics [@citecaret]. Our coding practices and file organization were informed by the structure outlined
 in @tellingstories.
 
 
@@ -791,7 +790,7 @@ max_end_date <- as.Date("2024-11-2")
 #| warning: false
 #| message: false
 #| eval: true
-#| fig-cap: "Harris Kamala leads Donald Trump an average 2% in Predicted Support in the 2024 US Election (From August 1, 2024, to November 2, 2024)"
+#| fig-cap: "Harris Kamala leads Donald Trump an average 1% in Predicted Support in the 2024 US Election (From August 1, 2024, to November 2, 2024)"
 #| fig-subcap: ["Unweighted","Weighted"]
 #| layout-ncol: 1
 #| label: fig-support-trend
@@ -806,7 +805,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate)) +
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",caption = 
-                   "Linear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
+                   "Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -827,7 +826,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Weights: recency_weight * sample_size_weight \nLinear Regression Model: Candidate Support Percentage = national_poll + pollster + population + state") +
+       caption = "Weights: recency_weight * sample_size_weight \nModel: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red"))  +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -887,7 +886,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate))+
        x = "End Date of the Poll",  # Change x-axis label to End Date
        y = "Predicted Support (%)",
        color = "Candidate",
-       caption = "Candidate Support Percentage = national_poll + pollster + population + state") +
+       caption = "Model: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -906,7 +905,7 @@ ggplot(combined_data_total,aes(x = end_date,y=pct, colour = candidate,size = com
        y = "Predicted Support (%)",
        color = "Candidate",
        size="Weight",
-       caption = "Weights: recency_weight * sample_size_weight\nCandidate Support Percentage = national_poll + pollster + population + state") +
+       caption = "Weights: recency_weight * sample_size_weight\nModel: Candidate Support Percentage = national_poll + pollster + population + state") +
   scale_color_manual(values = c("Kamala Harris" = "blue", "Donald Trump" = "red")) +
   theme_classic() +
   theme(legend.position = "bottom",
@@ -978,7 +977,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct)) +
     y = "Predicted Support (%)",
     color = "Candidate",
     fill = "Top 5 Pollster",
-    caption = "Candidate Support Percentage = national_poll + pollster + population + state"
+    caption = "Model: Candidate Support Percentage = national_poll + pollster + population + state"
   )+ # Smoothed trend line
   facet_wrap(~ candidate,ncol = 2) +
   scale_fill_manual(values = c(setNames(rep("grey", length(unique(combined_data_total$pollster_group))), "Other"),
@@ -1008,7 +1007,7 @@ ggplot(combined_data_total, aes(x = end_date, y = pct, size = combined_weight)) 
     y = "Predicted Support (%)",
     size = "Weight",
     fill = "Top 5 Pollster",
-    caption = "Weights: recency_weight * sample_size_weight \nCandidate Support Percentage = national_poll + pollster + population + state"
+    caption = "Weights: recency_weight * sample_size_weight \nModel: Candidate Support Percentage = national_poll + pollster + population + state"
   )+ # Smoothed trend line
   facet_wrap(~ candidate,ncol = 2) +
   scale_fill_manual(values = c(setNames(rep("grey", length(unique(combined_data_total$pollster_group))), "Other"),
@@ -1204,12 +1203,11 @@ national_poll, pollster, and population. The output provides key
 metrics, which are breaking down here:
 
 RMSE (Root Mean Square Error): Measures the average magnitude of
-prediction errors (lower is better).
-
+prediction errors (lower is better).\
 Harris Model: RMSE of 2.43, indicating an average prediction error of
 around 2.43 percentage points.\
 Trump Model: RMSE of 2.57, showing a slightly average prediction error on
-average.\
+average.
 
 R-squared: Represents the proportion of the variance in the response
 variable explained by the model (higher is better).\
@@ -1223,19 +1221,15 @@ observed and predicted values (lower is better).\
 Harris Model: MAE of 1.6, meaning that, on average, the predictions are
 off by 1.62 percentage points.\
 Trump Model: MAE of 1.62, indicating slightly higher precise predictions
-compared to the Harris model.\
+compared to the Harris model.
 
-Interpretation Summary Predictive Accuracy: The Harris model has
-slightly better predictive accuracy than the Trump model, as reflected
-by its lower RMSE and MAE values.\
-Model Fit: Harris' model explains roughly 63% of the variance in their
-respective datasets. Trump's models explain roughly 66% of the variance
+In summary, the Harris model has slightly better predictive accuracy than the Trump model, as reflected
+by its lower RMSE and MAE values. Harris' model explains roughly 63% of the variance in their
+respective datasets, while Trump's models explain roughly 66% of the variance
 in their respective datasets. This suggests that other factors not
 included in the model may play a significant role in explaining the
-remaining variance.\
-This summary indicates the models are moderately predictive, with room
-for improvement in accuracy and fit, potentially by adding more
-predictors or adjusting model specifications.\
+remaining variance. This K-Fold Cross-Validation indicates the models are moderately predictive, with room for improvement in accuracy and fit, potentially by adding more
+predictors or adjusting model specifications.
 
 ## Diagnostics
 
@@ -1245,7 +1239,7 @@ predictors or adjusting model specifications.\
 #| message: false
 #| warning: false
 #| label: fig-stanareyouokay
-#| fig-cap: "Diagnostics of model using residual vs fitted plot and norm Q-Q plot\n-Support for Harris"
+#| fig-cap: "Diagnostics of Support for Harris model using residual vs fitted plot and norm Q-Q plot"
 #| fig-subcap: ["Residual Plot for Unweighted Model", "Q-Q Plot for Unweighted Model", "Residual Plot for Weighted Model", "Q-Q Plot for Weighted Model"]
 #| layout-ncol: 2
 
@@ -1296,7 +1290,7 @@ improved prediction accuracy.
 #| message: false
 #| warning: false
 #| label: fig-dia
-#| fig-cap: "Diagnostics of model using residual vs fitted plot and norm Q-Q plot\n-Support for Trump"
+#| fig-cap: "Diagnostics of Support for Trump model using residual vs fitted plot and norm Q-Q plot"
 #| fig-subcap: ["Residual Plot for Unweighted Model", "Q-Q Plot for Unweighted Model", "Residual Plot for Weighted Model", "Q-Q Plot for Weighted Model"]
 #| layout-ncol: 2
 
@@ -1745,7 +1739,7 @@ preferences and opinions on key issues. Rest assured that your responses
 are anonymous and will only be used for statistical analysis.
 
 This survey is for academic research in Statistics. It consists of 26
-carefully designed questions and should take approximately 12-15 minutes
+carefully designed questions and should take approximately 10-15 minutes
 to complete.
 
 For any questions or concerns regarding this survey, please contact:\
@@ -1791,14 +1785,25 @@ Section 1: Survey Questions
     -   Kamala Harris
     -   Donald Trump
 
-4.  **How favorable are you towards the following candidates?**
-
-    |               | Very unfavorable | Unfavorable | Moderate | Favorable | Very favorable |
-    |------------|------------|------------|------------|------------|------------|
-    | Kamala Harris |                  |             |          |           |                |
-    | Donald Trump  |                  |             |          |           |                |
-
-5.  **How likely are you going to vote in the 2024 election?** (1 =
+4.  **How favorable are you towards the Kamala Harris?** (1 = 
+    Very Unfavorable, 5 = Very Favorable)
+    
+    -   1
+    -   2
+    -   3
+    -   4
+    -   5
+    
+5. **How favorable are you towards the Donald Trump?** (1 = 
+    Very Unfavorable, 5 = Very Favorable)
+    
+    -   1
+    -   2
+    -   3
+    -   4
+    -   5
+    
+6.  **How likely are you going to vote in the 2024 election?** (1 =
     Definitely not to vote, 10 = Definitely will vote)
 
     -   1
@@ -1812,27 +1817,27 @@ Section 1: Survey Questions
     -   9
     -   10
 
-6.  **How do you plan to cast your vote?**
+7.  **How do you plan to cast your vote?**
 
     -   In-person on election day
     -   Early voting in-person
     -   By mail
     -   Unsure
 
-7.  **Did you vote in the 2020 U.S. presidential election?**
+8.  **Did you vote in the 2020 U.S. presidential election?**
 
     -   Yes
     -   No
     -   Prefer not to say
 
-8.  **If you voted in 2020, who did you vote for?**
+9.  **If you voted in 2020, who did you vote for?**
 
     -   Joe Biden
     -   Donald Trump
     -   Other
     -   Prefer not to say
 
-9.  **Imagine the following candidates: Candidate A favors cutting taxes
+10.  **Imagine the following candidates: Candidate A favors cutting taxes
     but has a weak stance on climate change, and Candidate B focuses on
     healthcare but supports increased military spending. Who would you
     vote for?**
@@ -1840,7 +1845,7 @@ Section 1: Survey Questions
     -   Candidate A
     -   Candidate B
 
-10. **What do you think is the most important issue facing the United
+11. **What do you think is the most important issue facing the United
     States?** \[Select at most 3\]
 
     -   Economy
@@ -1852,14 +1857,14 @@ Section 1: Survey Questions
     -   Social Security
     -   Other: \_\_\_\_\_\_\_\_\_\_
 
-11. **Select option 3 from the list below:**
+12. **Select option 3 from the list below:**
 
     -   Option 1
     -   Option 2
     -   Option 3
     -   Option 4
 
-12. **Which social media platforms do you use to get political news?**
+13. **Which social media platforms do you use to get political news?**
     (Select all that apply)
 
     -   Facebook
